@@ -1,0 +1,146 @@
+/*BODY*/
+body {        
+    font-family: 'Lato', sans-serif;
+    font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+}
+
+body::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+body::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #cccccc;
+}
+
+::backdrop {
+    background: #fff;
+}
+
+/*FLATPICKR */
+span.flatpickr-weekday {
+    color: #fff;
+}
+
+/*IMAGE */
+.thumbnail {
+    width: 180px;
+    object-fit: center;
+    background-position: center;
+    border-radius: 7px;
+}
+
+/*NANOBAR */ 
+.bar {
+    width: 0;
+    height: 100%;
+    transition: height .1s;
+    background: #c7c7c7;
+}
+
+.nanobar {
+    width: 100%;
+    height: 2px;
+    z-index: 9999;
+    top:0;
+}
+
+/*SEARCH */
+.searchBar {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    z-index: 9999;
+}
+
+.searchInput {
+    width: 100%;
+    height: 2.8rem;
+    background: #f5f2f2;
+    outline: none;
+    border: 1.5px solid #5c23d9;
+    border-radius: 1.625rem;
+    padding: 0 3.5rem 0 1.5rem;
+    font-size: 1.1rem;
+}
+
+.searchSubmit {
+    width: 3.5rem;
+    height: 2.8rem;
+    margin-left: -3.5rem;
+    background: none;
+    border: none;
+    outline: none;
+}
+
+.searchSubmit:hover {
+    cursor: pointer;
+}
+
+/*TABLE */
+table td {
+    vertical-align: middle !important;
+    border-top: 1px solid lightgrey;
+}
+
+table.dataTable thead tr {
+    background: #f2f2f2;
+}
+
+table.dataTable th {
+    border-top: 1.5px solid #5c23d9;
+    border-bottom: 1.5px solid #5c23d9;
+}
+
+tr {
+    cursor: pointer;
+}
+
+#productTable_filter input, #transactionTable_filter input, #masterTable_filter input {
+    border-radius: 12px;
+    min-width: 250px;
+    padding: 16px;
+    border: 1.5px solid #5c23d9;
+}
+
+.dataTables_length select {
+    padding: 0 15px;
+    margin: 0 10px;
+    border: 1.5px solid #5c23d9;
+    background: #fafafa;
+}
+
+.page-item.active .page-link {
+    background-color: lightgrey !important;
+    border: 1.5px solid #5c23d9;
+}
+
+.page-link {
+    color: black !important;
+    font-weight: bold;
+}
+
+/*TYPEAHEAD */
+ul.typeahead {
+    background: #6610f2;
+    padding: 10px;
+    margin-left: 15px;
+    min-height: auto;
+    max-height: 500px;  
+    overflow: auto;
+    z-index: 9999;
+}
+
+ul.typeahead li a{
+    font-size: 14px;
+    color: #fff;
+}
+
+ul.typeahead .active strong {
+    color: orange;
+    font-size: 15px;
+}

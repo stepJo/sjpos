@@ -1,0 +1,156 @@
+.button:hover, .button:active {
+    transition: all 150ms linear !important;
+    opacity: .85 !important;
+}
+
+.button:focus {
+    outline: 1px dotted #959595 !important;
+    outline-offset: -4px !important;
+}
+
+.button-s1, .button-s2 {
+    overflow: hidden;
+    padding: 12px 15px;
+    margin: 10px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 150ms linear;
+    text-align: center;
+    text-decoration: none !important;
+    white-space: nowrap;
+    color: #fff;
+    border: 0 none;
+    border-radius: 22px;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 1.3;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    box-shadow: 0px 2px 6px #e4e4e4;
+    outline: none;
+}
+
+.button-s2 {
+    padding: 12px 50px !important;
+}
+
+.button-green {
+    background: #16c952;
+    color: #fff;
+}
+
+.button-red {
+    background: #F32C52;
+    color: #fff;
+}
+
+.button-detail {
+    background: #34bdeb;
+    color: #fff;
+}
+
+.button-yellow {
+    background: #ffb640;
+    color: #fff;
+}
+
+.btn-category {
+    background: #3bd192;
+    font-size: 16px;
+}
+
+.btn-category:hover {
+    background: #2f994b;
+}
+
+.btn-unit {
+    font-size: 16px;
+    background: #037bfc;
+    color: #fff; 
+}
+
+.btn-unit:hover {
+    background: #0e66c4;
+}
+
+.button-grey {
+    background: #d6d6d6;
+    color: #fff;
+}
+
+.button-grey:hover {
+    background: #c9c7c7;
+    color: #fff;
+}
+
+.button-darkgreen {
+    background: #529e80;
+    color: #fff;
+}
+
+.button-darkgreen:hover {
+    color: #fff;
+    background: #3a705b;
+}
+
+.button-darkorange {
+    color: #fff;
+    background: #f24933;
+}
+
+.button-darkorange:hover {
+    color: #fff;
+    background: #db3621;
+}
+
+.button-brown {
+    color: #fff;
+    background: #856767;
+}
+
+.button-brown:hover {
+    color: #fff;
+    background: #362a2a;
+}
+
+.button-purple {
+    color: #fff;
+    background: #6610f2;
+}
+
+.button-purple:hover {
+    color: #fff;
+    background: #5018ab;
+}
+
+.button-outline {
+    border-radius: 20px;
+    font-weight: bold;
+    width: 70px;
+    font-size: 14px;
+    box-shadow: 0 0 5px rgba(104, 85, 224, 0.1);
+    transition: 0.2s;
+    color: #000;
+    background: transparent;
+}
+
+.button-outline-black {
+    border: 1.2px solid #000;
+}
+
+.button-outline-blue {
+    border: 1.2px solid #17a2b8;
+}
+
+.button-outline-black:hover {
+    color: #fff;
+    box-shadow: 0 0 5px rgba(104, 85, 224, 0.2);
+    background: #000;
+}
+
+.button-outline-blue:hover {
+    color: #fff;
+    box-shadow: 0 0 5px rgba(104, 85, 224, 0.2);
+    background: #17a2b8;
+}

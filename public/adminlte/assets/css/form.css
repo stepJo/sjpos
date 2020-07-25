@@ -1,0 +1,443 @@
+.is-invalid {
+    border: 1.5px solid #dc3545 !important;
+}
+
+.form .input-wrapper {
+    border: 1.5px solid #e5e5e5;
+}
+
+.form input, .form label {
+    padding: 5px;
+    font-size: 16px;
+    letter-spacing: 0.065em;
+    color: #000;
+    outline: none;
+    border: none;
+    -webkit-transition: all 0.2s ease-out 0s;
+    transition: all 0.2s ease-out 0s;
+}
+
+.form label {
+    color: #c5c6c7;
+    padding: 7px 10px;
+}
+
+.form .focused label, .form .not-empty label{
+    font-size: 10px;
+}
+
+.form .focused input, .form .not-empty input{
+    padding-top: 12px;
+}
+
+.dropdown-input {
+    width: 100%;
+    display: inline-block;
+    background-color: #faf7f7;
+    border-radius: 12px;
+    transition: all .5s ease;
+    position: relative;
+    font-size: 16px;
+    color: #000;
+    height: 100%;
+    text-align: left;
+    font-weight: bold;
+}
+
+.dropdown-input .select {
+    cursor: pointer;
+    display: block;
+    padding: 12px;
+}
+
+.dropdown-input .select > i {
+    font-size: 14px;
+    color: #888;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+    float: right;
+    line-height: 20px
+}
+
+.dropdown-input:hover {
+    box-shadow: 0 0 4px rgb(204, 204, 204)
+}
+
+.dropdown-input:active {
+    background-color: #f8f8f8;
+}
+
+.dropdown-input.active:hover, .dropdown.active {
+    box-shadow: 0 0 4px rgb(204, 204, 204);
+    border-radius: 5px 5px 0 0;
+    background-color: #f8f8f8;
+}
+
+.dropdown-input.active .select > i {
+    transform: rotate(-90deg)
+}
+
+.dropdown-input .dropdown-menu {
+    position: absolute;
+    background-color: #fff;
+    width: 100%;
+    left: 0;
+    margin-top: 1px;
+    box-shadow: 0 1px 2px rgb(204, 204, 204);
+    border-radius: 0 1px 5px 5px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: none;
+    max-height: 144px;
+    z-index: 999;
+}
+
+.dropdown-input .dropdown-menu li {
+    padding: 10px;
+    transition: all .2s ease-in-out;
+    cursor: pointer;
+} 
+
+.dropdown-input .dropdown-menu {
+    padding: 0;
+    list-style: none;
+}
+
+.dropdown-input .dropdown-menu li:hover {
+    background-color: #f2f2f2;
+}
+
+.dropdown-input .dropdown-menu li:active {
+    background-color: #e2e2e2;
+}
+
+.button_outer {
+    background: #faf7f7; 
+    border-radius:30px; 
+    text-align: center; 
+    height: 50px; 
+    width: 200px;
+    transition: .2s; 
+    position: relative; 
+    overflow: hidden;
+}
+
+.btn_upload {
+    padding: 12px; 
+    color: #000; 
+    text-align: center; 
+    font-weight: bold;
+    overflow: hidden; 
+    z-index: 3; 
+    white-space: nowrap;
+}
+
+.btn_upload input {
+    position: absolute;
+    width: 100%; 
+    left: 0; 
+    top: 0; 
+    width: 100%; 
+    height: 105%; 
+    cursor: pointer;
+    opacity: 0;
+}
+
+.file_uploading {
+    width: 100%; 
+    height: 10px; 
+    margin-top: 20px; 
+    background: #ccc;
+}
+
+.file_uploading .btn_upload {
+    display: none;
+}
+
+.processing_bar {
+    position: absolute; 
+    left: 0; 
+    top: 0; 
+    width: 0; 
+    height: 100%; 
+    border-radius: 30px; 
+    background: #58db7f; 
+    transition: 1.5s;
+}
+
+.file_uploading .processing_bar {
+    width: 100%;
+}
+
+.success_box {
+    display: none; 
+    position: relative;
+}
+
+.file_uploaded .success_box {
+    display: inline-block;
+}
+
+.uploaded_file_view {
+    max-width: 100%; 
+    margin: 20px 0;
+    text-align: center; 
+    position: relative; 
+    transition: .2s; 
+    opacity: 0; 
+    border: 2px solid #ddd; 
+    padding: 15px;
+}
+
+.file_remove{
+    width: 30px; 
+    height: 30px; 
+    border-radius: 50%; 
+    display: block; 
+    position: absolute; 
+    background: #f7693e; 
+    line-height: 30px; 
+    color: #fff; 
+    font-size: 12px; 
+    cursor: pointer; 
+    right: -15px; 
+    top: -15px;
+}
+
+.file_remove:hover {
+    background: #222; 
+    transition: .2s;
+}
+
+.uploaded_file_view img {
+    max-width: 100%;
+    height: 150px;
+    object-fit: center;
+    background-position: center;
+}
+
+.uploaded_file_view.show {
+    opacity: 1;
+}
+
+.error_msg {
+    text-align: center; 
+    color: #f00;
+
+}
+
+.textarea_c {
+    box-sizing: border-box;
+    color: #696969;
+    max-width: 100%;
+    margin: 0;
+    position: relative;
+    width: 90%;
+}
+
+.textarea_c::after {
+    background: #fff;
+    color: #000;
+    font-weight: bold;
+    content: "Deskripsi Produk";
+    font-size: 16px;
+    height: 13px;
+    left: 8px;
+    line-height: 13px;
+    padding: 0 2px;
+    position: absolute;
+    top: -4.5px;
+}
+
+.textarea-input {
+    border: 1.5px solid #e5e5e5;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-family: Arial,"Hiragino Kaku Gothic Pro","BIZ UDPGothic",Meiryo,sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    min-height: 100px;
+    max-height: 200px;
+    padding: 17px 17px;
+    resize: none;
+    transition: border-color .2s;
+    width: 100%;
+}
+
+.textarea-input:focus {
+    border-color: #b5b5b5;
+    outline: 0;
+} 
+
+.switch {
+    height: 23px;
+    position: relative;
+    width: 45px;
+}
+
+.switch input {
+    display:none;
+}
+
+.slider {
+    background-color: #ccc;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .4s;
+}
+
+.slider:before {
+    background-color: #fff;
+    bottom: 4px;
+    content: "";
+    height: 15px;
+    left: 4px;
+    position: absolute;
+    transition: .4s;
+    width: 15px;
+}
+
+input:checked + .slider {
+    background-color: #66bb6a;
+}
+
+input:checked + .slider:before {
+    transform: translateX(22px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.modal-body::-webkit-scrollbar {
+    width: 12px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background-color: #e0e0e0;
+}
+
+.modal-body::-webkit-scrollbar-track:hover {
+    background: #d6d6d6;
+    border-radius: 7px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: #8f8f8f;
+    border-radius: 7px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+    background: #9e9090;
+    border-radius: 7px;
+}
+
+.modal-input {
+    border: 1px solid #000;
+    outline: none;
+    transition: .2s all ease-in-out;
+    font-size: 15px;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+}
+
+.modal-input:focus {
+    border: 1px solid #6610f2;
+    transition: .2s all ease-in-out;
+}
+
+.modal-label {
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+.modal-dropdown {
+    width: 100%;
+    display: inline-block;
+    background-color: #fff;
+    box-shadow: 0 0 1px rgb(204, 204, 204);
+    transition: all .5s ease;
+    position: relative;
+    font-size: 15px;
+    color: #000;
+    height: 100%;
+    border: .1px solid #000;
+    outline: none;
+}
+
+.modal-dropdown .select {
+    cursor: pointer;
+    display: block;
+    padding: 10px;
+}
+
+.modal-dropdown .select > i {
+    font-size: 15px;
+    color: #888;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+    float: right;
+    line-height: 20px;
+}
+
+.modal-dropdown:hover {
+    box-shadow: 0 0 4px rgb(204, 204, 204);
+}
+
+.modal-dropdown:active {
+    background-color: #f8f8f8;
+}
+
+.modal-dropdown.active:hover, .modal-dropdown.active {
+    box-shadow: 0 0 4px rgb(204, 204, 204);
+    border-radius: 5px 5px 0 0;
+    background-color: #f8f8f8;
+}
+
+.modal-dropdown.active .select > i {
+    transform: rotate(-90deg);
+}
+
+.modal-dropdown .dropdown-menu {
+    position: absolute;
+    background-color: #fff;
+    width: 100%;
+    left: 0;
+    margin-top: 1px;
+    box-shadow: 0 1px 2px rgb(204, 204, 204);
+    border-radius: 0 1px 5px 5px;
+    overflow: hidden;
+    display: none;
+    max-height: 144px;
+    overflow-y: auto;
+    z-index: 9;
+}
+
+.modal-dropdown .dropdown-menu li {
+    padding: 10px;
+    transition: all .2s ease-in-out;
+    cursor: pointer;
+} 
+
+.modal-dropdown .dropdown-menu {
+    padding: 0;
+    list-style: none;
+}
+
+.modal-dropdown .dropdown-menu li:hover {
+    background-color: #f2f2f2;
+}
+
+.modal-dropdown .dropdown-menu li:active {
+    background-color: #e2e2e2;
+}
