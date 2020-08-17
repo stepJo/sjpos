@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Models\Msale;
+namespace App\Models\MSale;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\MProduct\Product;
 use App\Models\MSale\Transaction;
 
-class TransactionDetail extends Model
+class DetailTransaction extends Model
 {
-    protected $primaryKey = 'td_id';
+    protected $primaryKey = 'dt_id';
 
     protected $guarded = [];
 

@@ -89,9 +89,9 @@
 									            
 									            	<div class="modal-footer justify-content-between">
 									              
-									              		<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+									              		<button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
 									              
-								              			<button type="submit" class="btn btn-success">Simpan</button>
+								              			<button type="submit" class="button-s1 button-green">Simpan</button>
 									            	
 									            	</div>
 
@@ -191,9 +191,9 @@
 													            
 													            	<div class="modal-footer justify-content-between">
 													              
-													              		<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+													              		<button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
 													              
-												              			<button type="submit" class="btn btn-warning">Ubah</button>
+												              			<button type="submit" class="button-s1 button-yellow">Ubah</button>
 													            	
 													            	</div>
 

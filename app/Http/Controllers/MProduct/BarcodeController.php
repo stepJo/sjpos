@@ -17,7 +17,7 @@ class BarcodeController extends Controller
     {
         $products = Product::get(['p_id', 'p_code', 'p_name', 'p_barcode']);
 
-        return view('m_product.b_index', compact('products'));
+        return view('mproduct.b_index', compact('products'));
     }
     
     public function get($id)

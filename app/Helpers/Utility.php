@@ -3,6 +3,11 @@ namespace App\Helpers;
 
 class Utility {
 
+    public static function dateFormat($data)
+    {
+        return date('d F Y H:i:s', strtotime($data));
+    }
+
     public static function emptyFormat($data) 
     {   
         if($data == '' || $data == null) {

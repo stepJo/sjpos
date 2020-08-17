@@ -102,7 +102,7 @@
 
 										              			<div class="form-group">
 
-												                  	<label class="modal-label">Produk *</label>
+												                  	<label class="modal-label">ID Produk *</label>
 
 											                  		<br/>
 
@@ -155,7 +155,7 @@
 
 											                  		<span class="text-danger add-dp-status-error"></span>
 
-								            						<select class="custom-select add-dp-status-modal-error" name="dp_status">
+								            						<select class="form-control modal-input add-dp-status-modal-error" style="width: 100%;" name="dp_status">
 
 											                        	<option value="" class="font-weight-bold" selected>- Status Diskon -</option>
 
@@ -175,9 +175,9 @@
 									            
 									            	<div class="modal-footer justify-content-between">
 									              
-									              		<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+									              		<button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
 									              
-								              			<button type="submit" class="btn btn-success">Simpan</button>
+								              			<button type="submit" class="button-s1 button-green">Simpan</button>
 									            	
 									            	</div>
 
@@ -278,7 +278,7 @@
 
 																                	<div class="searchBar">
 												   	
-																			  	 		<input class="searchInput" type="text" placeholder="Cari Produk (Nama / Kode) ..." />
+																			  	 		<input id="discountProductInput" class="searchInput" type="text" placeholder="Cari Produk (Nama / Kode) ..." />
 																				    
 																			    		<button class="searchSubmit" type="submit">
 																			      
@@ -302,7 +302,7 @@
 
 														              			<div class="form-group">
 
-																                  	<label class="modal-label">Produk *</label>
+																                  	<label class="modal-label">ID Produk *</label>
 
 															                  		<br/>
 
@@ -383,9 +383,9 @@
 													            
 													            	<div class="modal-footer justify-content-between">
 													              
-													              		<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+													              		<button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
 													              
-												              			<button type="submit" class="btn btn-warning">Update</button>
+												              			<button type="submit" class="button-s1 button-yellow">Ubah</button>
 													            	
 													            	</div>
 

@@ -19,7 +19,7 @@ class SupplierController extends Controller
     {
         $suppliers = Supplier::all();
 
-        return view('m_supplier.s_index', compact('suppliers'));
+        return view('msupplier.s_index', compact('suppliers'));
     }
 
     /**
@@ -32,9 +32,7 @@ class SupplierController extends Controller
     {   
         Supplier::create($request->validated());
 
-        return response()->json([
-            'message' => 'Berhasil tambah pemasok'
-        ]);
+        return response()->json(['message' => 'Berhasil tambah penyuplai']);
     }
 
     /**
@@ -48,9 +46,7 @@ class SupplierController extends Controller
     {   
         $supplier->update($request->validated());
 
-        return response()->json([
-            'message' => 'Berhasil ubah pemasok'
-        ]);
+        return response()->json(['message' => 'Berhasil ubah penyuplai']);
     }
 
     /**
@@ -63,6 +59,6 @@ class SupplierController extends Controller
     {
         $supplier->delete();
 
-        return redirect()->back()->with('success', 'Berhasil hapus pemasok');
+        return redirect()->back()->with('success', 'Berhasil hapus penyuplai');
     }
 }

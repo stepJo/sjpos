@@ -245,7 +245,7 @@
 
 							                  	@enderror
 
-			            						<select class="custom-select {{ $errors->has('p_status') ? ' is-invalid' : '' }}" name="p_status" id="p_status">
+			            						<select class="form-control modal-input {{ $errors->has('p_status') ? ' is-invalid' : '' }}" name="p_status" id="p_status">
 
 						                        	<option value="" class="font-weight-bold" selected>- Status Produk -</option>
 
@@ -317,9 +317,9 @@
 
 			            			</div>
 
-			            			<button type="submit" class="btn btn-success">Simpan</button>
+			            			<button type="submit" class="button-s1 button-green">Simpan</button>
 
-			            			<a href="{{ url('product') }}" class="btn btn-default ml-1">Kembali</a>	
+			            			<a href="{{ url('product') }}" class="button-s1 button-grey">Kembali</a>	
 
 	            				</form>
 

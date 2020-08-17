@@ -19,7 +19,7 @@ class CategoryController extends Controller
     {
         $categories = Category::with('products')->get(['cat_id', 'cat_name']);
 
-        return view('m_product.c_index', compact('categories'));
+        return view('mproduct.c_index', compact('categories'));
     }
 
     /**

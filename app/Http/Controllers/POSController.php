@@ -7,7 +7,7 @@ use App\Models\MProduct\Category;
 use App\Models\MProduct\Product;
 use App\Models\MProduct\Unit;
 use App\Models\MSale\Transaction;
-use App\Models\MSale\TransactionDetail;
+use App\Models\MSale\DetailTransaction;
 use Keygen;
 
 class POSController extends Controller
@@ -55,7 +55,7 @@ class POSController extends Controller
         return response()->json($data);
     }
 
-    public function saveTransaction(Request $request)
+    public function storeTransaction(Request $request)
     {   
         $transaction = Transaction::create([
             't_code'  => Keygen::alphanum(6)->generate().date('hmsdmY'),
@@ -67,7 +67,7 @@ class POSController extends Controller
 
         foreach($request->products as $p)
         {
-            $detail = TransactionDetail::create([
+            $detail = DetailTransaction::create([
                 't_id'      => $transaction->t_id,
                 'p_id'      => $p['p_id'],
                 'qty'       => $p['p_qty'],

@@ -18,7 +18,7 @@
     function successResponse(data) {
         toastr.success(`${data.message}`);
 
-        $('#addModal').modal('hide');
+        $('.modal').modal('hide');
 
         setTimeout(function() {
             location.reload();
@@ -26,6 +26,42 @@
     }
 
     //MSALE - DISCOUNT PRODUCT
+    @if(Request::segment(1) != 'pos')
+    
+        let path = "{{ url('discount/search/product') }}";
+
+        function returnProduct(item) {
+            if(item.p_status == 1) return `${item.p_name} - ${item.p_code}`;
+            else return `${item.p_name} - ${item.p_code} ( Tidak Aktif )`;
+        }
+
+        $('.searchInput').typeahead({ 
+            hint: true,
+            items: 10,
+            source: function(query, process) {
+                return $.get(path, function(data) {
+                    return process(data);
+                });
+            },
+            matcher: function(item) {
+                for (let attr in item) {
+                    if (item[attr].toString().toLowerCase().indexOf(this.query.toLowerCase())) return true;
+                }
+                return false;
+            },
+            displayText: function(item) {
+                return returnProduct(item);
+            },
+            afterSelect: function(data) {
+
+                $('input[name="p_id"], #p_id').val(data.p_id);
+
+                $('#discountProductInput').val('');
+            }
+        });
+
+    @endif
+
     $('#add-discount-product-form').on('submit', function(e) {
         e.preventDefault();
 

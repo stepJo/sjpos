@@ -47,7 +47,7 @@
 		              						
 		              					</div>
 
-		              					<form>
+		              					<form class="mt-5">
 
 			              					<div class="col-md-3">
 
@@ -55,7 +55,7 @@
 
 				            						<label for="start_date">Tanggal Awal</label>
 
-													<input type="text" id="start_date" name="start_date" class="search-calendar ml-1">
+													<input type="text" id="start_date" name="start_date" placeholder="Tanggal Awal" class="search-calendar ml-1">
 
 												</div>
 
@@ -67,7 +67,7 @@
 
 				            						<label for="end_date">Tanggal Akhir</label>
 
-													<input type="text" id="end_date" name="end_date" class="search-calendar ml-1">
+													<input type="text" id="end_date" name="end_date" placeholder="Tanggal Akhir" class="search-calendar ml-1">
 
 												</div>
 
@@ -109,7 +109,17 @@
 	                
 	                				<tbody>
 
-						            </tbody>
+									</tbody>
+									
+									<tfoot>
+
+										<tr>
+
+											<th colspan="7"></th>
+
+										</tr>
+										
+									</tfoot>
 
 	              				</table>
 

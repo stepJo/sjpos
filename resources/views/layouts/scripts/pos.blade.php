@@ -58,10 +58,10 @@
                 }
 
                 if(item.p_image != null) {
-                    image = `{{ asset('uploads/images/products') }}/${item.p_image}`;
+                    image = `{{ asset('public/uploads/images/products') }}/${item.p_image}`;
                 }
                 else {
-                    image = `{{ asset('uploads/images/no_image.jpg') }}`;
+                    image = `{{ asset('public/uploads/images/no_image.jpg') }}`;
                 }
 
                 if(item.p_status == 0) {
@@ -186,10 +186,10 @@
                     let priceField = '';
 
                     if(item.p_image != null) {
-                        image = `{{ asset('uploads/images/products') }}/${item.p_image}`;
+                        image = `{{ asset('public/uploads/images/products') }}/${item.p_image}`;
                     }
                     else {
-                        image = `{{ asset('uploads/images/no_image.jpg') }}`;
+                        image = `{{ asset('public/uploads/images/no_image.jpg') }}`;
                     }
 
                     if(item.discount != null && item.discount.dp_status == 1) {
@@ -512,9 +512,7 @@
             renderProductList();
         }
     });
-
     
-
     $('.btn-cash, .btn-ovo, .btn-gopay, .btn-credit').on('click', function() {
         if(shopping_list.length < 1) {
             toastr.warning('Daftar belanja kosong');
@@ -980,7 +978,7 @@
 
         $.ajax({
             type: 'POST',
-            url: '{{ url('pos/transaction/save') }}',
+            url: '{{ url('pos/transaction/store') }}',
             data: {
                 _token: "{{ csrf_token() }}", 
                 t_type: t_type,

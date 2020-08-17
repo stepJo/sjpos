@@ -90,8 +90,6 @@
 
 			              				</table>
 
-			              				<a href="{{ url('product') }}" class="btn btn-default mt-3">Kembali</a>
-
 						            </div>
 						            <!-- /.card-body -->
 
@@ -125,7 +123,9 @@
 
 						        		</div>
 
-						        		<button id="button-print" class="button-s1 button-brown">Cetak</button>
+										<button id="button-print" class="button-s1 button-brown">Cetak</button>
+										
+										<a href="{{ url('product') }}" class="button-s1 button-grey mt-5">Kembali</a>
 
 					        		</div>
 

@@ -20,7 +20,7 @@
 
 							<div class="searchBar">
 						   	
-					  	 		<input class="searchInput" type="text" placeholder="Cari Produk (Nama / Kode) ..." />
+					  	 		<input id="posInput" class="searchInput" type="text" placeholder="Cari Produk (Nama / Kode) ..." />
 						    
 					    		<button class="searchSubmit" type="submit">
 					      
@@ -463,7 +463,7 @@
 
 								        			<div class="col-md-3 d-flex justify-content-end">
 
-								        				<p>
+								        				{{-- <p>
 
 								        					Pisah Tagihan
 
@@ -475,7 +475,7 @@
 
 										                    </div>
 
-								        				</p>
+								        				</p> --}}
 
 								        			</div>
 

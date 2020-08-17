@@ -51,6 +51,10 @@
         <!-- Pwstabs -->
         <link rel="stylesheet" href="{{ asset('public/adminlte/plugins/pwstabs/jquery.pwstabs.css') }}">
 
+        <!-- Select2 -->
+        <link rel="stylesheet" href="{{ asset('public/adminlte/plugins/select2/css/select2.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('public/adminlte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css') }}">
+
         <!-- Summernote -->
         <link rel="stylesheet" href="{{ asset('public/adminlte/plugins/summernote/summernote-bs4.css') }}">
 
@@ -70,6 +74,8 @@
         
         <link rel="stylesheet" href="{{ asset('public/adminlte/assets/css/form.css') }}">
         
+        <link rel="stylesheet" href="{{ asset('public/adminlte/assets/css/msupplier.css') }}">
+
         <link rel="stylesheet" href="{{ asset('public/adminlte/assets/css/pos.css') }}">
 
         @if(Request::segment(1) == 'pos')
@@ -148,6 +154,9 @@
 
         <!-- Pwstabs -->
         <script src="{{ asset('public/adminlte/plugins/pwstabs/jquery.pwstabs.min.js') }}"></script>
+
+        <!-- Select2 -->
+        <script src="{{ asset('public/adminlte/plugins/select2/js/select2.full.min.js') }}"></script>
 
         <!-- Sparkline -->  
         <script src="{{ asset('public/adminlte/plugins/sparklines/sparkline.js') }}"></script>

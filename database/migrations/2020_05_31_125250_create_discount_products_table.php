@@ -20,6 +20,7 @@ class CreateDiscountProductsTable extends Migration
             $table->integer('dp_status');
 
             $table->foreign('p_id')->references('p_id')->on('products')->onDelete('cascade');
+            
             $table->timestamps();
         });
     }

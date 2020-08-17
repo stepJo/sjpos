@@ -289,7 +289,7 @@
 
 			            					<label for="p_image_old">Gambar Lama</label>
 
-			            					{!! Utilities::renderImage($product->p_image) !!}
+			            					{!! Utilities::renderImage('products', $product->p_image) !!}
 
 			            				</div>
 
@@ -335,9 +335,9 @@
 
 			            			</div>
 
-			            			<button type="submit" class="btn btn-warning">Ubah</button>
+			            			<button type="submit" class="button-s1 button-yellow">Ubah</button>
 
-			            			<a href="{{ url('product') }}" class="btn btn-default ml-1">Kembali</a>
+			            			<a href="{{ url('product') }}" class="button-s1 button-grey">Kembali</a>
 
 	            				</form>
 

@@ -18,11 +18,15 @@ class TransactionController extends Controller
 	    {   
             if(!empty($request->start_date))
             {
-                $transactions = Transaction::with('transactionDetails', 'transactionDetails.product')->whereBetween('t_date', [$request->start_date, $request->end_date])->get(); 
+                $transactions = Transaction::with('detailTransactions', 'detailTransactions.product')
+                    ->whereBetween('t_date', [$request->start_date, $request->end_date])
+                    ->get(); 
             }
             else 
             {
-                $transactions = Transaction::with('transactionDetails', 'transactionDetails.product')->orderByDesc('t_date')->get();
+                $transactions = Transaction::with('detailTransactions', 'detailTransactions.product')
+                    ->orderByDesc('t_date')
+                    ->get();
             }
 
             return Datatables::of($transactions)
@@ -40,7 +44,7 @@ class TransactionController extends Controller
                 })
                 ->editColumn('t_date', function($transactions) 
                 {
-                    return '<span class="badge badge-info">'.date('d F Y H:i:s', strtotime($transactions->t_date)).'</span>';
+                    return '<span class="badge badge-info">'.Utilities::dateFormat($transactions->t_date).'</span>';
                 })
                 ->addColumn('actions', function($transactions) 
                 {
@@ -56,7 +60,7 @@ class TransactionController extends Controller
 
                     $details = '';
 
-                    foreach($transactions->transactionDetails as $td) {
+                    foreach($transactions->detailTransactions as $td) {
                     	$details .= 
                 		'
                 		<tr>
@@ -171,7 +175,7 @@ class TransactionController extends Controller
 
                                     <div class="modal-header">
 
-                                        <h4 class="modal-title">Hapus Produk</h4>
+                                        <h4 class="modal-title">Hapus Transaksi</h4>
 
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -209,11 +213,12 @@ class TransactionController extends Controller
                           
                         </div>';
                 })
+                ->with('sum_t_total', $transactions->sum('t_total'))
                 ->rawColumns(['t_date', 'actions'])
                 ->make(true);
 	    }
 
-	    return view('m_sale.t_index');
+	    return view('msale.t_index');
     }
 
     public function destroy(Transaction $transaction)
@@ -237,7 +242,7 @@ class TransactionController extends Controller
     {
         $transactions = Transaction::with('transactionDetails')->get();
 
-        $pdf = PDF::loadView('m_sale.t_pdf', compact('transactions'));
+        $pdf = PDF::loadView('msale.t_pdf', compact('transactions'));
 
         return $pdf->stream('Data_Produk_'.date('d_F_Y').'.pdf');
     }

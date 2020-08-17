@@ -21,7 +21,7 @@ class DiscountController extends Controller
     {
         $discounts = Discount::all();
         
-        return view('m_sale.d_index', compact('discounts'));
+        return view('msale.d_index', compact('discounts'));
     }   
 
     /**

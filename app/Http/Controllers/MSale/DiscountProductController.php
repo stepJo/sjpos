@@ -23,7 +23,7 @@ class DiscountProductController extends Controller
 
         //$discounts = DiscountProduct::with('product')->get();
 
-        return view('m_sale.d_p_index', compact('discounts'));
+        return view('msale.d_p_index', compact('discounts'));
     }
 
     /**

@@ -71,48 +71,6 @@
 
           <a href="#" class="nav-link">
 
-            <i class="nav-icon fas fa-truck"></i>
-
-            <p>
-
-              Master Penyuplai
-
-              <i class="right fas fa-angle-left"></i>
-
-            </p>
-
-          </a>
-
-          <ul class="nav nav-treeview">
-
-            <li class="nav-item">
-
-              <a href="{{ url('supplier') }}" class="nav-link">
-
-                <p>Data Penyuplai</p>
-
-              </a>
-
-            </li>
-
-            <li class="nav-item">
-
-              <a href="{{ url('purchasement') }}" class="nav-link">
-
-                <p>Pembelian Barang</p>
-
-              </a>
-
-            </li>
-
-          </ul>
-
-        </li>
-
-        <li class="nav-item has-treeview">
-
-          <a href="#" class="nav-link">
-
             <i class="nav-icon fas fa-tags"></i>
 
             <p>
@@ -214,6 +172,58 @@
               <a href="{{ url('barcode') }}" class="nav-link">
 
                 <p>Cetak Barcode</p>
+
+              </a>
+
+            </li>
+
+          </ul>
+
+        </li>
+
+        <li class="nav-item has-treeview">
+
+          <a href="#" class="nav-link">
+
+            <i class="nav-icon fas fa-truck"></i>
+
+            <p>
+
+              Master Suplai
+
+              <i class="right fas fa-angle-left"></i>
+
+            </p>
+
+          </a>
+
+          <ul class="nav nav-treeview">
+
+            <li class="nav-item">
+
+              <a href="{{ url('supplier') }}" class="nav-link">
+
+                <p>Data Penyuplai</p>
+
+              </a>
+
+            </li>
+
+            <li class="nav-item">
+
+              <a href="{{ url('supplier/product') }}" class="nav-link">
+
+                <p>Data Barang</p>
+
+              </a>
+
+            </li>
+
+            <li class="nav-item">
+
+              <a href="{{ url('supplier/purchasement') }}" class="nav-link">
+
+                <p>Pembelian Barang</p>
 
               </a>
 

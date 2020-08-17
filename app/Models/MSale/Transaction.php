@@ -3,7 +3,7 @@
 namespace App\Models\MSale;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\MSale\TransactionDetail;
+use App\Models\MSale\DetailTransaction;
 
 class Transaction extends Model
 {
@@ -13,8 +13,8 @@ class Transaction extends Model
 
     protected $guarded = [];
 
-    public function transactionDetails() 
+    public function detailTransactions() 
     {
-    	return $this->hasMany(TransactionDetail::class, 't_id');
+    	return $this->hasMany(DetailTransaction::class, 't_id');
     }
 }

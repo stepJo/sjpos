@@ -189,59 +189,36 @@
         });
     });
 
-    //RESET DATA
-    $('#addModal, #payModal').on('hidden.bs.modal', function(e) {
-        $(this).find('form').trigger('reset');
+    @if(Request::segment(2) != 'purchasement' && Request::segment(3) != 'create')
+        //RESET DATA
+        $('.modal').on('hidden.bs.modal', function() {
+            $(this).find('form').trigger('reset');
 
-        $(this).find('input').val('');
+            $('input').removeClass('is-invalid');
 
-        $('input').removeClass('is-invalid');
+            $('.select, .custom-select').removeClass('is-invalid'); 
 
-        $('.select, .custom-select').removeClass('is-invalid'); 
+            $('.text-danger').html('');
 
-        $('.text-danger').remove();
+            $('#percent-disc-amount, #fix-disc-amount').removeClass('active');
 
-        $('#percent-disc-amount, #fix-disc-amount').removeClass('active');
+            $('input[type=radio]').prop('checked', false);
+        });
 
-        $('input[type=radio]').prop('checked', false);
-    })
-
-    //SEARCH PRODUCT
-    @if(Request::segment(1) != 'pos')
-    
-        let path = "{{ url('discount/search/product') }}";
-
-        function returnProduct(item) {
-            if(item.p_status == 1) return `${item.p_name} - ${item.p_code}`;
-            else return `${item.p_name} - ${item.p_code} ( Tidak Aktif )`;
-        }
-
-        $('.searchInput').typeahead({ 
-            hint: true,
-            items: 10,
-            source: function(query, process) {
-                return $.get(path, function(data) {
-                    return process(data);
-                });
-            },
-            matcher: function(item) {
-                for (let attr in item) {
-                    if (item[attr].toString().toLowerCase().indexOf(this.query.toLowerCase())) return true;
-                }
-                return false;
-            },
-            displayText: function(item) {
-                return returnProduct(item);
-            },
-            afterSelect: function(data) {
-
-                $('input[name="p_id"], #p_id').val(data.p_id);
-
-                $('.searchInput').val('');
-            }
+        $('#addModal').on('hidden.bs.modal', function() {
+            $(this).find('input').val('');
         });
 
     @endif
+
+    //SELECT2
+    $(function() {
+        $('.select2').select2();
+        
+        $('.select2bs4').select2({
+            theme: 'bootstrap4'
+        });
+    });
 
 	//SIDEBAR
 	let url = window.location;

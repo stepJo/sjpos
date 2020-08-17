@@ -108,7 +108,7 @@ class ProductController extends Controller
                             
                                 <a class="dropdown-item text-danger" data-toggle="modal" data-target="#delModal'.$products->p_id.'">
 
-                                    <i class="fas fa-trash mr-1"></i> Delete
+                                    <i class="fas fa-trash mr-1"></i> Hapus
 
                                 </a>
                             
@@ -220,9 +220,9 @@ class ProductController extends Controller
                                     
                                         <div class="modal-footer justify-content-between">
                                       
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                            <button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
                                       
-                                            <button type="submit" class="btn btn-danger">Hapus</button>
+                                            <button type="submit" class="button-s1 button-red">Hapus</button>
                                         
                                         </div>
 
@@ -238,7 +238,7 @@ class ProductController extends Controller
                 ->make(true);
         }
 
-        return view('m_product.p_index');
+        return view('mproduct.p_index');
     }
 
     /**
@@ -251,7 +251,7 @@ class ProductController extends Controller
         $categories = Category::all();
         $units = Unit::all();
 
-        return view('m_product.p_a' ,compact('categories', 'units'));
+        return view('mproduct.p_a' ,compact('categories', 'units'));
     }
 
     /**
@@ -300,7 +300,7 @@ class ProductController extends Controller
         $categories = Category::all();
         $units = Unit::all();
 
-        return view('m_product.p_e' ,compact('product', 'categories', 'units'));
+        return view('mproduct.p_e' ,compact('product', 'categories', 'units'));
     }
 
     /**
@@ -354,10 +354,8 @@ class ProductController extends Controller
     public function exportPDF()
     {
         $products = Product::with('category', 'unit')->get();
-
-
-
-        $pdf = PDF::loadView('m_product.p_pdf', compact('products'));
+        
+        $pdf = PDF::loadView('mproduct.p_pdf', compact('products'));
 
         return $pdf->stream('Data_Produk_'.date('d_F_Y').'.pdf');
     }

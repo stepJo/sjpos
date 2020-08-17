@@ -19,7 +19,7 @@ class UnitController extends Controller
     {
         $units = Unit::with('products')->get(['unit_id', 'unit_name']);
 
-        return view('m_product.u_index', compact('units'));
+        return view('mproduct.u_index', compact('units'));
     }
 
     /**
