@@ -10,7 +10,12 @@ class Category extends Model
 {
     protected $primaryKey = 'cat_id';
 
-    protected $guarded = [];
+    protected $fillable = [
+        'cat_id',
+        'cat_name',
+        'created_at',
+        'updated_at'
+    ];
 
     public function products()
     {

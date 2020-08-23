@@ -4,10 +4,18 @@ namespace App\Http\Controllers\MProduct;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Repositories\MProduct\IBarcodeRepository;
 use App\Models\MProduct\Product;
 
 class BarcodeController extends Controller
 {
+    private $barcodeRepository;
+
+    public function __construct(IBarcodeRepository $barcodeRepository)
+    {
+        $this->barcodeRepository = $barcodeRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,14 +23,14 @@ class BarcodeController extends Controller
      */
     public function index()
     {
-        $products = Product::get(['p_id', 'p_code', 'p_name', 'p_barcode']);
+        $products = $this->barcodeRepository->all();
 
         return view('mproduct.b_index', compact('products'));
     }
     
     public function get($id)
     {   
-        $product = Product::findOrFail($id);
+        $product = $this->barcodeRepository->get($id);
 
         return response()->json($product);
     }

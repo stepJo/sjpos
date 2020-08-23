@@ -198,8 +198,10 @@
 
             $('.select, .custom-select').removeClass('is-invalid'); 
 
-            $('.text-danger').html('');
-
+            if(!$('.text-danger').hasClass('dropdown-item')) {
+                $('.text-danger').html('');
+            }
+            
             $('#percent-disc-amount, #fix-disc-amount').removeClass('active');
 
             $('input[type=radio]').prop('checked', false);

@@ -12,7 +12,20 @@ class Product extends Model
 {	
 	protected $primaryKey = 'p_id';
 
-	protected $guarded = [];
+	protected $fillable = [
+        'p_id',
+        'p_code',
+        'cat_id',
+        'p_name',
+        'p_desc',
+        'unit_id',
+        'p_price',
+        'p_image',
+        'p_barcode',
+        'p_status',
+        'created_at',
+        'updated_at'
+    ];
 
     public function category()
     {

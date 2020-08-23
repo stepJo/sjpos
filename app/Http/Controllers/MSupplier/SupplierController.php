@@ -3,13 +3,21 @@
 namespace App\Http\Controllers\MSupplier;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Http\Requests\MSupplier\CreateSupplierRequest;
 use App\Http\Requests\MSupplier\UpdateSupplierRequest;
-use Illuminate\Http\Request;
+use App\Repositories\MSupplier\ISupplierRepository;
 use App\Models\MSupplier\Supplier;
 
 class SupplierController extends Controller
 {
+    private $supplierRepository;
+
+    public function __construct(ISupplierRepository $supplierRepository)
+    {
+        $this->supplierRepository = $supplierRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +25,7 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $suppliers = Supplier::all();
+        $suppliers = $this->supplierRepository->all();
 
         return view('msupplier.s_index', compact('suppliers'));
     }
@@ -30,7 +38,7 @@ class SupplierController extends Controller
      */
     public function store(CreateSupplierRequest $request)
     {   
-        Supplier::create($request->validated());
+        $this->supplierRepository->store($request);
 
         return response()->json(['message' => 'Berhasil tambah penyuplai']);
     }
@@ -44,7 +52,7 @@ class SupplierController extends Controller
      */
     public function update(UpdateSupplierRequest $request, Supplier $supplier)
     {   
-        $supplier->update($request->validated());
+        $this->supplierRepository->update($request, $supplier);
 
         return response()->json(['message' => 'Berhasil ubah penyuplai']);
     }
@@ -57,8 +65,23 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        $supplier->delete();
+        $this->supplierRepository->destroy($supplier);
 
         return redirect()->back()->with('success', 'Berhasil hapus penyuplai');
+    }
+
+    public function exportCSV()
+    {
+        return $this->supplierRepository->exportCSV();
+    }
+
+    public function exportExcel()
+    {
+        return $this->supplierRepository->exportExcel();
+    }
+
+    public function exportPDF()
+    {
+        return $this->supplierRepository->exportPDF();
     }
 }

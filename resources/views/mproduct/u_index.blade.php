@@ -246,9 +246,9 @@
 													            
 													            	<div class="modal-footer justify-content-between">
 													              
-													              		<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+													              		<button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
 													              
-												              			<button type="submit" class="btn btn-danger">Hapus</button>
+												              			<button type="submit" class="button-s1 button-red">Hapus</button>
 													            	
 													            	</div>
 

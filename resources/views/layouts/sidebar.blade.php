@@ -71,6 +71,48 @@
 
           <a href="#" class="nav-link">
 
+            <i class="nav-icon fas fa-store"></i>
+
+            <p>
+
+              Master Cabang
+
+              <i class="right fas fa-angle-left"></i>
+
+            </p>
+
+          </a>
+
+          <ul class="nav nav-treeview">
+
+            <li class="nav-item">
+
+              <a href="{{ url('branch') }}" class="nav-link">
+
+                <p>Data Cabang</p>
+
+              </a>
+
+            </li>
+
+            <li class="nav-item">
+
+              <a href="{{ url('branch/product') }}" class="nav-link">
+
+                <p>Produk Cabang</p>
+
+              </a>
+
+            </li>
+
+          </ul>
+
+        </li>
+
+        <li class="nav-item has-treeview">
+
+          <a href="#" class="nav-link">
+
             <i class="nav-icon fas fa-tags"></i>
 
             <p>

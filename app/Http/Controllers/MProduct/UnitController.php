@@ -6,10 +6,18 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MProduct\CreateUnitRequest;
 use App\Http\Requests\MProduct\UpdateUnitRequest;
+use App\Repositories\MProduct\IUnitRepository;
 use App\Models\MProduct\Unit;
 
 class UnitController extends Controller
 {
+    private $unitRepository;
+
+    public function __construct(IUnitRepository $unitRepository)
+    {
+        $this->unitRepository = $unitRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,19 +25,9 @@ class UnitController extends Controller
      */
     public function index()
     {
-        $units = Unit::with('products')->get(['unit_id', 'unit_name']);
+        $units = $this->unitRepository->all();  
 
         return view('mproduct.u_index', compact('units'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -40,33 +38,11 @@ class UnitController extends Controller
      */
     public function store(CreateUnitRequest $request)
     {
-        Unit::create($request->validated());
+        $this->unitRepository->store($request);
 
         return response()->json([
             'message' => 'Berhasil tambah satuan'
         ]);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -78,7 +54,7 @@ class UnitController extends Controller
      */
     public function update(UpdateUnitRequest $request, Unit $unit)
     {
-        $unit->update($request->validated());
+        $this->unitRepository->update($request, $unit);
         
         return response()->json([
             'message' => 'Berhasil ubah satuan'
@@ -93,7 +69,7 @@ class UnitController extends Controller
      */
     public function destroy(Unit $unit)
     {
-        $unit->delete();
+        $this->unitRepository->destroy($unit);
 
         return redirect()->back()->with('success', 'Berhasil hapus satuan');
     }

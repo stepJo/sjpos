@@ -32,14 +32,14 @@
 	        				<!-- /.card-header -->
 
 	            			<div class="card-body">	
-
-	            				<button class="button-s1 button-green">
-
-	            					<a href="{{ url('product/create') }}" class="text-white">Tambah Produk</a>
-
-	            				</button>
 	              
 	              				<table id="productTable" class="table table-hover">
+
+									<button class="button-s1 button-green">
+
+										<a href="{{ url('product/create') }}" class="text-white">Tambah Produk</a>
+	
+									</button>
 	                		
 	              					<div class="offset-md-12 d-flex justify-content-end mb-3">
 

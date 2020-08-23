@@ -10,7 +10,12 @@ class Unit extends Model
 {
     protected $primaryKey = 'unit_id';
 
-    protected $guarded = [];
+    protected $fillable = [
+        'unit_id',
+        'unit_name',
+        'created_at',
+        'updated_at'
+    ];
     
     public function products()
     {

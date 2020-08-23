@@ -234,7 +234,17 @@
 								        <!-- /.modal-dialog -->
 								      
 								    </div>
-								    <!-- /.modal -->
+									<!-- /.modal -->
+									
+									<div class="offset-md-12 d-flex justify-content-end mb-3">
+
+										<a href="{{ route('supplier-csv') }}" target="_blank" class="button-s1 button-grey mr-2"><i class="fas fa-file-csv mr-1"></i> Expor CSV</a>
+
+										<a href="{{ route('supplier-excel') }}" target="_blank" class="button-s1 button-darkgreen mr-2"><i class="fas fa-file-excel mr-1"></i> Expor Excel</a>
+
+										<a href="{{ route('supplier-pdf') }}" target="_blank" class="button-s1 button-darkorange mr-2"><i class="fas fa-file-pdf mr-1"></i> Expor PDF</a>
+										
+									</div>
 
 	                				<thead>
 	                

@@ -10,7 +10,16 @@ class ProductSupplier extends Model
 {
     protected $primaryKey = 'ps_id';
 
-    protected $guarded = [];
+    protected $fillable = [
+        'ps_id',
+        'ps_name',
+        'ps_code',
+        'ps_price',
+        'ps_desc',
+        's_id',
+        'created_at',
+        'updated_at'
+    ];
 
     public function supplier()
     {

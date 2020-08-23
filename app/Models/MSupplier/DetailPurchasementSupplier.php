@@ -10,7 +10,15 @@ class DetailPurchasementSupplier extends Model
 {
     protected $primaryKey = 'dps_id';
 
-    protected $guarded = [];
+    protected $fillable = [
+        'dps_id',
+        'pch_id',
+        'ps_id',
+        'qty',
+        'sub_total',
+        'created_at',
+        'updated_at'
+    ];
 
     public function product() {
         return $this->belongsTo(ProductSupplier::class, 'ps_id')

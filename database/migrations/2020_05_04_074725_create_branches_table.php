@@ -15,10 +15,12 @@ class CreateBranchesTable extends Migration
     {
         Schema::create('branches', function (Blueprint $table) {
             $table->id('b_id');
+            $table->string('b_code')->unique();
             $table->string('b_name')->unique();
+            $table->string('b_email');
+            $table->string('b_contact');
             $table->string('b_desc')->nullable();
-            $table->string('b_address');
-            $table->integer('b_level');
+            $table->string('b_address')->nullable();
             $table->integer('b_status');
             $table->timestamps();
         });

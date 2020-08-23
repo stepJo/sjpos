@@ -16,7 +16,7 @@ class CreateProductSuppliersTable extends Migration
         Schema::create('product_suppliers', function (Blueprint $table) {
             $table->id('ps_id');
             $table->string('ps_name');
-            $table->string('ps_code');
+            $table->string('ps_code')->unique();
             $table->integer('ps_price');
             $table->text('ps_desc')->nullable();
             $table->unsignedBigInteger('s_id');

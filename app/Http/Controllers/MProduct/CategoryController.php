@@ -6,10 +6,18 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MProduct\CreateCategoryRequest;
 use App\Http\Requests\MProduct\UpdateCategoryRequest;
+use App\Repositories\MProduct\ICategoryRepository;
 use App\Models\MProduct\Category;
 
 class CategoryController extends Controller
 {
+    private $categoryRepository;
+
+    public function __construct(ICategoryRepository $categoryRepository)
+    {
+        $this->categoryRepository = $categoryRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -17,19 +25,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::with('products')->get(['cat_id', 'cat_name']);
+        $categories = $this->categoryRepository->all();
 
         return view('mproduct.c_index', compact('categories'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
-    {
-        
     }
 
     /**
@@ -40,33 +38,11 @@ class CategoryController extends Controller
      */
     public function store(CreateCategoryRequest $request)
     {
-        $category = Category::create($request->validated());
+        $this->categoryRepository->store($request);
 
         return response()->json([
             'message' => 'Berhasil tambah kategori'
         ]);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**
@@ -78,7 +54,7 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest $request, Category $category)
     {   
-        $category->update($request->validated());
+        $this->categoryRepository->update($request, $category);
         
         return response()->json([
             'message' => 'Berhasil ubah kategori'
@@ -93,7 +69,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $category->delete();
+        $this->categoryRepository->destroy($category);
 
         return redirect()->back()->with('success', 'Berhasil hapus kategori');
     }

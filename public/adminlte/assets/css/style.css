@@ -170,11 +170,12 @@ table.dataTable tfoot th {
     border-bottom: 0px;
 }
 
+#branchTable_filter input,
 #masterTable_filter input, 
 #productTable_filter input, 
 #productSupplierTable_filter input, 
 #purchasementSupplierTable_filter input, 
-#transactionTable_filter input 
+#transactionTable_filter input
 {
     border-radius: 12px;
     min-width: 250px;

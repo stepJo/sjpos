@@ -15,7 +15,7 @@ class CreatePurchasementSuppliersTable extends Migration
     {
         Schema::create('purchasement_suppliers', function (Blueprint $table) {
             $table->id('pch_id');
-            $table->string('pch_code');
+            $table->string('pch_code')->unique();
             $table->integer('pch_cost');
             $table->integer('pch_tax')->nullable();
             $table->integer('pch_disc')->nullable();

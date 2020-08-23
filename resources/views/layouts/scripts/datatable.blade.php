@@ -242,7 +242,7 @@
             }, 300);
         });
 
-        $("#masterTable, #productTable, #transactionTable, #purchasementSupplierTable").on('mouseover', 'td', function() {
+        $("#branchTable, #masterTable, #productTable, #purchasementSupplierTable, #transactionTable").on('mouseover', 'td', function() {
             $(this).on('click', function() {
                 let id = $(this).closest('tr').data('id');
 
@@ -342,6 +342,69 @@
                 {
                     data: 'p_status',
                     name: 'p_status'
+                },
+                {
+                    data: 'actions',
+                    name: 'actions'
+                },
+            ]
+        });
+
+        $('#branchTable').DataTable({
+            autoWidth: false,
+            ordering: true,
+            order: [[ 0, 'asc' ]],
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            ajax: 
+            {
+                url: "{{ route('branch.index') }}",
+            },
+            language: 
+            {
+                info: "<span class='font-weight-bold'>Menampilkan _START_ - _END_ dari _TOTAL_ cabang</span>",
+                infoEmpty: "<span class='font-weight-bold'>Tidak ada data</span>",
+                infoFiltered: "<span class='font-weight-bold'>(Filter dari _MAX_ cabang)</span>",
+                paginate: 
+                {
+                    previous: "<i class='fas fa-chevron-left'></i>",
+                    next: "<i class='fas fa-chevron-right'></i>"
+                },
+                processing: `<img src="${preloader}">`,
+                search: "<span class='font-weight-bold'>Cari cabang : </span>",
+                searchPlaceholder: "...",
+                zeroRecords: "<span class='font-weight-bold'>Cabang tidak ditemukan</span>",
+            },
+            oLanguage: 
+            {
+              sLengthMenu: "<span class='font-weight-bold'>Menampilkan _MENU_ cabang</span>",
+            },
+            createdRow: function (row, data, dataIndex) {
+                $(row).attr('data-id', data.b_id);
+                $(row).find('td:last-child').addClass('actions');
+            },
+            columns: 
+            [
+                {
+                    data: 'b_name',
+                    name: 'b_name'
+                },
+                {
+                    data: 'b_email',
+                    name: 'b_email'
+                },
+                {
+                    data: 'b_contact',
+                    name: 'b_contact'
+                },
+                {
+                    data: 'b_address',
+                    name: 'b_address'
+                },
+                {
+                    data: 'b_status',
+                    name: 'b_status'
                 },
                 {
                     data: 'actions',

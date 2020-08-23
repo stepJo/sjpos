@@ -6,12 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\MSale\CreateDiscountProductRequest;
 use App\Http\Requests\MSale\UpdateDiscountProductRequest;
-use App\Models\MProduct\Product;
+use App\Repositories\MSale\IDiscountProductRepository;
 use App\Models\MSale\DiscountProduct;
-
 
 class DiscountProductController extends Controller
 {
+    private $discountProductRepository;
+
+    public function __construct(IDiscountProductRepository $discountProductRepository)
+    {
+        $this->discountProductRepository = $discountProductRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +25,7 @@ class DiscountProductController extends Controller
      */
     public function index()
     {
-        $discounts = DiscountProduct::with('product')->get();
+        $discounts = $this->discountProductRepository->all();
 
         //$discounts = DiscountProduct::with('product')->get();
 
@@ -34,7 +40,7 @@ class DiscountProductController extends Controller
      */
     public function store(CreateDiscountProductRequest $request)
     {
-        $discount = DiscountProduct::create($request->validated());
+        $discount = $this->discountProductRepository->store($request);
 
         return response()->json([
             'message' => 'Berhasil tambah diskon produk'
@@ -65,19 +71,14 @@ class DiscountProductController extends Controller
      */
     public function destroy(DiscountProduct $product)
     {   
-
-        $product->delete();
+        $this->discountProductRepository->destroy($product);
 
         return redirect()->back()->with('success', 'Berhasil hapus diskon produk');
     }
 
     public function searchProduct(Request $request)
     {
-        $products = Product::with('discount')
-            ->where('p_name', 'LIKE', '%'.$request->p_name.'%')
-            ->where('p_code', 'LIKE', '%'.$request->p_code.'%')
-            ->doesntHave('discount')
-            ->get();
+        $products = $this->discountProductRepository->searchProduct($request);
 
         return response()->json($products);
     }

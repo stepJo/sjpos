@@ -10,7 +10,18 @@ class Supplier extends Model
 {
     protected $primaryKey = 's_id';
 
-    protected $guarded = [];
+    protected $fillable = [
+        's_id',
+        's_code',
+        's_name',
+        's_email',
+        's_contact',
+        's_bank',
+        's_bank_num',
+        's_address',
+        'created_at',
+        'updated_at',
+    ];
 
     public function products()
     {

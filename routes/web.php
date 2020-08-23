@@ -92,6 +92,16 @@ Route::group(['middleware' => 'pos_auth' ], function() {
 		Route::get('purchasement/pdf', 'MSupplier\PurchasementSupplierController@exportPDF')->name('purchasement-supplier-pdf');
 	});
 	//SUPPLIER
+	Route::get('supplier/csv', 'MSupplier\SupplierController@exportCSV')->name('supplier-csv');
+	Route::get('supplier/excel', 'MSupplier\SupplierController@exportExcel')->name('supplier-excel');
+	Route::get('supplier/pdf', 'MSupplier\SupplierController@exportPDF')->name('supplier-pdf');
 	Route::resource('supplier', 'MSupplier\SupplierController');
+
+	//-----MBRANCH-----//
+	//BRANCH
+	Route::get('branch/csv', 'MBranch\BranchController@exportCSV')->name('branch-csv');
+	Route::get('branch/excel', 'MBranch\BranchController@exportExcel')->name('branch-excel');
+	Route::get('branch/pdf', 'MBranch\BranchController@exportPDF')->name('branch-pdf');
+	Route::resource('branch', 'MBranch\BranchController');
 	
 });

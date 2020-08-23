@@ -15,7 +15,7 @@ class CreateTransactionsTable extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id('t_id');
-            $table->string('t_code');
+            $table->string('t_code')->unique();
             $table->string('t_type');
             $table->integer('t_total');
             $table->integer('t_tax');

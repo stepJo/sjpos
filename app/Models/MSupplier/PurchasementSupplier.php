@@ -12,7 +12,17 @@ class PurchasementSupplier extends Model
 
     protected $primaryKey = 'pch_id';
 
-    protected $guarded = [];
+    protected $fillable = [
+        'pch_id',
+        'pch_code',
+        'pch_cost',
+        'pch_tax',
+        'pch_disc',
+        'pch_ship',
+        's_id',
+        'pch_note',
+        'pch_date'
+    ];
 
     public function detailPurchasements() 
     {

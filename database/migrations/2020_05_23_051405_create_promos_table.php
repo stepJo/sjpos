@@ -15,7 +15,7 @@ class CreatePromosTable extends Migration
     {
         Schema::create('promos', function (Blueprint $table) {
             $table->id('pro_id');
-            $table->string('pro_code');
+            $table->string('pro_code')->unique();
             $table->string('pro_type');
             $table->string('pro_name');
             $table->string('pro_barc')->nullable();

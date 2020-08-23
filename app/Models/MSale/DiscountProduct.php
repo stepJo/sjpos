@@ -9,7 +9,14 @@ class DiscountProduct extends Model
 {
     protected $primaryKey = 'dp_id';
 
-    protected $guarded = [];
+    protected $fillable = [
+        'dp_id',
+        'p_id',
+        'dp_value',
+        'dp_status',
+        'created_at',
+        'updated_at'
+    ];
 
     public function product()
     {

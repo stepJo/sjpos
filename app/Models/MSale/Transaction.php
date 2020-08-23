@@ -11,7 +11,15 @@ class Transaction extends Model
 
     protected $primaryKey = 't_id';
 
-    protected $guarded = [];
+    protected $fillable = [
+        't_id',
+        't_code',
+        't_type',
+        't_total',
+        't_tax',
+        't_disc',
+        't_date'
+    ];
 
     public function detailTransactions() 
     {
