@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreateDisableProductsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,14 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id('u_id');
-            $table->string('u_name');
-            $table->string('u_email')->unique();
-            $table->string('u_contact');
-            $table->string('u_password');
+        Schema::create('disable_products', function (Blueprint $table) {
+            $table->id('dis_id');
             $table->unsignedBigInteger('b_id');
-            $table->unsignedBigInteger('role_id');
+            $table->unsignedBigInteger('p_id');
             $table->timestamps();
 
-            $table->foreign('role_id')->references('role_id')->on('roles')->onDelete('cascade');
             $table->foreign('b_id')->references('b_id')->on('branches')->onDelete('cascade');
+            $table->foreign('p_id')->references('p_id')->on('products')->onDelete('cascade');
         });
     }
 
@@ -35,6 +31,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('detail_purchasement_suppliers');
     }
 }

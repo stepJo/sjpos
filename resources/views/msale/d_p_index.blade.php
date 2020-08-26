@@ -159,7 +159,7 @@
 
 											                        	<option value="" class="font-weight-bold" selected>- Status Diskon -</option>
 
-										                          		<option value="1" class="font-italic font-weight-bold 	text-success">Aktif</option>
+										                          		<option value="1" class="font-italic font-weight-bold text-success">Aktif</option>
 
 										                          		<option value="0" class="font-italic font-weight-bold text-danger">Tidak Aktif</option>
 
@@ -248,7 +248,7 @@
 
 												            <div class="modal-header">
 
-												              	<h4 class="modal-title">Edit Diskon</h4>
+												              	<h4 class="modal-title">Edit Diskon <i class="fas fa-tags ml-2"></i></h4>
 
 											              		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -414,7 +414,7 @@
 
 												            <div class="modal-header">
 
-												              	<h4 class="modal-title">Hapus Diskon</h4>
+												              	<h4 class="modal-title">Hapus Diskon <i class="fas fa-tags ml-2"></i></h4>
 
 											              		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -438,9 +438,9 @@
 													            
 													            	<div class="modal-footer justify-content-between">
 													              
-													              		<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+													              		<button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
 													              
-												              			<button type="submit" class="btn btn-danger">Hapus</button>
+												              			<button type="submit" class="button-s1 button-red">Hapus</button>
 													            	
 													            	</div>
 

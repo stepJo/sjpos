@@ -9,14 +9,15 @@ class Role extends Model
 {
 	protected $primaryKey = 'role_id';
 
-	protected $casts = [
-        'role_menu' => 'json',
-     ];
-
-    protected $guarded = [];
+    protected $fillable = [
+        'role_id',
+        'role_name',
+        'created_at',
+        'updated_at',
+    ];
 
     public function users()
     {
-    	return $this->belongsToMany(User::class, 'role_id');
+    	return $this->hasMany(User::class, 'role_id');
     }
 }

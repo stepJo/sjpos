@@ -243,7 +243,7 @@
 	       
 	        </table>
 
-	        <h4>Total : {{ Utilities::rupiahFormat($transactions->sum('t_total')) }}</h4>
+	        <h4>Total Transaksi : {{ Utilities::rupiahFormat($transactions->sum('t_total')) }}</h4>
 
 	    </div>
 

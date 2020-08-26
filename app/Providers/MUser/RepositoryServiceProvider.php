@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers\MBranch;
+namespace App\Providers\MUser;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -14,13 +14,8 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(
-            'App\Repositories\MBranch\IBranchRepository',
-            'App\Repositories\MBranch\BranchRepository'
-        );
-
-        $this->app->bind(
-            'App\Repositories\MBranch\IBranchProductRepository',
-            'App\Repositories\MBranch\BranchProductRepository'
+            'App\Repositories\MUser\IRoleRepository',
+            'App\Repositories\MUser\RoleRepository',
         );
     }
 

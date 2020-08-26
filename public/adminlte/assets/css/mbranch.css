@@ -1,29 +1,29 @@
-#purchasement-shopping {
+#branch-product-list {
     width: 100%;
     min-height: 350px;
     max-height: 350px;
     overflow: auto;
 }
 
-#purchasement-shopping::-webkit-scrollbar {
+#branch-product-list::-webkit-scrollbar {
     width: 12px;
 }
 
-#purchasement-shopping::-webkit-scrollbar-track {
+#branch-product-list::-webkit-scrollbar-track {
     background-color: #e0e0e0;
 }
 
-#purchasement-shopping::-webkit-scrollbar-track:hover {
+#branch-product-list::-webkit-scrollbar-track:hover {
     background: #d6d6d6;
     border-radius: 7px;
 }
 
-#purchasement-shopping::-webkit-scrollbar-thumb {
+#branch-product-list::-webkit-scrollbar-thumb {
     background: #8f8f8f;
     border-radius: 7px;
 }
 
-#purchasement-shopping::-webkit-scrollbar-thumb:hover {
+#branch-product-list::-webkit-scrollbar-thumb:hover {
     background: #9e9090;
     border-radius: 7px;
 }

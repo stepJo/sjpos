@@ -27,7 +27,7 @@
 	            
 	            			<div class="card-header bg-light">
 	              
-	              				<h3 class="card-title">Role</h3>
+	              				<h3 class="card-title">Role <i class="fas fa-box-open ml-2"></i></h3>
 	            				
 	    					</div>
 	        				<!-- /.card-header -->
@@ -36,7 +36,7 @@
 	              
 	              				<table id="masterTable" class="table table-bordered">
 	                		
-	              					<button class="btn btn-success mb-4" data-toggle="modal" data-target="#addModal">
+	              					<button class="button-s1 button-green mb-4" data-toggle="modal" data-target="#addModal">
     					
 				    					Tambah Role
 
@@ -60,30 +60,27 @@
 								            		
 								            	</div>
 
-								            	<form action="{{ route('category.store') }}" method="POST">
+								            	<form id="add-role-form">
 
 								            		@csrf
 
 							            			<div class="modal-body">
-								              	
+								              			
+								              			<p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
+
 								              			<div class="form-group">
 
-										                  	<label>Nama</label>
+										                  	<label class="modal-label">Nama *</label>
 
-										                  	@error('cat_name')
+									                  		<br/>
 
-										                  		<br/>
-
-										                  		<span class="text-danger"> {{ $message }}</span>
-
-										                  	@enderror
+									                  		<span class="text-danger add-role-name-error"></span>
 
 									                  		<input 
 									                  			type="text" 
-									                  			name="cat_name" 
-									                  			class="form-control {{ $errors->has('cat_name') ? ' is-invalid' : '' }}" 
-									                  			placeholder="Nama Kategori"
-									                  			value="{{ old('cat_name') }}"
+									                  			name="role_name" 
+									                  			class="modal-input add-role-name-modal-error" 
+									                  			placeholder="Nama Role"
 									                  		>
 
 										                </div>
@@ -92,9 +89,9 @@
 									            
 									            	<div class="modal-footer justify-content-between">
 									              
-									              		<button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+									              		<button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
 									              
-								              			<button type="submit" class="btn btn-success">Simpan</button>
+								              			<button type="submit" class="button-s1 button-green">Simpan</button>
 									            	
 									            	</div>
 
@@ -113,11 +110,11 @@
 	                
 	                					<tr>
 	                  				
-	                						<th>#</th>
+											  <th>Role</th>
+											  
+											  <th>User</th>
 
-	                  						<th>Nama</th>
-
-	                  						<th>Aksi</th>
+											  <th>Aksi</th>
 
 	                					</tr>
 	                	
@@ -125,15 +122,142 @@
 	                
 	                				<tbody>
 
-	                					@foreach($categories as $category)
+	                					@foreach($roles as $role)
 
 							                <tr>
 
-							                	<td>{{ $loop->iteration }}</td>
+												<td>{{ $role->role_name }}</td>
+												  
+												<td><b>{{ $role->users->count() }}</b></td>
 
-							                  	<td>{{ $category->cat_name }}</td>
+												<td>
 
-							                  	<td></td>
+													<button class="button-s1 button-yellow" data-toggle="modal" data-target="#editModal{{ $role->role_id }}">
+
+														<i class="fas fa-marker mr-1"></i> Edit
+
+													</button>
+
+													<div class="modal fade" id="editModal{{ $role->role_id }}">
+									  
+													  	<div class="modal-dialog">
+
+															<div class="modal-content">
+
+														  		<div class="modal-header">
+
+																	<h4 class="modal-title">Edit Role <i class="fas fa-box-open ml-2"></i></h3></h4>
+
+																	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+																  		<span aria-hidden="true">&times;</span>
+																
+																	</button>
+																  
+															  	</div>
+
+															  	<form class="edit-role-form" data-id={{ $role->role_id }}>
+
+																	@csrf
+
+																  	<div class="modal-body">
+
+																	  	<p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>	
+																
+																		<div class="form-group">
+
+																			<label class="modal-label">Nama *</label>
+
+																			<br/>
+
+																			<span class="text-danger edit-role-name-error"></span>
+
+																			<input 
+																				type="text" 
+																				name="role_name" 
+																				class="modal-input edit-role-name-modal-error"
+																				value="{{ $role->role_name }}"
+																			>
+
+																	  	</div>
+														  
+																  	</div>
+															  
+																  	<div class="modal-footer justify-content-between">
+																
+																		<button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
+																
+																		<button type="submit" class="button-s1 button-yellow">Ubah</button>
+																  
+																  	</div>
+
+															  	</form>
+														
+															</div>
+															<!-- /.modal-content -->
+													  
+													  	</div>
+													  <!-- /.modal-dialog -->
+													
+												  	</div>
+												  	<!-- /.modal -->
+
+												  	<button class="button-s1 button-red" data-toggle="modal" data-target="#delModal{{ $role->role_id }}">
+
+														<i class="fas fa-trash mr-1"></i> Hapus
+
+													</button>
+
+													<div class="modal fade" id="delModal{{ $role->role_id }}">
+									  
+													  	<div class="modal-dialog">
+
+															<div class="modal-content">
+
+														  		<div class="modal-header">
+
+																	<h4 class="modal-title">Hapus Role <i class="fas fa-box-open ml-2"></i></h3></h4>
+
+																	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+																  		<span aria-hidden="true">&times;</span>
+																
+																	</button>
+																  
+															  	</div>
+
+															  	<form action="{{ route('role.destroy', $role->role_id) }}" method="POST">
+
+																  	@method('DELETE')
+
+																  	@csrf
+
+																  	<div class="modal-body">
+																
+																		Yakin ingin menghapus role <b>{{ $role->role_name }}</b> ?
+														  
+																  	</div>
+															  
+																  	<div class="modal-footer justify-content-between">
+																
+																		<button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
+																
+																		<button type="submit" class="button-s1 button-red">Hapus</button>
+																  
+																  	</div>
+
+															  	</form>
+														
+															</div>
+															<!-- /.modal-content -->
+													  
+													  	</div>
+													  	<!-- /.modal-dialog -->
+													
+												  	</div>
+												  	<!-- /.modal -->
+
+												</td>
 
 							                </tr>
 
@@ -162,5 +286,13 @@
 
 	</div>
 	<!-- /.content-wrapper -->
+
+@endsection
+
+@section('script')
+
+	@include('layouts/scripts/datatable')
+
+	@include('layouts/scripts/muser')
 
 @endsection

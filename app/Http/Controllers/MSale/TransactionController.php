@@ -16,7 +16,8 @@ class TransactionController extends Controller
         $this->transactionRepository = $transactionRepository;
     }
 
-    public function index(Request $request) {
+    public function index(Request $request) 
+    {
     	if($request->ajax())
 	    {   
             return $this->transactionRepository->renderDataTable($request);

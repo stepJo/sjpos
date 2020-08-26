@@ -150,7 +150,7 @@
 
 												            <div class="modal-header">
 
-												              	<h4 class="modal-title">Edit Kategori</h4>
+												              	<h4 class="modal-title">Edit Kategori <i class="fas fa-box-open ml-2"></i></h4>
 
 											              		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -161,8 +161,6 @@
 												            	</div>
 
 												            	<form class="edit-category-form" data-id={{ $category->cat_id }}>
-
-												            		@method('PATCH')
 
 												            		@csrf
 
@@ -222,7 +220,7 @@
 
 												            <div class="modal-header">
 
-												              	<h4 class="modal-title">Hapus Kategori</h4>
+												              	<h4 class="modal-title">Hapus Kategori <i class="fas fa-box-open ml-2"></i></h4>
 
 											              		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 

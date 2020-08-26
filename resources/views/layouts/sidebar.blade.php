@@ -295,6 +295,18 @@
 
             <li class="nav-item">
 
+              <a href="./index3.html" class="nav-link">
+
+                <i class="fas fa-user nav-icon"></i>
+
+                <p>Data User</p>
+
+              </a>
+
+            </li>
+
+            <li class="nav-item">
+
               <a href="{{ url('role') }}" class="nav-link">
 
                 <i class="fas fa-user nav-icon"></i>
@@ -312,18 +324,6 @@
                 <i class="fas fa-user nav-icon"></i>
 
                 <p>Data Akses</p>
-
-              </a>
-
-            </li>
-
-            <li class="nav-item">
-
-              <a href="./index3.html" class="nav-link">
-
-                <i class="fas fa-box-open nav-icon"></i>
-
-                <p>Data User</p>
 
               </a>
 

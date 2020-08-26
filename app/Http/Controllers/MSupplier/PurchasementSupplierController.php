@@ -56,7 +56,7 @@ class PurchasementSupplierController extends Controller
     {
         $this->purchasementSupplierRepository->store($request);
 
-        return response()->json(['message' => 'Pembelian berhasil']);  
+        return response()->json(['message' => 'Pembelian barang berhasil']);  
     }
 
     /**

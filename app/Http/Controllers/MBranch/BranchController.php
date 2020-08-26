@@ -30,7 +30,7 @@ class BranchController extends Controller
             return $this->branchRepository->renderDataTable();
         }
 
-        return view('mbranch.index');
+        return view('mbranch.b_index');
     }
 
     /**
@@ -88,5 +88,10 @@ class BranchController extends Controller
     public function exportPDF()
     {
         return $this->branchRepository->exportPDF();
+    }
+
+    public function show()
+    {
+        
     }
 }

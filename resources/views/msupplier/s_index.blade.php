@@ -365,7 +365,7 @@
 
 												            <div class="modal-header">
 
-												              	<h4 class="modal-title">Edit Supplier</h4>
+												              	<h4 class="modal-title">Edit Penyuplai <i class="nav-icon fas fa-truck ml-2"></i></h4>
 
 											              		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -560,7 +560,7 @@
 
 												            <div class="modal-header">
 
-												              	<h4 class="modal-title">Hapus Penyuplai</h4>
+												              	<h4 class="modal-title">Hapus Penyuplai <i class="nav-icon fas fa-truck ml-2"></i></h4>
 
 											              		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 

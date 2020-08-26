@@ -172,7 +172,7 @@ class TransactionRepository implements ITransactionRepository
 
                                 <div class="modal-header">
 
-                                    <h4 class="modal-title">Hapus Transaksi</h4>
+                                    <h4 class="modal-title">Hapus Transaksi <i class="fas fa-tags ml-2"></i></h4>
 
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -196,9 +196,9 @@ class TransactionRepository implements ITransactionRepository
                                 
                                     <div class="modal-footer justify-content-between">
                                     
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                        <button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
                                     
-                                        <button type="submit" class="btn btn-danger">Hapus</button>
+                                        <button type="submit" class="button-s1 button-red">Hapus</button>
                                     
                                     </div>
 

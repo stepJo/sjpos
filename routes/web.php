@@ -27,29 +27,32 @@ Route::group(['middleware' => 'pos_auth' ], function() {
 
 	//POS
 	Route::get('pos', 'POSController@index');
-	Route::get('pos/search/all', 'POSController@allProduct');
-	Route::get('pos/search/product', 'POSController@searchProduct');
-	Route::get('pos/search/category', 'POSController@searchCategory');
-	Route::get('pos/search/unit', 'POSController@searchUnit');
-	Route::post('pos/transaction/store', 'POSController@storeTransaction');
-	//-----MUSER-----//
-	
-	
-	//-----MPRODUCT-----//
-	//CATEGORY
-	Route::resource('category', 'MProduct\CategoryController');
-	//UNIT
-	Route::resource('unit', 'MProduct\UnitController');
-	//PRODUCT
-	Route::group(["prefix" => "product"], function() {
-		Route::get('csv', 'MProduct\ProductController@exportCSV')->name('product-csv');
-		Route::get('excel', 'MProduct\ProductController@exportExcel')->name('product-excel');
-		Route::get('pdf', 'MProduct\ProductController@exportPDF')->name('product-pdf');
+	Route::group(["prefix" => "pos"], function() {
+		Route::get('search/all', 'POSController@allProduct');
+		Route::get('search/product', 'POSController@searchProduct');
+		Route::get('search/category', 'POSController@searchCategory');
+		Route::get('search/unit', 'POSController@searchUnit');
+		Route::post('transaction/store', 'POSController@storeTransaction');
 	});
-	Route::resource('product', 'MProduct\ProductController');
-	//BARCODE
-	Route::get('barcode/product/{product}', 'MProduct\BarcodeController@get')->name('barcode-product');
-	Route::resource('barcode', 'MProduct\BarcodeController');
+
+	//-----MBRANCH-----//
+	Route::group(["prefix" => "branch"], function() {
+		//BRANCH
+		Route::get('csv', 'MBranch\BranchController@exportCSV')->name('branch-csv');
+		Route::get('excel', 'MBranch\BranchController@exportExcel')->name('branch-excel');
+		Route::get('pdf', 'MBranch\BranchController@exportPDF')->name('branch-pdf');
+		//BRANCH PRODUCT
+		Route::get('search/product', 'MBranch\BranchProductController@searchProduct');
+		Route::get('{branch}/product/get', 'MBranch\BranchProductController@getProduct');
+		Route::get('product', 'MBranch\BranchProductController@index')->name('branch-product.index');
+		Route::get('product/create', 'MBranch\BranchProductController@create')->name('branch-product.create');
+		Route::post('product/store', 'MBranch\BranchProductController@store')->name('branch-product.store');
+		Route::get('{branch}/product/edit', 'MBranch\BranchProductController@edit')->name('branch-product.edit');
+		Route::patch('{branch}/product/update', 'MBranch\BranchProductController@update')->name('branch-product.update');
+		Route::delete('{branch}/product/destroy', 'MBranch\BranchProductController@destroy')->name('branch-product.destroy');
+	});
+	//BRANCH {RESOURCE}
+	Route::resource('branch', 'MBranch\BranchController');
 
 	//-----MSALE-----//
 	//TRANSACTION
@@ -70,9 +73,30 @@ Route::group(['middleware' => 'pos_auth' ], function() {
 	//DISCOUNT
 	Route::get('discount/generate', 'MSale\DiscountController@generate')->name('discount-generate');
 	Route::resource('discount', 'MSale\DiscountController');
+	
+	//-----MPRODUCT-----//
+	//CATEGORY
+	Route::resource('category', 'MProduct\CategoryController');
+	//UNIT
+	Route::resource('unit', 'MProduct\UnitController');
+	//PRODUCT
+	Route::group(["prefix" => "product"], function() {
+		Route::get('csv', 'MProduct\ProductController@exportCSV')->name('product-csv');
+		Route::get('excel', 'MProduct\ProductController@exportExcel')->name('product-excel');
+		Route::get('pdf', 'MProduct\ProductController@exportPDF')->name('product-pdf');
+	});
+	//PRODUCT {RESOURCE}
+	Route::resource('product', 'MProduct\ProductController');
+	//BARCODE
+	Route::get('barcode/product/{product}', 'MProduct\BarcodeController@get')->name('barcode-product');
+	Route::resource('barcode', 'MProduct\BarcodeController');
 
 	//-----MSUPPLIER-----//
 	Route::group(["prefix" => "supplier"], function() {
+		//SUPPLIER
+		Route::get('csv', 'MSupplier\SupplierController@exportCSV')->name('supplier-csv');
+		Route::get('excel', 'MSupplier\SupplierController@exportExcel')->name('supplier-excel');
+		Route::get('pdf', 'MSupplier\SupplierController@exportPDF')->name('supplier-pdf');
 		//PRODUCT SUPPLIER
 		Route::get('product', 'MSupplier\ProductSupplierController@index')->name('product-supplier.index');
 		Route::post('product/store', 'MSupplier\ProductSupplierController@store')->name('product-supplier.store');
@@ -81,7 +105,7 @@ Route::group(['middleware' => 'pos_auth' ], function() {
 		Route::get('product/csv', 'MSupplier\ProductSupplierController@exportCSV')->name('product-supplier-csv');
 		Route::get('product/excel', 'MSupplier\ProductSupplierController@exportExcel')->name('product-supplier-excel');
 		Route::get('product/pdf', 'MSupplier\ProductSupplierController@exportPDF')->name('product-supplier-pdf');
-		//PRODUCT PURCHASEMENT
+		//PURCHASEMENT SUPPLIER
 		Route::get('purchasement/search/product', 'MSupplier\PurchasementSupplierController@searchProduct');
 		Route::get('purchasement', 'MSupplier\PurchasementSupplierController@index')->name('purchasement-supplier.index');
 		Route::get('purchasement/create', 'MSupplier\PurchasementSupplierController@create')->name('purchasement-supplier.create');
@@ -91,17 +115,11 @@ Route::group(['middleware' => 'pos_auth' ], function() {
 		Route::get('purchasement/excel', 'MSupplier\PurchasementSupplierController@exportExcel')->name('purchasement-supplier-excel');
 		Route::get('purchasement/pdf', 'MSupplier\PurchasementSupplierController@exportPDF')->name('purchasement-supplier-pdf');
 	});
-	//SUPPLIER
-	Route::get('supplier/csv', 'MSupplier\SupplierController@exportCSV')->name('supplier-csv');
-	Route::get('supplier/excel', 'MSupplier\SupplierController@exportExcel')->name('supplier-excel');
-	Route::get('supplier/pdf', 'MSupplier\SupplierController@exportPDF')->name('supplier-pdf');
+	//SUPPLIER {RESOURCE}
 	Route::resource('supplier', 'MSupplier\SupplierController');
 
-	//-----MBRANCH-----//
-	//BRANCH
-	Route::get('branch/csv', 'MBranch\BranchController@exportCSV')->name('branch-csv');
-	Route::get('branch/excel', 'MBranch\BranchController@exportExcel')->name('branch-excel');
-	Route::get('branch/pdf', 'MBranch\BranchController@exportPDF')->name('branch-pdf');
-	Route::resource('branch', 'MBranch\BranchController');
-	
+	//-----MUSER-----//
+	//ROLE {RESOURCE}
+	Route::resource('role', 'MUser\RoleController');
+
 });

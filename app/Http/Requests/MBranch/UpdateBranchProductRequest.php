@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\MProduct;
+namespace App\Http\Requests\MBranch;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUnitRequest extends FormRequest
+class UpdateBranchProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,14 @@ class UpdateUnitRequest extends FormRequest
     public function rules()
     {
         return [
-            'unit_name'    => 'required',
+            'b_id' => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'unit_name.required' => 'Nama dibutuhkan !',
+            'b_id.required' => 'Cabang dibutuhkan !',
         ];
     }
 }

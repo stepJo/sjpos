@@ -223,7 +223,7 @@
 
 		        @endforeach
 	       
-	        </table>
+			</table>
 
 	    </div>
 

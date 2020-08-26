@@ -89,7 +89,7 @@ class ProductSupplierRepository implements IProductSupplierRepository
 
                                 <div class="modal-header">
 
-                                    <h4 class="modal-title">Edit Barang</h4>
+                                    <h4 class="modal-title">Edit Barang <i class="nav-icon fas fa-truck ml-2"></i></h4>
 
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -216,9 +216,9 @@ class ProductSupplierRepository implements IProductSupplierRepository
                                     
                                         <div class="modal-footer justify-content-between">
                                         
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
+                                            <button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
                                         
-                                            <button type="submit" class="btn btn-warning">Ubah</button>
+                                            <button type="submit" class="button-s1 button-yellow">Ubah</button>
                                         
                                         </div>
 
@@ -238,7 +238,7 @@ class ProductSupplierRepository implements IProductSupplierRepository
 
                                     <div class="modal-header">
 
-                                        <h4 class="modal-title">Hapus Barang</h4>
+                                        <h4 class="modal-title">Hapus Barang <i class="nav-icon fas fa-truck ml-2"></i></h4>
 
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 

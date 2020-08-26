@@ -85,6 +85,61 @@ body::-webkit-scrollbar-thumb {
 	transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out,border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out !important;
 }
 
+/*DATATABLE */
+table td {
+    vertical-align: middle !important;
+    border-top: 1px solid lightgrey;
+}
+
+tr {
+    cursor: pointer;
+}
+
+table.dataTable thead tr {
+    background: #f2f2f2;
+}
+
+table.dataTable th {
+    border-top: 1.5px solid #5c23d9;
+    border-bottom: 1.5px solid #5c23d9;
+}
+
+table.dataTable tfoot th {
+    border-top: 1.5px solid lightgrey;
+    border-bottom: 0px;
+}
+
+#branchTable_filter input,
+#branchProductTable_filter input,
+#masterTable_filter input, 
+#productTable_filter input, 
+#productSupplierTable_filter input, 
+#purchasementSupplierTable_filter input, 
+#transactionTable_filter input
+{
+    border-radius: 12px;
+    min-width: 250px;
+    padding: 16px;
+    border: 1.5px solid #5c23d9;
+}
+
+.dataTables_length select {
+    padding: 0 15px;
+    margin: 0 10px;
+    border: 1.5px solid #5c23d9;
+    background: #fafafa;
+}
+
+.page-item.active .page-link {
+    background-color: lightgrey !important;
+    border: 1.5px solid #5c23d9;
+}
+
+.page-link {
+    color: black !important;
+    font-weight: bold;
+}
+
 /*FLATPICKR */
 span.flatpickr-weekday {
     color: #fff;
@@ -92,7 +147,7 @@ span.flatpickr-weekday {
 
 /*IMAGE */
 .thumbnail {
-    width: 180px;
+    width: 100px;
     object-fit: center;
     background-position: center;
     border-radius: 7px;
@@ -144,60 +199,6 @@ span.flatpickr-weekday {
 
 .searchSubmit:hover {
     cursor: pointer;
-}
-
-/*DATATABLE */
-table td {
-    vertical-align: middle !important;
-    border-top: 1px solid lightgrey;
-}
-
-tr {
-    cursor: pointer;
-}
-
-table.dataTable thead tr {
-    background: #f2f2f2;
-}
-
-table.dataTable th {
-    border-top: 1.5px solid #5c23d9;
-    border-bottom: 1.5px solid #5c23d9;
-}
-
-table.dataTable tfoot th {
-    border-top: 1.5px solid lightgrey;
-    border-bottom: 0px;
-}
-
-#branchTable_filter input,
-#masterTable_filter input, 
-#productTable_filter input, 
-#productSupplierTable_filter input, 
-#purchasementSupplierTable_filter input, 
-#transactionTable_filter input
-{
-    border-radius: 12px;
-    min-width: 250px;
-    padding: 16px;
-    border: 1.5px solid #5c23d9;
-}
-
-.dataTables_length select {
-    padding: 0 15px;
-    margin: 0 10px;
-    border: 1.5px solid #5c23d9;
-    background: #fafafa;
-}
-
-.page-item.active .page-link {
-    background-color: lightgrey !important;
-    border: 1.5px solid #5c23d9;
-}
-
-.page-link {
-    color: black !important;
-    font-weight: bold;
 }
 
 /*TYPEAHEAD */

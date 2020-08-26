@@ -26,8 +26,6 @@ class BranchRepository implements IBranchRepository
             })
             ->editColumn('b_status', function($branches) 
             {   
-                $token = csrf_token();
-
                 if($branches->b_status == 1)
                 {
                     return 
@@ -192,7 +190,7 @@ class BranchRepository implements IBranchRepository
 
                             <div class="modal-header">
 
-                                <h4 class="modal-title">Edit Cabang</h4>
+                                <h4 class="modal-title">Edit Cabang <i class="fas fa-store ml-2"></i></h4>
 
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -358,7 +356,7 @@ class BranchRepository implements IBranchRepository
 
                                 <div class="modal-header">
 
-                                    <h4 class="modal-title">Hapus Cabang</h4>
+                                    <h4 class="modal-title">Hapus Cabang <i class="fas fa-store ml-2"></i></h4>
 
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -417,12 +415,12 @@ class BranchRepository implements IBranchRepository
 
     public function exportCSV()
     {
-        return Excel::download(new BranchExport, 'Data_Cabang_'.date('d_F_Y').'.csv');
+        return Excel::download(new BranchExport, 'Data_Produk_'.date('d_F_Y').'.csv');
     }
 
     public function exportExcel()
     {
-        return Excel::download(new BranchExport, 'Data_Cabang_'.date('d_F_Y').'.xlsx');
+        return Excel::download(new BranchExport, 'Data_Produk_'.date('d_F_Y').'.xlsx');
     }
 
     public function exportPDF()

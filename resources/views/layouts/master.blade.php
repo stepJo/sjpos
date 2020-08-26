@@ -73,6 +73,8 @@
         <link rel="stylesheet" href="{{ asset('public/adminlte/assets/css/button.css') }}">
         
         <link rel="stylesheet" href="{{ asset('public/adminlte/assets/css/form.css') }}">
+
+        <link rel="stylesheet" href="{{ asset('public/adminlte/assets/css/mbranch.css') }}">
         
         <link rel="stylesheet" href="{{ asset('public/adminlte/assets/css/msupplier.css') }}">
 

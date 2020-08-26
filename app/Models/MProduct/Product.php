@@ -3,7 +3,7 @@
 namespace App\Models\MProduct;
 
 use Illuminate\Database\Eloquent\Model;
-use Utilities;
+use App\Models\MBranch\Branch;
 use App\Models\MProduct\Category;
 use App\Models\MProduct\Unit;
 use App\Models\MSale\DiscountProduct;
@@ -34,11 +34,18 @@ class Product extends Model
 
     public function discount()
     {
-        return $this->hasOne(DiscountProduct::class, 'p_id')->select('p_id', 'dp_value', 'dp_status');
+        return $this->hasOne(DiscountProduct::class, 'p_id')
+            ->select('p_id', 'dp_value', 'dp_status');
     }
 
     public function unit()
     {
-    	return $this->belongsTo(Unit::class, 'unit_id')->select('unit_id', 'unit_name');
+        return $this->belongsTo(Unit::class, 'unit_id')
+            ->select('unit_id', 'unit_name');
+    }
+
+    public function branches()
+    {
+        return $this->belongsToMany(Branch::class, 'disable_products', 'p_id', 'p_id');
     }
 }

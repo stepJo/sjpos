@@ -183,7 +183,7 @@ class PurchasementSupplierRepository implements IPurchasementSupplierRepository
 
                                 <div class="modal-header">
 
-                                    <h4 class="modal-title">Hapus Pembelian Barang</h4>
+                                    <h4 class="modal-title">Hapus Pembelian Barang <i class="nav-icon fas fa-truck ml-2"></i></h4>
 
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
@@ -248,13 +248,13 @@ class PurchasementSupplierRepository implements IPurchasementSupplierRepository
             'pch_note' => $request->pch_note
         ]);
 
-        foreach($request->products as $p)
+        foreach($request->products as $product)
         {
             $detail = DetailPurchasementSupplier::create([
                 'pch_id'    => $purchasement->pch_id,
-                'ps_id'     => $p['ps_id'],
-                'qty'       => $p['qty'],
-                'sub_total' => (int)$p['qty'] * $p['ps_price']
+                'ps_id'     => $product['ps_id'],
+                'qty'       => $product['qty'],
+                'sub_total' => $product['qty'] * $product['ps_price']
             ]);
         }
     }

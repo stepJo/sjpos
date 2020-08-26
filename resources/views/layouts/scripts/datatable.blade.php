@@ -413,6 +413,61 @@
             ]
         });
 
+        $('#branchProductTable').DataTable({
+            autoWidth: false,
+            ordering: true,
+            order: [[ 0, 'asc' ]],
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            ajax: 
+            {
+                url: "{{ route('branch-product.index') }}",
+            },
+            language: 
+            {
+                info: "<span class='font-weight-bold'>Menampilkan _START_ - _END_ dari _TOTAL_ cabang</span>",
+                infoEmpty: "<span class='font-weight-bold'>Tidak ada data</span>",
+                infoFiltered: "<span class='font-weight-bold'>(Filter dari _MAX_ cabang)</span>",
+                paginate: 
+                {
+                    previous: "<i class='fas fa-chevron-left'></i>",
+                    next: "<i class='fas fa-chevron-right'></i>"
+                },
+                processing: `<img src="${preloader}">`,
+                search: "<span class='font-weight-bold'>Cari cabang : </span>",
+                searchPlaceholder: "...",
+                zeroRecords: "<span class='font-weight-bold'>Cabang tidak ditemukan</span>",
+            },
+            oLanguage: 
+            {
+              sLengthMenu: "<span class='font-weight-bold'>Menampilkan _MENU_ cabang</span>",
+            },
+            createdRow: function (row, data, dataIndex) {
+                $(row).attr('data-id', data.b_id);
+                $(row).find('td:last-child').addClass('actions');
+            },
+            columns: 
+            [
+                {
+                    data: 'b_name',
+                    name: 'b_name'
+                },
+                {
+                    data: 'b_status',
+                    name: 'b_status'
+                },
+                {
+                    data: 'details',
+                    name: 'details'
+                },
+                {
+                    data: 'actions',
+                    name: 'actions'
+                },
+            ]
+        });
+
         $('#btn-search-prodsupp').on('click', function(e) {
             e.preventDefault();
 

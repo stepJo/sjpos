@@ -22,7 +22,7 @@ class ProductsTableSeeder extends Seeder
         $categories = collect(Category::all()->modelKeys());
         $units = collect(Unit::all()->modelKeys());
 
-        for($i = 0;  $i < 200; $i++) {
+        for($i = 0;  $i < 250; $i++) {
             $data[] = [
                 'p_code'     => $faker->unique()->randomNumber(),
                 'cat_id'     => $categories->random(),

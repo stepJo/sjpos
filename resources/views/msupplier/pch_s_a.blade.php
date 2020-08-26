@@ -37,8 +37,6 @@
 	            				<p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
 
 	            				<div>
-
-	            					@csrf
                                     
                                     <div class="row">
 
@@ -110,103 +108,111 @@
 									
 									<div class="row mt-2 mb-4">
 
-										<div id="purchasement-shopping">
-										
-											<table id="purchasementList" class="table">
+										<div class="col-md-12">
 
-												<thead class="bg-light">
+											<div id="purchasement-shopping">
+											
+												<table id="purchasementList" class="table">
+
+													<thead class="bg-light">
+													
+														<tr>
+
+															<th>Barang</th>
+
+															<th>Penyuplai</th>
+
+															<th>Harga</th>
+				
+															<th>Jumlah</th>
+				
+															<th>Subtotal</th>
+				
+														</tr>
+										
+													</thead>
+				
+													<tbody></tbody>
+				
+												</table>
+
+											</div>
+
+											<div class="row">
+
+												<div class="col-md-3">
+
+													<h5 class="text-secondary">Total Bayar : </h5>
+
+													<h3 id="total-purchasement">Rp 0</h3>
+
+												</div>
+
+												<div class="col-md-3">
+													
+													<div class="form-group">
+
+														<label for="pch_tax" class="modal-label">Pajak</label>
+														
+														<br/>
+
+														<span class="text-danger add-pch-tax-error"></span>
+			
+														<input type="text" id="pch_tax" name="pch_tax" value="0" class="modal-input add-pch-tax-modal-error" placeholder="Pajak Pembelian">
+			
+													</div>
+													
+												</div>
 												
-													<tr>
+												<div class="col-md-3">
+													
+													<div class="form-group">
 
-														<th>Barang</th>
+														<label for="pch_disc" class="modal-label">Diskon</label>
+														
+														<br/>
 
-														<th>Penyuplai</th>
-
-														<th>Harga</th>
+														<span class="text-danger add-pch-disc-error"></span>
 			
-														<th>Jumlah</th>
+														<input type="text" id="pch_disc" name="pch_disc" value="0" class="modal-input add-pch-disc-modal-error" placeholder="Diskon Pembelian">
 			
-														<th>Subtotal</th>
-			
-													</tr>
-									
-												</thead>
-			
-												<tbody></tbody>
-			
-											</table>
-
-										</div>
-
-										<div class="col-md-3">
-
-											<h5 class="text-secondary">Total Bayar : </h5>
-
-											<h3 id="total-purchasement">Rp 0</h3>
-
-										</div>
-
-										<div class="col-md-3">
-                                            
-                                            <div class="form-group">
-
-												<label for="pch_tax" class="modal-label">Pajak</label>
+													</div>
+													
+												</div>
 												
-												<br/>
+												<div class="col-md-3">
+													
+													<div class="form-group">
 
-												<span class="text-danger add-pch-tax-error"></span>
-    
-                                                <input type="text" id="pch_tax" name="pch_tax" value="0" class="modal-input add-pch-tax-modal-error" placeholder="Pajak Pembelian">
-    
-                                            </div>
-                                            
-										</div>
-										
-										<div class="col-md-3">
-                                            
-                                            <div class="form-group">
+														<label for="pch_ship" class="modal-label">Pengiriman</label>
+														
+														<br/>
 
-												<label for="pch_disc" class="modal-label">Diskon</label>
+														<span class="text-danger add-pch-ship-error"></span>
+			
+														<input type="text" id="pch_ship" name="pch_ship" value="0" class="modal-input add-pch-ship-modal-error" placeholder="Biaya Pengiriman">
+			
+													</div>
+													
+												</div>
 												
-												<br/>
+												<div class="col-md-12 mt-3">
 
-												<span class="text-danger add-pch-disc-error"></span>
-    
-                                                <input type="text" id="pch_disc" name="pch_disc" value="0" class="modal-input add-pch-disc-modal-error" placeholder="Diskon Pembelian">
-    
-                                            </div>
-                                            
-										</div>
-										
-										<div class="col-md-3">
-                                            
-                                            <div class="form-group">
+													<div class="form-group">
 
-												<label for="pch_ship" class="modal-label">Pengiriman</label>
+														<label for="pch_note">Catatan</label>
+
+														<br/>
+
+														<span class="text-danger edit-s-address-error"></span>
+
+														<textarea class="textarea-input" placeholder="Catatan Pembelian" name="pch_note"></textarea>
 												
-												<br/>
+													</div>
 
-												<span class="text-danger add-pch-ship-error"></span>
-    
-                                                <input type="text" id="pch_ship" name="pch_ship" value="0" class="modal-input add-pch-ship-modal-error" placeholder="Biaya Pengiriman">
-    
-                                            </div>
-                                            
-										</div>
-										
-										<div class="col-md-12 mt-3">
+												</div>
 
-											<div class="form-group">
-
-												<label for="pch_note">Catatan</label>
-
-												<br/>
-
-												  <span class="text-danger edit-s-address-error"></span>
-
-												  <textarea class="textarea-input" placeholder="Catatan Pembelian" name="pch_note"></textarea>
-										
-											  </div>
+											</div>
 
 										</div>
 										

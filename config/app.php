@@ -177,6 +177,7 @@ return [
         App\Providers\MProduct\RepositoryServiceProvider::class,
         App\Providers\MSale\RepositoryServiceProvider::class,
         App\Providers\MSupplier\RepositoryServiceProvider::class,
+        App\Providers\MUser\RepositoryServiceProvider::class,
         App\Providers\UtilityServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
