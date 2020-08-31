@@ -26,7 +26,8 @@ class CreatePromosTable extends Migration
             $table->date('end_date');
             $table->unsignedBigInteger('b_id');
             $table->unsignedBigInteger('u_id');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
         });
     }
 

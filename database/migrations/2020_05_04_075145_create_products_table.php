@@ -24,7 +24,8 @@ class CreateProductsTable extends Migration
             $table->string('p_image')->nullable();
             $table->string('p_barcode')->nullable();
             $table->integer('p_status');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent();
 
             $table->foreign('cat_id')->references('cat_id')->on('categories')->onDelete('cascade');
             $table->foreign('unit_id')->references('unit_id')->on('units')->onDelete('cascade');

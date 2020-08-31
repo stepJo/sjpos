@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
+class CreateMenuRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,19 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id('u_id');
-            $table->string('u_name');
-            $table->string('u_email')->unique();
-            $table->string('u_contact');
-            $table->string('u_password');
-            $table->unsignedBigInteger('b_id');
+        Schema::create('menu_roles', function (Blueprint $table) {
+            $table->id('mr_id');
+            $table->unsignedBigInteger('menu_id');
             $table->unsignedBigInteger('role_id');
+            $table->integer('view');
+            $table->integer('add');
+            $table->integer('edit');
+            $table->integer('delete');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent();
 
+            $table->foreign('menu_id')->references('menu_id')->on('menus')->onDelete('cascade');
             $table->foreign('role_id')->references('role_id')->on('roles')->onDelete('cascade');
-            $table->foreign('b_id')->references('b_id')->on('branches')->onDelete('cascade');
         });
     }
 
@@ -36,6 +36,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('menus');
     }
 }
