@@ -4,9 +4,27 @@ namespace App\Http\Controllers\MUser;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\MUser\CreateUserRequest;
+use App\Http\Requests\MUser\UpdateUserRequest;
+use App\Http\Requests\MUser\UpdateUserPasswordRequest;
+use App\Repositories\MUser\IRoleRepository;
+use App\Repositories\MUser\IUserRepository;
+use App\Services\MBranchService;
+use App\Models\MUser\User;
 
 class UserController extends Controller
 {
+    private $roleRepository;
+    private $userRepository;
+    private $branchService;
+
+    public function __construct(IRoleRepository $roleRepository, IUserRepository $userRepository, MBranchService $branchService)
+    {
+        $this->roleRepository = $roleRepository;
+        $this->userRepository = $userRepository;
+        $this->branchService = $branchService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,16 +32,11 @@ class UserController extends Controller
      */
     public function index()
     {
-    }
+        $branches = $this->branchService->allBranches();
+        $roles = $this->roleRepository->all();
+        $users = $this->userRepository->all();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return view('muser.u_index', compact('branches', 'roles', 'users'));
     }
 
     /**
@@ -32,31 +45,11 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateUserRequest $request)
     {
-        //
-    }
+        $this->userRepository->store($request);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return response()->json(['message' => 'Berhasil tambah user']);
     }
 
     /**
@@ -66,9 +59,18 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $this->userRepository->update($request, $user);
+
+        return response()->json(['message' => 'Berhasil ubah user']);
+    }
+
+    public function updatePassword(UpdateUserPasswordRequest $request, User $user)
+    {
+        $this->userRepository->updatePassword($request, $user);
+
+        return response()->json(['message' => 'Berhasil ubah password user']);
     }
 
     /**
@@ -77,8 +79,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        //
+        $this->userRepository->destroy($user);
+
+        return redirect()->back()->with('success', 'Berhasil hapus user');
     }
 }

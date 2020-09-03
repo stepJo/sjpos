@@ -17,12 +17,12 @@ class CreateMenuRolesTable extends Migration
             $table->id('mr_id');
             $table->unsignedBigInteger('menu_id');
             $table->unsignedBigInteger('role_id');
-            $table->integer('view');
-            $table->integer('add');
-            $table->integer('edit');
-            $table->integer('delete');
+            $table->integer('view')->nullable();
+            $table->integer('add')->nullable();
+            $table->integer('edit')->nullable();
+            $table->integer('delete')->nullable();
             $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrent();
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
 
             $table->foreign('menu_id')->references('menu_id')->on('menus')->onDelete('cascade');
             $table->foreign('role_id')->references('role_id')->on('roles')->onDelete('cascade');

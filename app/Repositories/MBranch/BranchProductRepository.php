@@ -4,21 +4,13 @@ namespace App\Repositories\MBranch;
 use App\Repositories\MBranch\IBranchProductRepository;
 use App\Models\MBranch\Branch;
 use App\Models\MProduct\Product;
-use DB;
 use DataTables;
-use Excel;
-use PDF;
 use Utilities;
 
 class BranchProductRepository implements IBranchProductRepository
 {
-    public function renderDataTable()
+    public function renderDataTable($branches)
     {
-        $branches = Branch::has('products')
-            ->with('products', 'products.category', 'products.unit')
-            ->orderByDesc('b_name')
-            ->get(['b_id', 'b_name', 'b_status']);
-
         return Datatables::of($branches)
             ->editColumn('b_status', function($branches) 
             {   
@@ -222,19 +214,6 @@ class BranchProductRepository implements IBranchProductRepository
             ->make(true);
     }
 
-    public function all()
-    {
-        return Branch::get(['b_id', 'b_name']);
-    }
-
-    public function find($id)
-    {
-        return Branch::with(['products' => function($query) {
-            return $query->select('p_code', 'p_name', 'p_price');
-        }])
-        ->find($id, ['b_id', 'b_name']);
-    }
-
     public function store($request)
     {
         $branch = Branch::find($request->b_id);
@@ -243,10 +222,7 @@ class BranchProductRepository implements IBranchProductRepository
         {
             foreach($request->products as $product)
             {
-                $branch->products()->attach($request->b_id, [
-                    'b_id' => $request->b_id,
-                    'p_id' => $product['p_id']
-                ]);
+                $branch->products()->attach($product['p_id']);
             }
         }
     }
@@ -270,41 +246,5 @@ class BranchProductRepository implements IBranchProductRepository
         {
             return $branch->products()->detach();
         }
-    }
-
-    public function destroy($id)
-    {
-        return Branch::find($id)->products()->detach();
-    }
-
-    public function searchProduct($request)
-    {
-        $disables = DB::table('disable_products')
-            ->where('b_id', $request->b_id)
-            ->pluck('p_id');
-
-        return Product::where('p_name', 'LIKE', '%'.$request->p_name.'%')
-            ->where('p_code', 'LIKE', '%'.$request->p_code.'%')
-            ->whereNotIn('p_id', $disables)
-            ->get(['p_id', 'p_code', 'p_name', 'p_price']);
-    }
-
-    public function exportCSV()
-    {
-        return Excel::download(new ProductExport, 'Data_Produk_'.date('d_F_Y').'.csv');
-    }
-
-    public function exportExcel()
-    {
-        return Excel::download(new ProductExport, 'Data_Produk_'.date('d_F_Y').'.xlsx');
-    }
-
-    public function exportPDF()
-    {
-        $products = Product::with('category', 'unit')->get();
-        
-        $pdf = PDF::loadView('mproduct.p_pdf', compact('products'));
-
-        return $pdf->stream('Data_Produk_'.date('d_F_Y').'.pdf');
     }
 }

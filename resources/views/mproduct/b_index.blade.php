@@ -14,7 +14,7 @@
   			<div class="content-wrapper">
     
 			<!-- Content Header (Page header) -->
-    		@include('layouts.content_hd', ['title' => 'Cetak Barcode'])
+    		@include('layouts.title', ['title' => 'Cetak Barcode'])
 
 		    <!-- Main content -->
 		    <section class="content">
@@ -38,15 +38,15 @@
 
 			            			<div class="card-body">
 			                    		
-			            				<table id="masterTable" class="table table-hover">          
+			            				<table id="barcodeTable" class="table table-hover">          
 
 			                				<thead>
 			                
 			                					<tr>
 			                  				
-			                						<th>Kode Produk</th>
+			                						<th>Kode</th>
 
-			                  						<th>Nama Produk</th>
+			                  						<th>Nama</th>
 
 			                  						<th>Barcode</th>
 
@@ -57,34 +57,6 @@
 			                				</thead>
 			                
 			                				<tbody>
-
-			                					@foreach($products as $product)
-
-									                <tr>
-
-									                	<td>{{ $product->p_code }}</td>
-
-									                  	<td>{{ $product->p_name }}</td>
-
-									                  	<td>
-
-									                  		<div id="print-side{{ $product->p_id }}">
-
-									                  			{!! DNS1D::getBarcodeSVG($product->p_code, 'I25+') !!}
-
-									                  		</div>
-
-									                  	</td>
-
-									                  	<td>
-
-									                  		<button id="{{ $product->p_id }}" class="button-select-item button-s1 button-purple"><i class="fas fa-print mr-1"></i> Cetak Barcode</button>		
-									              
-									                  	</td>
-
-									                </tr>
-
-									            @endforeach
 
 								            </tbody>
 
@@ -154,8 +126,6 @@
 
 @section('script')
 
-	@include('layouts/scripts/datatable')
-
-	@include('layouts/scripts/mproduct')
+	@include('scripts/mproduct')
 
 @endsection

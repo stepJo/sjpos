@@ -17,7 +17,8 @@ class CreateDisableProductsTable extends Migration
             $table->id('dis_id');
             $table->unsignedBigInteger('b_id');
             $table->unsignedBigInteger('p_id');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
 
             $table->foreign('b_id')->references('b_id')->on('branches')->onDelete('cascade');
             $table->foreign('p_id')->references('p_id')->on('products')->onDelete('cascade');

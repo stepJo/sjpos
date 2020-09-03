@@ -441,3 +441,49 @@ input:checked + .slider:before {
 .modal-dropdown .dropdown-menu li:active {
     background-color: #e2e2e2;
 }
+
+input[type=checkbox] + label {
+  display: block;
+  font-size: 13px;
+}
+
+input[type=checkbox] {
+  display: none;
+  line-height: normal;
+}
+
+input[type=checkbox] + label:before {
+  content: "\2714";
+  border: 0.1em solid #000;
+  border-radius: 0.2em;
+  display: inline-block;
+  width: 1.3em;
+  height: 1.3em;
+  padding-left: 0.1em;
+  padding-bottom: 0.3em;
+  margin-right: 0.5em;
+  vertical-align: middle;
+  color: transparent;
+  transition: .2s;
+}
+
+input[type=checkbox] + label:active:before {
+  transform: scale(0);
+}
+
+input[type=checkbox]:checked + label:before {
+  background-color: MediumSeaGreen;
+  border-color: MediumSeaGreen;
+  color: #fff;
+}
+
+input[type=checkbox]:disabled + label:before {
+  transform: scale(1);
+  border-color: #aaa;
+}
+
+input[type=checkbox]:checked:disabled + label:before {
+  transform: scale(1);
+  background-color: #bfb;
+  border-color: #bfb;
+}

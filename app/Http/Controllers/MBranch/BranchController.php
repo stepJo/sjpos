@@ -89,9 +89,4 @@ class BranchController extends Controller
     {
         return $this->branchRepository->exportPDF();
     }
-
-    public function show()
-    {
-        
-    }
 }

@@ -7,14 +7,21 @@ use Illuminate\Http\Request;
 use App\Http\Requests\MBranch\CreateBranchProductRequest;
 use App\Http\Requests\MBranch\UpdateBranchProductRequest;
 use App\Repositories\MBranch\IBranchProductRepository;
+use App\Services\MBranchService;
+use App\Services\MProductService;
+
 
 class BranchProductController extends Controller
 {
     private $branchProductRepository;
+    private $branchService;
+    private $productService;
 
-    public function __construct(IBranchProductRepository $branchProductRepository)
+    public function __construct(IBranchProductRepository $branchProductRepository, MBranchService $branchService, MProductService $productService)
     {
         $this->branchProductRepository = $branchProductRepository;
+        $this->branchService = $branchService;
+        $this->productService = $productService;
     }
 
     /**
@@ -26,7 +33,9 @@ class BranchProductController extends Controller
     {
         if($request->ajax())
 	    {   
-            return $this->branchProductRepository->renderDataTable();
+            $branches = $this->branchService->branchesProducts();
+
+            return $this->branchProductRepository->renderDataTable($branches);
 	    }
 
         return view('mbranch.b_p_index');
@@ -39,7 +48,7 @@ class BranchProductController extends Controller
      */
     public function create()
     {
-        $branches = $this->branchProductRepository->all();
+        $branches = $this->branchService->allBranches();
 
         return view('mbranch/b_p_a', compact('branches'));
     }
@@ -58,25 +67,14 @@ class BranchProductController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request, $id)
+    public function edit($id)
     {
-        $branch = $this->branchProductRepository->find($id);
+        $branch = $this->branchService->findBranchProducts($id);
 
         return view('mbranch.b_p_e', compact('branch'));
     }
@@ -103,20 +101,20 @@ class BranchProductController extends Controller
      */
     public function destroy($id)
     {
-        $this->branchProductRepository->destroy($id);
+        $this->branchService->destroyBranchProducts($id);
 
         return redirect()->back()->with('success', 'Produk cabang kembali aktif');
     }
 
     public function getProduct($id)
     {
-        $branch = $this->branchProductRepository->find($id);
+        $branch = $this->branchService->findBranchProducts($id);
 
         return response()->json(['branch' => $branch]);
     }
 
     public function searchProduct(Request $request)
     {
-        return $this->branchProductRepository->searchProduct($request);
+        return $this->productService->searchProducts($request);
     }
 }

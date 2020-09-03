@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
-class UtilityServiceProvider extends ServiceProvider
+class HelperServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -13,6 +13,7 @@ class UtilityServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        require_once app_path() . '/Helpers/Role.php';
         require_once app_path() . '/Helpers/Utility.php';
     }
 

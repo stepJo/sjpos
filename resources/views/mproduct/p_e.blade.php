@@ -14,7 +14,7 @@
   			<div class="content-wrapper">
 
 			<!-- Content Header (Page header) -->
-    		@include('layouts.content_hd', ['title' => 'Edit Produk'])
+    		@include('layouts.title', ['title' => 'Edit Produk'])
 
 		    <!-- Main content -->
 		    <section class="content">

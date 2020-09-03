@@ -14,7 +14,7 @@
   			<div class="content-wrapper">
 
 			<!-- Content Header (Page header) -->
-    		@include('layouts.content_hd', ['title' => 'Tambah Pembelian Barang'])
+    		@include('layouts.title', ['title' => 'Tambah Pembelian Barang'])
 
 		    <!-- Main content -->
 		    <section class="content">
@@ -305,6 +305,6 @@
 
 @section('script')
 
-	@include('layouts/scripts/msupplier')
+	@include('scripts/msupplier')
 
 @endsection

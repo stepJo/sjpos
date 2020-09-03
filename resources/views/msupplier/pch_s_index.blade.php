@@ -14,7 +14,7 @@
   			<div class="content-wrapper">
     
 			<!-- Content Header (Page header) -->
-    		@include('layouts.content_hd', ['title' =>  'Data Pembelian Barang'])
+    		@include('layouts.title', ['title' =>  'Data Pembelian Barang'])
 		    <!-- Main content -->
 		    <section class="content">
       
@@ -185,8 +185,6 @@
 
 @section('script')
 
-	@include('layouts/scripts/datatable')
-
-	@include('layouts/scripts/msupplier')
+	@include('scripts/msupplier')
 
 @endsection

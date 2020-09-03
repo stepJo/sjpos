@@ -13,20 +13,14 @@ class RolesTableSeeder extends Seeder
     {   
         DB::table('roles')->insert([
             'role_name' => 'Admin',
-            'created_at' => now()->toDateTimeString(),
-            'updated_at' => now()->toDateTimeString()
         ]);
 
         DB::table('roles')->insert([
             'role_name' => 'Cashier',
-            'created_at' => now()->toDateTimeString(),
-            'updated_at' => now()->toDateTimeString()
         ]);
 
         DB::table('roles')->insert([
             'role_name' => 'Writer',
-            'created_at' => now()->toDateTimeString(),
-            'updated_at' => now()->toDateTimeString()
         ]);
     }
 }

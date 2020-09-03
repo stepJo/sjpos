@@ -8,8 +8,8 @@ use App\Http\Requests\MProduct\CreateProductRequest;
 use App\Http\Requests\MProduct\UpdateProductRequest;
 use App\Repositories\MProduct\IProductRepository;
 use App\Models\MProduct\Category;
-use App\Models\MProduct\Product;
 use App\Models\MProduct\Unit;
+use App\Models\MProduct\Product;
 
 class ProductController extends Controller
 {
@@ -29,7 +29,7 @@ class ProductController extends Controller
     {   
         if($request->ajax())
         {
-            return $this->productRepository->renderDataTable($request);
+            return $this->productRepository->renderDataTable();
         }
         
         return view('mproduct.p_index');

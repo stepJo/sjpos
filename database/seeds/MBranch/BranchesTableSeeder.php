@@ -18,8 +18,6 @@ class BranchesTableSeeder extends Seeder
             'b_contact' => '+62 0867 9045',
             'b_address' => 'Jakarta',
             'b_status' => 1,
-            'created_at' => now()->toDateTimeString(),
-            'updated_at' => now()->toDateTimeString()
         ]);	
 
         DB::table('branches')->insert([
@@ -29,8 +27,6 @@ class BranchesTableSeeder extends Seeder
             'b_contact' => '+62 5907 9245',
             'b_address' => 'Jakarta',
             'b_status' => 1,
-            'created_at' => now()->toDateTimeString(),
-            'updated_at' => now()->toDateTimeString()
         ]);	
 
         DB::table('branches')->insert([
@@ -40,8 +36,6 @@ class BranchesTableSeeder extends Seeder
             'b_contact' => '+62 9201 3096',
             'b_address' => 'Jogja',
             'b_status' => 1,
-            'created_at' => now()->toDateTimeString(),
-            'updated_at' => now()->toDateTimeString()
         ]);	
     }
 }

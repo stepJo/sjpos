@@ -19,7 +19,8 @@ class CreateDetailTransactionsTable extends Migration
             $table->unsignedBigInteger('p_id');
             $table->integer('qty'); 
             $table->integer('sub_total');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
 
             $table->foreign('t_id')->references('t_id')->on('transactions')->onDelete('cascade');
             $table->foreign('p_id')->references('p_id')->on('products')->onDelete('cascade');

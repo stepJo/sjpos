@@ -6,6 +6,7 @@ use App\Exports\MSale\TransactionExport;
 use App\Models\MSale\Transaction;
 use DataTables;
 use Excel;
+use Keygen;
 use PDF;
 use Utilities;
 
@@ -213,6 +214,17 @@ class TransactionRepository implements ITransactionRepository
             ->with('sum_t_total', $transactions->sum('t_total'))
             ->rawColumns(['t_date', 'actions'])
             ->make(true);
+    }
+
+    public function store($request)
+    {
+        return Transaction::create([
+            't_code'  => Keygen::alphanum(6)->generate().date('hmsdmY'),
+            't_type'  => $request->t_type,
+            't_total' => $request->t_total,
+            't_tax'   => $request->t_tax,
+            't_disc'  => $request->t_disc
+        ]);
     }
 
     public function destroy($transaction)

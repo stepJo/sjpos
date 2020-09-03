@@ -10,6 +10,4 @@ interface IDiscountProductRepository {
     public function update($request, $product);
 
     public function destroy($product);
-
-    public function searchProduct($request);
 }

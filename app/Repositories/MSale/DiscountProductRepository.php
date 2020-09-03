@@ -26,13 +26,4 @@ class DiscountProductRepository implements IDiscountProductRepository
     {
         return $product->delete();
     }
-
-    public function searchProduct($request)
-    {
-        return Product::with('discount')
-            ->where('p_name', 'LIKE', '%'.$request->p_name.'%')
-            ->where('p_code', 'LIKE', '%'.$request->p_code.'%')
-            ->doesntHave('discount')
-            ->get();
-    }
 }

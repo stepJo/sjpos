@@ -22,7 +22,8 @@ class CreateSuppliersTable extends Migration
             $table->string('s_bank')->nullable();
             $table->string('s_bank_num')->nullable();
             $table->text('s_address')->nullable();
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
         });
     }
 

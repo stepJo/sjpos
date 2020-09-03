@@ -7,15 +7,18 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MProduct\CreateUnitRequest;
 use App\Http\Requests\MProduct\UpdateUnitRequest;
 use App\Repositories\MProduct\IUnitRepository;
+use App\Services\MProductService;
 use App\Models\MProduct\Unit;
 
 class UnitController extends Controller
 {
     private $unitRepository;
+    private $unitService;
 
-    public function __construct(IUnitRepository $unitRepository)
+    public function __construct(IUnitRepository $unitRepository, MProductService $unitService)
     {
         $this->unitRepository = $unitRepository;
+        $this->unitService = $unitService;
     }
 
     /**
@@ -25,7 +28,7 @@ class UnitController extends Controller
      */
     public function index()
     {
-        $units = $this->unitRepository->all();  
+        $units = $this->unitService->unitsProducts();  
 
         return view('mproduct.u_index', compact('units'));
     }

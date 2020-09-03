@@ -14,7 +14,7 @@
   			<div class="content-wrapper">
 
 			<!-- Content Header (Page header) -->
-    		@include('layouts.content_hd', ['title' => 'Tamba Produk'])
+    		@include('layouts.title', ['title' => 'Tamba Produk'])
 
 		    <!-- Main content -->
 		    <section class="content">

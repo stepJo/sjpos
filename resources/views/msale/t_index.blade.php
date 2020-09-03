@@ -14,7 +14,7 @@
   			<div class="content-wrapper">
     
 			<!-- Content Header (Page header) -->
-    		@include('layouts.content_hd', ['title' => 'Riwayat Transaksi'])
+    		@include('layouts.title', ['title' => 'Riwayat Transaksi'])
 		    <!-- Main content -->
 		    <section class="content">
       
@@ -147,8 +147,6 @@
 
 @section('script')
 
-	@include('layouts/scripts/datatable')
-
-	@include('layouts/scripts/msale')
+	@include('scripts/msale')
 
 @endsection

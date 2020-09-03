@@ -13,20 +13,14 @@ class CategoriesTableSeeder extends Seeder
     {   
     	DB::table('categories')->insert([
         	'cat_name' => 'Makanan',
-            'created_at' => now()->toDateTimeString(),
-            'updated_at' => now()->toDateTimeString()
         ]);
 
         DB::table('categories')->insert([
             'cat_name' => 'Sayuran',
-            'created_at' => now()->toDateTimeString(),
-            'updated_at' => now()->toDateTimeString()
         ]);
 
         DB::table('categories')->insert([
             'cat_name' => 'Goreng',
-            'created_at' => now()->toDateTimeString(),
-            'updated_at' => now()->toDateTimeString()
         ]);
     }
 }

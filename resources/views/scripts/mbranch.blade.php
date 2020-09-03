@@ -1,27 +1,7 @@
 <script>
 
-    function validateData(data, error, modal) {
-        if(data != null) {
-            $(error).html(data[0]);
-
-            $(modal).addClass('is-invalid');
-        }
-        else {
-            $(error).html('');
-
-            $(modal).removeClass('is-invalid');
-        }
-    }
-
-    function successResponse(data) {
-        toastr.success(`${data.message}`);
-
-        $('.modal').modal('hide');
-
-        setTimeout(function() {
-            location.reload();
-        }, 2000);
-    }
+    //MBRANCH - GLOBAL
+    let preloader = '{{ asset('public/adminlte/assets/images') }}/data-preloader.gif';
 
     //MBRANCH - BRANCH
     $('#add-branch-form').on('submit', function(e) {
@@ -70,7 +50,70 @@
         });
     });
 
-    //MBRANCH - PRODUCT BRANCH
+    $('#branchTable').DataTable({
+        autoWidth: false,
+        ordering: true,
+        order: [[ 0, 'asc' ]],
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        ajax: 
+        {
+            url: "{{ route('branch.index') }}",
+        },
+        language: 
+        {
+            info: "<span class='font-weight-bold'>Menampilkan _START_ - _END_ dari _TOTAL_ cabang</span>",
+            infoEmpty: "<span class='font-weight-bold'>Tidak ada data</span>",
+            infoFiltered: "<span class='font-weight-bold'>(Filter dari _MAX_ cabang)</span>",
+            paginate: 
+            {
+                previous: "<i class='fas fa-chevron-left'></i>",
+                next: "<i class='fas fa-chevron-right'></i>"
+            },
+            processing: `<img src="${preloader}">`,
+            search: "<span class='font-weight-bold'>Cari cabang : </span>",
+            searchPlaceholder: "...",
+            zeroRecords: "<span class='font-weight-bold'>Cabang tidak ditemukan</span>",
+        },
+        oLanguage: 
+        {
+            sLengthMenu: "<span class='font-weight-bold'>Menampilkan _MENU_ cabang</span>",
+        },
+        createdRow: function (row, data, dataIndex) {
+            $(row).attr('data-id', data.b_id);
+            $(row).find('td:last-child').addClass('actions');
+        },
+        columns: 
+        [
+            {
+                data: 'b_name',
+                name: 'b_name'
+            },
+            {
+                data: 'b_email',
+                name: 'b_email'
+            },
+            {
+                data: 'b_contact',
+                name: 'b_contact'
+            },
+            {
+                data: 'b_address',
+                name: 'b_address'
+            },
+            {
+                data: 'b_status',
+                name: 'b_status'
+            },
+            {
+                data: 'actions',
+                name: 'actions'
+            },
+        ]
+    });
+
+    //MBRANCH - BRANCH PRODUCT
     let branchProductList = $('#branchProductList tbody');
 
     let product_list = [];
@@ -235,7 +278,7 @@
             type: 'POST',
             url: '{{ url('branch/product/store') }}',
             data: {
-                _token: "{{ csrf_token() }}", 
+                _token: "{{ csrf_token() }}",
                 b_id: $('#b_id').val(),
                 products: product_list
             },
@@ -261,7 +304,7 @@
             type: 'PATCH',
             url: url.replace(':id', id),
             data: {
-                _token: "{{ csrf_token() }}", 
+                _token: "{{ csrf_token() }}",
                 b_id: id,
                 products: product_list
             },
@@ -277,5 +320,60 @@
     });
 
     searchProduct();
+
+    $('#branchProductTable').DataTable({
+        autoWidth: false,
+        ordering: true,
+        order: [[ 0, 'asc' ]],
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        ajax: 
+        {
+            url: "{{ route('branch-product.index') }}",
+        },
+        language: 
+        {
+            info: "<span class='font-weight-bold'>Menampilkan _START_ - _END_ dari _TOTAL_ cabang</span>",
+            infoEmpty: "<span class='font-weight-bold'>Tidak ada data</span>",
+            infoFiltered: "<span class='font-weight-bold'>(Filter dari _MAX_ cabang)</span>",
+            paginate: 
+            {
+                previous: "<i class='fas fa-chevron-left'></i>",
+                next: "<i class='fas fa-chevron-right'></i>"
+            },
+            processing: `<img src="${preloader}">`,
+            search: "<span class='font-weight-bold'>Cari cabang : </span>",
+            searchPlaceholder: "...",
+            zeroRecords: "<span class='font-weight-bold'>Cabang tidak ditemukan</span>",
+        },
+        oLanguage: 
+        {
+            sLengthMenu: "<span class='font-weight-bold'>Menampilkan _MENU_ cabang</span>",
+        },
+        createdRow: function (row, data, dataIndex) {
+            $(row).attr('data-id', data.b_id);
+            $(row).find('td:last-child').addClass('actions');
+        },
+        columns: 
+        [
+            {
+                data: 'b_name',
+                name: 'b_name'
+            },
+            {
+                data: 'b_status',
+                name: 'b_status'
+            },
+            {
+                data: 'details',
+                name: 'details'
+            },
+            {
+                data: 'actions',
+                name: 'actions'
+            },
+        ]
+    });
 
 </script>

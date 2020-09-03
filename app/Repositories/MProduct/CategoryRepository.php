@@ -6,11 +6,6 @@ use App\Models\MProduct\Category;
 
 class CategoryRepository implements ICategoryRepository
 {
-    public function all()
-    {
-        return Category::with('products')->get(['cat_id', 'cat_name']);
-    }
-
     public function store($request)
     {
         return Category::create($request->validated());
@@ -24,5 +19,10 @@ class CategoryRepository implements ICategoryRepository
     public function destroy($category)
     {
         $category->delete();
+    }
+
+    public function search($request)
+    {
+        return Category::with('products', 'discounts')->find($request->cat_id);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\MUser;
+namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -26,6 +26,8 @@ class UserLoginRequest extends FormRequest
         return [
             'u_email'    => 'required',
             'u_password' => 'required',
+            'b_id'       => 'required',
+            'role_id'    => 'required',
         ];
     }
 
@@ -39,6 +41,8 @@ class UserLoginRequest extends FormRequest
         return [
             'u_email.required'    => 'Email dibutuhkan !',
             'u_password.required' => 'Password dibutuhkan !', 
+            'b_id.required'       => 'Cabang dibutuhkan !',
+            'role_id.required'    => 'Role dibutuhkan !',
         ];
     }
 

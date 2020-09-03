@@ -3,7 +3,6 @@
 namespace App\Repositories\MSupplier;
 use App\Repositories\MSupplier\IPurchasementSupplierRepository;
 use App\Exports\MSupplier\PurchasementSupplierExport;
-use App\Models\MSupplier\Supplier;
 use App\Models\MSupplier\ProductSupplier;
 use App\Models\MSupplier\PurchasementSupplier;
 use App\Models\MSupplier\DetailPurchasementSupplier;
@@ -226,16 +225,6 @@ class PurchasementSupplierRepository implements IPurchasementSupplierRepository
             ->make(true);
     }
 
-    public function allSupplier()
-    {
-        return Supplier::select('s_id', 's_name')->get();
-    }
-
-    public function allSupplierWithProducts()
-    {
-        return Supplier::with('products')->get(['s_id', 's_name']);
-    }
-
     public function store($request)
     {
         $purchasement = PurchasementSupplier::create([
@@ -262,15 +251,6 @@ class PurchasementSupplierRepository implements IPurchasementSupplierRepository
     public function destroy($purchasement)
     {
         return $purchasement->delete();
-    }
-
-    public function searchProduct($request)
-    {
-        return ProductSupplier::with('supplier')
-            ->where('ps_name', 'LIKE', '%'.$request->ps_name.'%')
-            ->where('ps_code', 'LIKE', '%'.$request->ps_code.'%')
-            ->where('s_id', $request->s_id)
-            ->get(['ps_id', 'ps_code', 'ps_name', 'ps_price', 's_id']);
     }
 
     public function exportCSV()

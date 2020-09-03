@@ -88,6 +88,77 @@
         });
     });
 
+    //DATATABLE
+    $(document).ready(function() {
+        let preloader = '{{ asset('public/adminlte/assets/images') }}/data-preloader.gif';
+
+        function filterType(column) {
+            $.fn.dataTableExt.afnFiltering.push(
+                function( oSettings, aData, iDataIndex) {
+                    let filter = aData[column].trim();
+                    
+                    let type = $('#dis_type').val();
+
+                    if(type == '*') {
+                        return true;
+                    }
+                    else if(filter == type) {
+                        return true;
+                    }
+
+                    return false;
+                }
+            );
+        }
+    });
+
+    $('#masterTable').DataTable({
+        autoWidth: false,
+        lengthChange: true,
+        ordering: true,
+        paging: true,
+        searching: true,
+        responsive: true,
+        language: 
+        {
+            info: `<span class='font-weight-bold'>Menampilkan _START_ - _END_ dari _TOTAL_ data</span>`,
+            infoEmpty: "<span class='font-weight-bold'>Tidak ada data</span>",
+            infoFiltered: "<span class='font-weight-bold'>(Filter dari _MAX_ data)</span>",
+            paginate: 
+            {
+                previous: "<i class='fas fa-chevron-left'></i>",
+                next: "<i class='fas fa-chevron-right'></i>"
+            },
+            search: `<span class='font-weight-bold'>Cari data : </span>`,
+            searchPlaceholder: "...",
+            zeroRecords: `<span class='font-weight-bold'>Data tidak ditemukan</span>`,
+        },
+        oLanguage: 
+        {
+            sLengthMenu: `<span class='font-weight-bold'>Menampilkan _MENU_ Data</span>`,
+        }
+    });
+
+    $("#branchTable, #masterTable, #productTable, #purchasementSupplierTable, #transactionTable").on('mouseover', 'td', function() {
+        $(this).on('click', function() {
+            let id = $(this).closest('tr').data('id');
+
+            if(!$(this).hasClass('actions') && !$(this).hasClass('toggle')) {
+                $(`#detModal${id}`).modal('show'); 
+            }
+        });
+    });
+
+    $('#type-filter li').on('click', function(e) {
+        e.preventDefault();
+
+        filterType(1);
+
+        setTimeout(function() {
+            masterTable.draw(false); 
+        }, 300);
+    });
+
     //FULLSCREEN
     function toggleFullScreen(elem) {
         if((document.fullScreenElement !== undefined && document.fullScreenElement === null) || (document.msFullscreenElement !== undefined && document.msFullscreenElement === null) || (document.mozFullScreen !== undefined && !document.mozFullScreen) || (document.webkitIsFullScreen !== undefined && !document.webkitIsFullScreen)) {
@@ -196,11 +267,9 @@
 
             $('input').removeClass('is-invalid');
 
-            $('.select, .custom-select').removeClass('is-invalid'); 
+            $(this).find('.text-danger').html('');
 
-            if(!$('.text-danger').hasClass('dropdown-item')) {
-                $('.text-danger').html('');
-            }
+            $('.select, .select2bs4, .custom-select').removeClass('is-invalid'); 
             
             $('#percent-disc-amount, #fix-disc-amount').removeClass('active');
 
@@ -209,9 +278,21 @@
 
         $('#addModal').on('hidden.bs.modal', function() {
             $(this).find('input').val('');
+            
         });
 
     @endif
+
+    //RESPONSE
+    function successResponse(data) {
+        toastr.success(`${data.message}`);
+
+        $('.modal').modal('hide');
+
+        setTimeout(function() {
+            location.reload();
+        }, 300);
+    }
 
     //SELECT2
     $(function() {
@@ -304,5 +385,19 @@
         btnOuter.removeClass("file_uploading");
         btnOuter.removeClass("file_uploaded");
     });
+
+    //VALIDATION
+    function validateData(data, error, modal) {
+        if(data != null) {
+            $(error).html(data[0]);
+
+            $(modal).addClass('is-invalid');
+        }
+        else {
+            $(error).html('');
+
+            $(modal).removeClass('is-invalid');
+        }
+    }
 
 </script>

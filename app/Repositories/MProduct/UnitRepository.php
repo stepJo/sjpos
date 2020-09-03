@@ -6,11 +6,6 @@ use App\Models\MProduct\Unit;
 
 class UnitRepository implements IUnitRepository
 {
-    public function all()
-    {
-        return Unit::with('products')->get(['unit_id', 'unit_name']);
-    }
-
     public function store($request)
     {
         return Unit::create($request->validated());
@@ -24,5 +19,10 @@ class UnitRepository implements IUnitRepository
     public function destroy($unit)
     {
         $unit->delete();
+    }
+
+    public function search($request)
+    {
+        return Unit::with('products', 'discounts')->find($request->unit_id);
     }
 }

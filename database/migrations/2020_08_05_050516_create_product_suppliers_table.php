@@ -20,7 +20,8 @@ class CreateProductSuppliersTable extends Migration
             $table->integer('ps_price');
             $table->text('ps_desc')->nullable();
             $table->unsignedBigInteger('s_id');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
 
             $table->foreign('s_id')->references('s_id')->on('suppliers')->onDelete('cascade');
         });

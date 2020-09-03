@@ -30,8 +30,6 @@ class ProductsTableSeeder extends Seeder
                 'unit_id'    => $units->random(),
                 'p_price'    => $faker->numberBetween(5000, 100000),
                 'p_status'   => 1,  
-                'created_at' => now()->toDateTimeString(),
-                'updated_at' => now()->toDateTimeString()
             ];
         }
 

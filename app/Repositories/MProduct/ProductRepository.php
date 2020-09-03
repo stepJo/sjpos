@@ -241,7 +241,7 @@ class ProductRepository implements IProductRepository
 
     public function update($request, $id)
     {
-        $product = Product::findorFail($id);
+        $product = Product::find($id);
 
         $product->update($request->validated());
 

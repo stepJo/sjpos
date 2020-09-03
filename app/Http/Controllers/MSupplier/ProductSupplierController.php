@@ -7,15 +7,18 @@ use Illuminate\Http\Request;
 use App\Http\Requests\MSupplier\CreateProductSupplierRequest;
 use App\Http\Requests\MSupplier\UpdateProductSupplierRequest;
 use App\Repositories\MSupplier\IProductSupplierRepository;
+use App\Services\MSupplierService;
 use App\Models\MSupplier\ProductSupplier;
 
 class ProductSupplierController extends Controller
 {
     private $productSupplierRepository;
+    private $supplierService;
 
-    public function __construct(IProductSupplierRepository $productSupplierRepository)
+    public function __construct(IProductSupplierRepository $productSupplierRepository, MSupplierService $supplierService)
     {
         $this->productSupplierRepository = $productSupplierRepository;
+        $this->supplierService =$supplierService;
     }
     /**
      * Display a listing of the resource.
@@ -24,7 +27,7 @@ class ProductSupplierController extends Controller
      */
     public function index(Request $request)
     {
-        $suppliers = $this->productSupplierRepository->allSupplier();
+        $suppliers = $this->supplierService->allSuppliers();
 
         if($request->ajax())
         {

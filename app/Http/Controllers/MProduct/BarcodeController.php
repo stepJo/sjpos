@@ -5,15 +5,17 @@ namespace App\Http\Controllers\MProduct;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\MProduct\IBarcodeRepository;
-use App\Models\MProduct\Product;
+use App\Services\MProductService;
 
 class BarcodeController extends Controller
 {
     private $barcodeRepository;
+    private $productService;
 
-    public function __construct(IBarcodeRepository $barcodeRepository)
+    public function __construct(IBarcodeRepository $barcodeRepository, MProductService $productService)
     {
         $this->barcodeRepository = $barcodeRepository;
+        $this->productService = $productService;
     }
 
     /**
@@ -21,16 +23,21 @@ class BarcodeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $products = $this->barcodeRepository->all();
+    public function index(Request $request)
+    {   
+        $products = $this->productService->allProducts();
+
+        if($request->ajax())
+        {
+            return $this->barcodeRepository->renderDataTable($products);
+        }
 
         return view('mproduct.b_index', compact('products'));
     }
     
-    public function get($id)
+    public function getProduct($id)
     {   
-        $product = $this->barcodeRepository->get($id);
+        $product = $this->productService->findProduct($id);
 
         return response()->json($product);
     }

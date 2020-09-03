@@ -25,8 +25,6 @@ class UsersTableSeeder extends Seeder
             'u_password' => Hash::make('12345678'),
             'b_id'       => $branch->b_id,
             'role_id'    => $role->role_id,
-            'created_at' => now()->toDateTimeString(),
-            'updated_at' => now()->toDateTimeString()
         ]);
 
         DB::table('users')->insert([
@@ -36,8 +34,6 @@ class UsersTableSeeder extends Seeder
             'u_password' => Hash::make('12345678'),
             'b_id'       => $branch->b_id,
             'role_id'    => $role->role_id,
-            'created_at' => now()->toDateTimeString(),
-            'updated_at' => now()->toDateTimeString()
         ]);
     }
 }

@@ -3,77 +3,78 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Repositories\MProduct\ICategoryRepository;
+use App\Repositories\MProduct\IUnitRepository;
+use App\Repositories\MSale\ITransactionRepository;
+use App\Repositories\MSale\IDetailTransactionRepository;
+use App\Services\MProductService;
 use App\Models\MProduct\Category;
-use App\Models\MProduct\Product;
 use App\Models\MProduct\Unit;
 use App\Models\MSale\Transaction;
 use App\Models\MSale\DetailTransaction;
-use Keygen;
 
 class POSController extends Controller
-{
+{   
+    private $categoryRepository;
+    private $unitRepository;
+    private $transactionRepository;
+    private $detailTransactionRepository;
+    private $productService;
+
+    public function __construct(ICategoryRepository $categoryRepository, IUnitRepository $unitRepository, ITransactionRepository $transactionRepository, IDetailTransactionRepository $detailTransactionRepository, MProductService $productService)
+    {
+        $this->categoryRepository = $categoryRepository;
+        $this->unitRepository = $unitRepository;
+        $this->transactionRepository = $transactionRepository;
+        $this->detailTransactionRepository = $detailTransactionRepository;
+        $this->productService = $productService;
+    }
+
     public function index()
     {
-        $categories = Category::with('products')->get(['cat_id', 'cat_name']);
-        $units = Unit::with('products')->get(['unit_id', 'unit_name']);
+        $categories = $this->productService->categoriesProducts();
+        $units = $this->productService->unitsProducts();
 
-        $products = Product::with('category', 'category.products', 'unit', 'unit.products', 'discount', 'discount.product')
-            ->select('p_id', 'cat_id', 'unit_id', 'p_code', 'p_name', 'p_price', 'p_image', 'p_status')
-            ->get();
+        $products = $this->productService->discountsProducts();
 
-    	$not_actives = Product::where('p_status', 0)->count();
+    	$not_actives = $this->productService->countNotActiveProducts();
         
     	return view('pos', compact('categories', 'units', 'products', 'not_actives'));
     }
 
     public function allProduct()
     {
-        $products = Product::with('discount')->get();
+        $products = $this->productService->discountsProducts();
 
         return response()->json($products);
     }
 
     public function searchProduct(Request $request)
     {
-    	$products = Product::with('discount')->where('p_name', 'LIKE', '%'.$request->p_name.'%')->where('p_code', 'LIKE', '%'.$request->p_code.'%')->get(['p_id', 'p_code', 'p_name', 'p_price', 'p_status']);
+        $products = $this->productService->searchProductsWithDiscounts($request);
 
     	return response()->json($products);
     }
 
     public function searchCategory(Request $request)
     {   
-        $data = Category::with('products', 'discounts')->findOrFail($request->cat_id);
+        $category = $this->categoryRepository->search($request);
 
-        return response()->json($data);
+        return response()->json($category);
     }
 
     public function searchUnit(Request $request)
     {
- 
-        $data = Unit::with('products', 'discounts')->findOrFail($request->unit_id);
+        $unit = $this->unitRepository->search($request);
 
-        return response()->json($data);
+        return response()->json($unit);
     }
 
     public function storeTransaction(Request $request)
     {   
-        $transaction = Transaction::create([
-            't_code'  => Keygen::alphanum(6)->generate().date('hmsdmY'),
-            't_type'  => $request->t_type,
-            't_total' => $request->t_total,
-            't_tax'   => $request->t_tax,
-            't_disc'  => $request->t_disc
-        ]);
+        $transaction = $this->transactionRepository->store($request);
 
-        foreach($request->products as $p)
-        {
-            $detail = DetailTransaction::create([
-                't_id'      => $transaction->t_id,
-                'p_id'      => $p['p_id'],
-                'qty'       => $p['p_qty'],
-                'sub_total' => (int) $p['p_qty'] * $p['p_price']
-            ]);
-        }
+        $this->detailTransactionRepository->store($request, $transaction);
 
         return 'Transaksi berhasil';  
     }

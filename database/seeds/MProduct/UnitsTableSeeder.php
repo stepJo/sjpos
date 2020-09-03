@@ -13,20 +13,14 @@ class UnitsTableSeeder extends Seeder
     {   
     	DB::table('units')->insert([
         	'unit_name' => 'KG',
-            'created_at' => now()->toDateTimeString(),
-            'updated_at' => now()->toDateTimeString()
         ]);	
 
         DB::table('units')->insert([
         	'unit_name' => 'pcs',
-            'created_at' => now()->toDateTimeString(),
-            'updated_at' => now()->toDateTimeString()
         ]);	
 
         DB::table('units')->insert([
         	'unit_name' => 'item',
-            'created_at' => now()->toDateTimeString(),
-            'updated_at' => now()->toDateTimeString()
         ]);	
     }
 }

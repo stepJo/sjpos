@@ -8,17 +8,38 @@ class RoleRepository implements IRoleRepository
 {
     public function all()
     {
-        return Role::all();
+        return Role::with('users:role_id')
+            ->get(['role_id', 'role_name']);
     }
 
     public function store($request)
     {
-        return Role::create($request->validated());
+        $role = Role::create($request->validated());
+
+        for($i = 0; $i < count($request->menus); $i++)
+        {
+            $role->menus()->attach($request->menus[$i], [
+                'view'    => $request->views[$i],
+                'add'     => $request->adds[$i],
+                'edit'    => $request->edits[$i],
+                'delete'  => $request->deletes[$i] 
+            ]);
+        }
     }
 
     public function update($request, $role)
     {
-        return $role->update($request->validated());
+        $role->update($request->validated());
+
+        for($i = 0; $i < count($request->menus); $i++)
+        {
+            $role->menus()->updateExistingPivot($request->menus[$i], [
+                'view'    => $request->views[$i],
+                'add'     => $request->adds[$i],
+                'edit'    => $request->edits[$i],
+                'delete'  => $request->deletes[$i] 
+            ]);
+        }
     }
 
     public function destroy($role)

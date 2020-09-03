@@ -14,7 +14,7 @@
   			<div class="content-wrapper">
 
 			<!-- Content Header (Page header) -->
-    		@include('layouts.content_hd', ['title' => 'Tambah Produk Diaktivasi'])
+    		@include('layouts.title', ['title' => 'Tambah Produk Diaktivasi'])
 
 		    <!-- Main content -->
 		    <section class="content">
@@ -38,7 +38,7 @@
 
 
 								<form id="add-branch-product-form">
-								
+
 									<div class="row">
 
 										<div class="col-md-6">
@@ -57,7 +57,7 @@
 
 													@foreach($branches as $branch)
 
-													<option value="{{ $branch->b_id }}">{{ $branch->b_name }}</option>
+														<option value="{{ $branch->b_id }}">{{ $branch->b_name }}</option>
 
 													@endforeach
 
@@ -157,6 +157,6 @@
 
 @section('script')
 
-	@include('layouts/scripts/mbranch')
+	@include('scripts/mbranch')
 
 @endsection

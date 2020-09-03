@@ -68,7 +68,7 @@
         <link rel="stylesheet" href="{{ asset('public/adminlte/plugins/toastr/toastr.min.css') }}">
 
         <!-- Custom Style-->
-        <link rel="stylesheet" href="{{ asset('public/adminlte/assets/css/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('public/adminlte/assets/css/common.css') }}">
 
         <link rel="stylesheet" href="{{ asset('public/adminlte/assets/css/button.css') }}">
         
@@ -175,8 +175,8 @@
         <!-- TypeAhead -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
     
-        <!-- Custom Script -->
-        @include('layouts/scripts/script')
+        <!-- Common Script -->
+        @include('scripts/common')
 
         @yield('script')
 

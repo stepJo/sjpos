@@ -19,7 +19,8 @@ class CreateDetailPurchasementSuppliersTable extends Migration
             $table->unsignedBigInteger('ps_id');
             $table->integer('qty');
             $table->integer('sub_total');
-            $table->timestamps();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
 
             $table->foreign('pch_id')->references('pch_id')->on('purchasement_suppliers')->onDelete('cascade');
             $table->foreign('ps_id')->references('ps_id')->on('product_suppliers')->onDelete('cascade');

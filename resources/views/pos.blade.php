@@ -150,7 +150,7 @@
 
 									<p>
 
-										<i class="fas fa-user fa-sm"></i> Pengguna : <span class="text-indigo">{{ Session::get('u_name') }}</span>
+										<i class="fas fa-user fa-sm"></i> User : <span class="text-indigo">{{ Session::get('u_name') }}</span>
 									</p>
 
 								</div>
@@ -682,6 +682,6 @@
 
 @section('script')
 
-@include('layouts/scripts/pos')
+	@include('scripts/pos')
 
 @endsection

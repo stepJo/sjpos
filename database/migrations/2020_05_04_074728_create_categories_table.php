@@ -17,7 +17,7 @@ class CreateCategoriesTable extends Migration
             $table->id('cat_id');
             $table->string('cat_name')->unique();
             $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrent();
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
         });
     }
 

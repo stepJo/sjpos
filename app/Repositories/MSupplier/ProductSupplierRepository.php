@@ -3,7 +3,6 @@
 namespace App\Repositories\MSupplier;
 use App\Repositories\MSupplier\IProductSupplierRepository;
 use App\Exports\MSupplier\ProductSupplierExport;
-use App\Models\MSupplier\Supplier;
 use App\Models\MSupplier\ProductSupplier;
 use DataTables;
 use Excel;
@@ -279,12 +278,7 @@ class ProductSupplierRepository implements IProductSupplierRepository
                 ->rawColumns(['actions'])
                 ->make(true);
     }
-
-    public function allSupplier()
-    {
-        return Supplier::select('s_id', 's_name')->get();
-    }
-
+    
     public function store($request)
     {
         return ProductSupplier::create($request->validated());

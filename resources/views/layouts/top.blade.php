@@ -15,6 +15,12 @@
 
     </li>
 
+    <li class="nav-item d-none d-sm-inline-block">
+
+      <a href="{{ url('auth/logout') }}" class="nav-link">Keluar</a>
+
+    </li>
+
   </ul>
 
   <!-- Right navbar links -->

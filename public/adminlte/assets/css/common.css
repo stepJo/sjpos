@@ -113,6 +113,7 @@ table.dataTable tfoot th {
 #branchProductTable_filter input,
 #masterTable_filter input, 
 #productTable_filter input, 
+#barcodeTable_filter input, 
 #productSupplierTable_filter input, 
 #purchasementSupplierTable_filter input, 
 #transactionTable_filter input
@@ -221,3 +222,4 @@ ul.typeahead .active strong {
     color: orange;
     font-size: 15px;
 }
+

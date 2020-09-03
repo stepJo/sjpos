@@ -28,11 +28,11 @@ Route::group(['middleware' => 'pos_auth' ], function() {
 	//POS
 	Route::get('pos', 'POSController@index');
 	Route::group(["prefix" => "pos"], function() {
-		Route::get('search/all', 'POSController@allProduct');
-		Route::get('search/product', 'POSController@searchProduct');
-		Route::get('search/category', 'POSController@searchCategory');
-		Route::get('search/unit', 'POSController@searchUnit');
-		Route::post('transaction/store', 'POSController@storeTransaction');
+		Route::get('search/all', 'POSController@allProduct')->name('pos-search.all');
+		Route::get('search/product', 'POSController@searchProduct')->name('pos-search.product');
+		Route::get('search/category', 'POSController@searchCategory')->name('pos-search.category');
+		Route::get('search/unit', 'POSController@searchUnit')->name('pos-search.unit');
+		Route::post('transaction/store', 'POSController@storeTransaction')->name('pos-transaction.store');
 	});
 
 	//-----MBRANCH-----//
@@ -42,8 +42,8 @@ Route::group(['middleware' => 'pos_auth' ], function() {
 		Route::get('excel', 'MBranch\BranchController@exportExcel')->name('branch-excel');
 		Route::get('pdf', 'MBranch\BranchController@exportPDF')->name('branch-pdf');
 		//BRANCH PRODUCT
-		Route::get('search/product', 'MBranch\BranchProductController@searchProduct');
-		Route::get('{branch}/product/get', 'MBranch\BranchProductController@getProduct');
+		Route::get('search/product', 'MBranch\BranchProductController@searchProduct')->name('branch-product.search');
+		Route::get('{branch}/product/get', 'MBranch\BranchProductController@getProduct')->name('branch-product.get');
 		Route::get('product', 'MBranch\BranchProductController@index')->name('branch-product.index');
 		Route::get('product/create', 'MBranch\BranchProductController@create')->name('branch-product.create');
 		Route::post('product/store', 'MBranch\BranchProductController@store')->name('branch-product.store');
@@ -68,16 +68,17 @@ Route::group(['middleware' => 'pos_auth' ], function() {
 		Route::post('product/store', 'MSale\DiscountProductController@store')->name('discount-product.store');
 		Route::patch('product/{product}/update', 'MSale\DiscountProductController@update')->name('discount-product.update');
 		Route::delete('product/{product}/destroy', 'MSale\DiscountProductController@destroy')->name('discount-product.destroy');
-		Route::get('search/product', 'MSale\DiscountProductController@searchProduct');
+		Route::get('search/product', 'MSale\DiscountProductController@searchProduct')->name('discount-product.search');
 	});
 	//DISCOUNT
 	Route::get('discount/generate', 'MSale\DiscountController@generate')->name('discount-generate');
+	//DISCOUNT {RESOURCE}
 	Route::resource('discount', 'MSale\DiscountController');
 	
 	//-----MPRODUCT-----//
-	//CATEGORY
+	//CATEGORY{RESOURCE}
 	Route::resource('category', 'MProduct\CategoryController');
-	//UNIT
+	//UNIT {RESOURCE}
 	Route::resource('unit', 'MProduct\UnitController');
 	//PRODUCT
 	Route::group(["prefix" => "product"], function() {
@@ -88,7 +89,8 @@ Route::group(['middleware' => 'pos_auth' ], function() {
 	//PRODUCT {RESOURCE}
 	Route::resource('product', 'MProduct\ProductController');
 	//BARCODE
-	Route::get('barcode/product/{product}', 'MProduct\BarcodeController@get')->name('barcode-product');
+	Route::get('barcode/product/{product}', 'MProduct\BarcodeController@getProduct')->name('product-barcode.get');
+	//BARCODE {RESOURCE}
 	Route::resource('barcode', 'MProduct\BarcodeController');
 
 	//-----MSUPPLIER-----//
@@ -106,11 +108,11 @@ Route::group(['middleware' => 'pos_auth' ], function() {
 		Route::get('product/excel', 'MSupplier\ProductSupplierController@exportExcel')->name('product-supplier-excel');
 		Route::get('product/pdf', 'MSupplier\ProductSupplierController@exportPDF')->name('product-supplier-pdf');
 		//PURCHASEMENT SUPPLIER
-		Route::get('purchasement/search/product', 'MSupplier\PurchasementSupplierController@searchProduct');
 		Route::get('purchasement', 'MSupplier\PurchasementSupplierController@index')->name('purchasement-supplier.index');
 		Route::get('purchasement/create', 'MSupplier\PurchasementSupplierController@create')->name('purchasement-supplier.create');
 		Route::post('purchasement/store', 'MSupplier\PurchasementSupplierController@store')->name('purchasement-supplier.store');
 		Route::delete('purchasement/{purchasement}/destroy', 'MSupplier\PurchasementSupplierController@destroy')->name('purchasement-supplier.destroy');
+		Route::get('purchasement/search/product', 'MSupplier\PurchasementSupplierController@searchProduct');
 		Route::get('purchasement/csv', 'MSupplier\PurchasementSupplierController@exportCSV')->name('purchasement-supplier-csv');
 		Route::get('purchasement/excel', 'MSupplier\PurchasementSupplierController@exportExcel')->name('purchasement-supplier-excel');
 		Route::get('purchasement/pdf', 'MSupplier\PurchasementSupplierController@exportPDF')->name('purchasement-supplier-pdf');
@@ -121,5 +123,9 @@ Route::group(['middleware' => 'pos_auth' ], function() {
 	//-----MUSER-----//
 	//ROLE {RESOURCE}
 	Route::resource('role', 'MUser\RoleController');
+	//USER
+	Route::patch('user/{user}/password/update', 'MUser\UserController@updatePassword')->name('user-password.update');
+	//USER {RESOURCE}
+	Route::resource('user', 'MUser\UserController');
 
 });

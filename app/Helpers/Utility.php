@@ -5,7 +5,7 @@ namespace App\Helpers;
 use Illuminate\Support\Facades\File; 
 
 class Utility {
-
+    //FORMAT
     public static function dateFormat($data)
     {
         return date('d F Y H:i:s', strtotime($data));
@@ -32,7 +32,8 @@ class Utility {
     		"<span class='badge badge-success'>Aktif</span>" :
     		"<span class='badge badge-danger'>Tidak Aktif</span>";
     }
-
+    
+    //IMAGE
     public static function deleteImage($folder, $image)
     {
         if(File::exists(asset('public/uploads/images/'.$folder.'/'.$image)))
@@ -68,5 +69,5 @@ class Utility {
         }
 
         return "<img src=".$path." class='thumbnail'>";
-	}   
+    }   
 }

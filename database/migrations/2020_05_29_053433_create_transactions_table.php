@@ -20,8 +20,7 @@ class CreateTransactionsTable extends Migration
             $table->integer('t_total');
             $table->integer('t_tax');
             $table->integer('t_disc')->nullable();
-            //$table->dateTime('t_date')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
-            $table->timestamp('t_date')->useCurrent();
+            $table->dateTime('t_date')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
         });
     }
 

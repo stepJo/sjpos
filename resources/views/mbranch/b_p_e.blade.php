@@ -14,7 +14,7 @@
   			<div class="content-wrapper">
 
 			<!-- Content Header (Page header) -->
-    		@include('layouts.content_hd', ['title' => 'Edit Produk Diaktivasi'])
+    		@include('layouts.title', ['title' => 'Edit Produk Diaktivasi'])
 
 		    <!-- Main content -->
 		    <section class="content">
@@ -157,6 +157,6 @@
 
 @section('script')
 
-	@include('layouts/scripts/mbranch')
+	@include('scripts/mbranch')
 
 @endsection

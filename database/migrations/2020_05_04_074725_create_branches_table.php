@@ -23,7 +23,7 @@ class CreateBranchesTable extends Migration
             $table->string('b_address')->nullable();
             $table->integer('b_status');
             $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrent();
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
         });
     }
 

@@ -7,14 +7,17 @@ use Illuminate\Http\Request;
 use App\Http\Requests\MUser\CreateRoleRequest;
 use App\Http\Requests\MUser\UpdateRoleRequest;
 use App\Repositories\MUser\IRoleRepository;
+use App\Repositories\MUser\IMenuRepository;
 use App\Models\MUser\Role;
 
 class RoleController extends Controller
 {
+    private $menuRepository;
     private $roleRepository;
-
-    public function __construct(IRoleRepository $roleRepository)
+    
+    public function __construct(IMenuRepository $menuRepository, IRoleRepository $roleRepository)
     {
+        $this->menuRepository = $menuRepository;
         $this->roleRepository = $roleRepository;
     }
 
@@ -25,9 +28,10 @@ class RoleController extends Controller
      */
     public function index()
     {
+        $menus = $this->menuRepository->all();
         $roles = $this->roleRepository->all();
-
-        return view('muser.r_index', compact('roles'));
+        
+        return view('muser.r_index', compact('menus', 'roles'));
     }
 
     /**

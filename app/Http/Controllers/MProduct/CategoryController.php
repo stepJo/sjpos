@@ -7,15 +7,18 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MProduct\CreateCategoryRequest;
 use App\Http\Requests\MProduct\UpdateCategoryRequest;
 use App\Repositories\MProduct\ICategoryRepository;
+use App\Services\MProductService;
 use App\Models\MProduct\Category;
 
 class CategoryController extends Controller
 {
     private $categoryRepository;
+    private $productService;
 
-    public function __construct(ICategoryRepository $categoryRepository)
+    public function __construct(ICategoryRepository $categoryRepository, MProductService $productService)
     {
         $this->categoryRepository = $categoryRepository;
+        $this->productService = $productService;
     }
 
     /**
@@ -25,7 +28,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = $this->categoryRepository->all();
+        $categories = $this->productService->categoriesProducts();
 
         return view('mproduct.c_index', compact('categories'));
     }

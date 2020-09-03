@@ -7,15 +7,18 @@ use Illuminate\Http\Request;
 use App\Http\Requests\MSale\CreateDiscountProductRequest;
 use App\Http\Requests\MSale\UpdateDiscountProductRequest;
 use App\Repositories\MSale\IDiscountProductRepository;
+use App\Services\MProductService;
 use App\Models\MSale\DiscountProduct;
 
 class DiscountProductController extends Controller
 {
     private $discountProductRepository;
+    private $productService;
 
-    public function __construct(IDiscountProductRepository $discountProductRepository)
+    public function __construct(IDiscountProductRepository $discountProductRepository, MProductService $productService)
     {
         $this->discountProductRepository = $discountProductRepository;
+        $this->productService = $productService;
     }
 
     /**
@@ -26,8 +29,6 @@ class DiscountProductController extends Controller
     public function index()
     {
         $discounts = $this->discountProductRepository->all();
-
-        //$discounts = DiscountProduct::with('product')->get();
 
         return view('msale.d_p_index', compact('discounts'));
     }
@@ -78,7 +79,7 @@ class DiscountProductController extends Controller
 
     public function searchProduct(Request $request)
     {
-        $products = $this->discountProductRepository->searchProduct($request);
+        $products = $this->productService->searchProductsWithoutDiscounts($request);
 
         return response()->json($products);
     }

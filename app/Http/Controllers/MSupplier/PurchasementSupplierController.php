@@ -6,15 +6,18 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\MSupplier\CreatePurchasementSupplierRequest;
 use App\Repositories\MSupplier\IPurchasementSupplierRepository;
+use App\Services\MSupplierService;
 use App\Models\MSupplier\PurchasementSupplier;
 
 class PurchasementSupplierController extends Controller
 {
     private $purchasementSupplierRepository;
+    private $supplierService;
 
-    public function __construct(IPurchasementSupplierRepository $purchasementSupplierRepository)
+    public function __construct(IPurchasementSupplierRepository $purchasementSupplierRepository, MSupplierService $supplierService)
     {
         $this->purchasementSupplierRepository = $purchasementSupplierRepository;
+        $this->supplierService =$supplierService;
     }
 
     /**
@@ -24,7 +27,7 @@ class PurchasementSupplierController extends Controller
      */
     public function index(Request $request)
     {
-        $suppliers = $this->purchasementSupplierRepository->allSupplier();
+        $suppliers = $this->supplierService->allSuppliers();
 
         if($request->ajax())
         {
@@ -41,7 +44,7 @@ class PurchasementSupplierController extends Controller
      */
     public function create()
     {
-        $suppliers = $this->purchasementSupplierRepository->allSupplierWithProducts();
+        $suppliers = $this->supplierService->suppliersProducts();
 
         return view('msupplier/pch_s_a', compact('suppliers'));
     }
@@ -60,18 +63,6 @@ class PurchasementSupplierController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -86,7 +77,7 @@ class PurchasementSupplierController extends Controller
 
     public function searchProduct(Request $request)
     {
-        $products = $this->purchasementSupplierRepository->searchProduct($request);
+        $products = $this->supplierService->searchsupplierProducts($request);
 
     	return response()->json($products);
     }

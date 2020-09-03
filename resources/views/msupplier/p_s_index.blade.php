@@ -14,7 +14,7 @@
   			<div class="content-wrapper">
     
 			<!-- Content Header (Page header) -->
-    		@include('layouts.content_hd', ['title' =>  'Data Barang'])
+    		@include('layouts.title', ['title' =>  'Data Barang'])
 		    <!-- Main content -->
 		    <section class="content">
       
@@ -298,8 +298,6 @@
 
 @section('script')
 
-	@include('layouts/scripts/datatable')
-
-	@include('layouts/scripts/msupplier')
+	@include('scripts/msupplier')
 
 @endsection
