@@ -16,7 +16,7 @@ class CreateDiscountProductsTable extends Migration
         Schema::create('discount_products', function (Blueprint $table) {
             $table->id('dp_id');
             $table->unsignedBigInteger('p_id');
-            $table->integer('dp_value');
+            $table->decimal('dp_value');
             $table->integer('dp_status');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));

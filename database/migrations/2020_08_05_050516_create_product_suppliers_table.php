@@ -17,7 +17,7 @@ class CreateProductSuppliersTable extends Migration
             $table->id('ps_id');
             $table->string('ps_name');
             $table->string('ps_code')->unique();
-            $table->integer('ps_price');
+            $table->decimal('ps_price');
             $table->text('ps_desc')->nullable();
             $table->unsignedBigInteger('s_id');
             $table->timestamp('created_at')->useCurrent();

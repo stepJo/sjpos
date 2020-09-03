@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->string('p_name')->unique();
             $table->text('p_desc')->nullable();
             $table->unsignedBigInteger('unit_id');
-            $table->integer('p_price');
+            $table->decimal('p_price');
             $table->string('p_image')->nullable();
             $table->string('p_barcode')->nullable();
             $table->integer('p_status');

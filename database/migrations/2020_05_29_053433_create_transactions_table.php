@@ -17,9 +17,9 @@ class CreateTransactionsTable extends Migration
             $table->id('t_id');
             $table->string('t_code')->unique();
             $table->string('t_type');
-            $table->integer('t_total');
-            $table->integer('t_tax');
-            $table->integer('t_disc')->nullable();
+            $table->decimal('t_total');
+            $table->decimal('t_tax')->nullable();
+            $table->decimal('t_disc')->nullable();
             $table->dateTime('t_date')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
         });
     }

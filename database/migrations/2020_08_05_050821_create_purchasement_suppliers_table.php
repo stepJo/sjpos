@@ -16,10 +16,10 @@ class CreatePurchasementSuppliersTable extends Migration
         Schema::create('purchasement_suppliers', function (Blueprint $table) {
             $table->id('pch_id');
             $table->string('pch_code')->unique();
-            $table->integer('pch_cost');
-            $table->integer('pch_tax')->nullable();
-            $table->integer('pch_disc')->nullable();
-            $table->integer('pch_ship')->nullable();  
+            $table->decimal('pch_cost');
+            $table->decimal('pch_tax')->nullable();
+            $table->decimal('pch_disc')->nullable();
+            $table->decimal('pch_ship')->nullable();  
             $table->unsignedBigInteger('s_id');
             $table->text('pch_note')->nullable();
             $table->dateTime('pch_date')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));

@@ -18,7 +18,7 @@ class CreateDetailPurchasementSuppliersTable extends Migration
             $table->unsignedBigInteger('pch_id');
             $table->unsignedBigInteger('ps_id');
             $table->integer('qty');
-            $table->integer('sub_total');
+            $table->decimal('sub_total');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
 

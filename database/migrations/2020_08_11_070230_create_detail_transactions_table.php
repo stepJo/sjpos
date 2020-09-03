@@ -18,7 +18,7 @@ class CreateDetailTransactionsTable extends Migration
             $table->unsignedBigInteger('t_id');
             $table->unsignedBigInteger('p_id');
             $table->integer('qty'); 
-            $table->integer('sub_total');
+            $table->decimal('sub_total');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
 
