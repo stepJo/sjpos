@@ -13,7 +13,9 @@ class HelperServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        //ROLE
         require_once app_path() . '/Helpers/Role.php';
+        //UTILITY
         require_once app_path() . '/Helpers/Utility.php';
     }
 

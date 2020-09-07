@@ -13,6 +13,7 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        //MBRANCH
         $this->app->bind(
             'App\Repositories\MBranch\IBranchRepository',
             'App\Repositories\MBranch\BranchRepository'
@@ -22,7 +23,8 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\MBranch\IBranchProductRepository',
             'App\Repositories\MBranch\BranchProductRepository'
         );
-
+        
+        //MSALE
         $this->app->bind(
             'App\Repositories\MSale\IDiscountProductRepository',
             'App\Repositories\MSale\DiscountProductRepository',
@@ -38,6 +40,7 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\MSale\DetailTransactionRepository',
         );
 
+        //MPRODUCT
         $this->app->bind(
             'App\Repositories\MProduct\IProductRepository',
             'App\Repositories\MProduct\ProductRepository',
@@ -58,6 +61,7 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\MProduct\BarcodeRepository',
         );
 
+        //MSUPPLIER
         $this->app->bind(
             'App\Repositories\MSupplier\ISupplierRepository',
             'App\Repositories\MSupplier\SupplierRepository',
@@ -73,6 +77,7 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\MSupplier\PurchasementSupplierRepository',
         );
 
+        //MUSER
         $this->app->bind(
             'App\Repositories\MUser\IRoleRepository',
             'App\Repositories\MUser\RoleRepository',

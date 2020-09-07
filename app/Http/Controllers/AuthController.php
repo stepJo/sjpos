@@ -4,23 +4,29 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\Auth\UserLoginRequest;
-use App\Repositories\MBranch\IBranchRepository;
-use App\Repositories\MUser\IRoleRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\MUser\User;
+use App\Services\MBranchService;
+use App\Services\MUserService;
 use App\Models\MBranch\Branch;
+use App\Models\MUser\Role;
+use App\Models\MUser\User;
 use Session;
 
 class AuthController extends Controller
 {
-    private $branchRepository;
-    private $roleRepository;
+    private $branchService;
+    private $userService;
 
-    public function __construct(IBranchRepository $branchRepository, IRoleRepository $roleRepository)
+    public function __construct(MBranchService $branchService, MUserService $userService)
     {
-        $this->branchRepository = $branchRepository;
-        $this->roleRepository = $roleRepository;
+        $this->branchService = $branchService;
+        $this->userService = $userService;
+    }
+
+    public function masterLogin()
+    {
+        
     }
 
     public function login()
@@ -31,8 +37,8 @@ class AuthController extends Controller
         }
         else
         {
-            $branches = $this->branchRepository->all();
-            $roles = $this->roleRepository->all();
+            $branches = $this->branchService->allBranches();
+            $roles = $this->userService->allRoles();
 
             return view('auth.login', compact('branches', 'roles'));  
         }
@@ -42,12 +48,14 @@ class AuthController extends Controller
     public function checkLogin(UserLoginRequest $request)
     {	
         $b_id = $request->b_id;
+        $role_id = $request->role_id;
 
         $branch = Branch::find($b_id);
 
-        if($branch)
+        $role = Role::find($role_id);
+
+        if($branch && $role)
         {
-            $role_id = $request->role_id;
             $email = $request->u_email;
             $password = $request->u_password;		
     
@@ -60,31 +68,34 @@ class AuthController extends Controller
             {	
                 if(Hash::check($password, $user->u_password))
                 {	
-                    Session::put([
+                    $session = Session::put([
                         'logged_in' => true,
                         'u_id'      => $user->u_id,
                         'u_name'    => $user->u_name,
                         'u_email'   => $user->u_email,
                         'u_contact' => $user->u_contact,
                         'b_id'      => $user->b_id,
-                        'role_id'   => $user->role_id
+                        'b_name'    => $branch->b_name,
+                        'role_id'   => $user->role_id,
+                        'role_name' => $role->role_name,
+                        'owner'     => false
                     ]);
                     
                     return redirect()->intended('dashboard');
                 }
                 else
                 {
-                    return redirect()->back()->with('failed', 'email atau password salah !');
+                    return redirect()->back()->with('failed', 'Email atau password salah !');
                 }
             }
             else
             {
-                return redirect()->back()->with('failed', 'email atau password salah !');
+                return redirect()->back()->with('failed', 'Email atau password salah !');
             }
         }
         else
         {
-            return redirect()->back()->with('failed', 'email atau password salah !');
+            return redirect()->back()->with('failed', 'User tidak ada !');
         }
     }
 

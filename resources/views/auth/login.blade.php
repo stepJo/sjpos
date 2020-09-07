@@ -7,7 +7,7 @@
 		<div class="login-box">
   
   			<div class="login-logo">
-    
+				  
     			<b>SJPOS</b>
   
   			</div>

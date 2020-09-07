@@ -16,6 +16,7 @@
         "guzzlehttp/guzzle": "^6.3",
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
+        "laravel/ui": "^2.2",
         "maatwebsite/excel": "^3.1",
         "milon/barcode": "^7.0",
         "yajra/laravel-datatables-oracle": "^9.10"

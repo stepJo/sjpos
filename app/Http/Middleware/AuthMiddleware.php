@@ -23,7 +23,7 @@ class AuthMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(!Session::get('logged_in') && !Session::get('u_name') && !Session::get('u_email')) 
+        if(!Session::get('logged_in') && !Session::get('u_name') && !Session::get('u_email') && !Session::get('b_id')) 
         {
             return redirect('auth/login');
         }

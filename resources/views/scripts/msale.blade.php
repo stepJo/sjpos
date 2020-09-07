@@ -6,7 +6,7 @@
     //MSALE - DISCOUNT PRODUCT
     @if(Request::segment(1) != 'pos')
     
-        let path = "{{ url('discount/search/product') }}";
+        let path = '{{ route('discount-product.search') }}';
 
         function returnProduct(item) {
             if(item.p_status == 1) {

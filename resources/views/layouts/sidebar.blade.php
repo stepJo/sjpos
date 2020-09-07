@@ -51,21 +51,25 @@
 
         </li>
 
-        <li class="nav-item">
+        @if(in_array('POS', $views))
 
-          <a href="{{ url('pos') }}" class="nav-link">
+          <li class="nav-item">
 
-            <i class="nav-icon fas fa-cash-register"></i>
+            <a href="{{ url('pos') }}" class="nav-link">
 
-            <p>
+              <i class="nav-icon fas fa-cash-register"></i>
 
-              POS
+              <p>
 
-            </p>
+                POS
 
-          </a>
+              </p>
 
-        </li>
+            </a>
+
+          </li>
+
+        @endif
 
         <li class="nav-item has-treeview">
 
@@ -85,25 +89,33 @@
 
           <ul class="nav nav-treeview">
 
-            <li class="nav-item">
+            @if(in_array('Cabang', $views))
 
-              <a href="{{ url('branch') }}" class="nav-link">
+              <li class="nav-item">
 
-                <p>Data Cabang</p>
+                <a href="{{ url('branch') }}" class="nav-link">
 
-              </a>
+                  <p>Data Cabang</p>
 
-            </li>
+                </a>
 
-            <li class="nav-item">
+              </li>
 
-              <a href="{{ url('branch/product') }}" class="nav-link">
+            @endif
 
-                <p>Produk Cabang</p>
+            @if(in_array('Produk Cabang', $views))
 
-              </a>
+              <li class="nav-item">
 
-            </li>
+                <a href="{{ url('branch/product') }}" class="nav-link">
+
+                  <p>Produk Cabang</p>
+
+                </a>
+
+              </li>
+
+            @endif
 
           </ul>
 
@@ -127,25 +139,33 @@
 
           <ul class="nav nav-treeview">
 
-            <li class="nav-item">
+            @if(in_array('Riwayat Transaksi', $views))
 
-              <a href="{{ url('transaction') }}" class="nav-link">
+              <li class="nav-item">
 
-                <p>Riwayat Transaksi</p>
+                <a href="{{ url('transaction') }}" class="nav-link">
 
-              </a>
+                  <p>Riwayat Transaksi</p>
 
-            </li>
+                </a>
 
-            <li class="nav-item">
+              </li>
 
-              <a href="{{ url('discount/product') }}" class="nav-link">
+            @endif
 
-                <p>Diskon Produk</p>
+            @if(in_array('Diskon Produk', $views))
 
-              </a>
+              <li class="nav-item">
 
-            </li>
+                <a href="{{ url('discount/product') }}" class="nav-link">
+
+                  <p>Diskon Produk</p>
+
+                </a>
+
+              </li>
+
+            @endif
 
             {{-- <li class="nav-item">
 
@@ -179,45 +199,61 @@
 
           <ul class="nav nav-treeview">
 
-            <li class="nav-item">
+            @if(in_array('Kategori', $views))
 
-              <a href="{{ url('category') }}" class="nav-link">
+              <li class="nav-item">
 
-                <p>Data Kategori</p>
+                <a href="{{ url('category') }}" class="nav-link">
 
-              </a>
+                  <p>Data Kategori</p>
 
-            </li>
+                </a>
 
-            <li class="nav-item">
+              </li>
 
-              <a href="{{ url('unit') }}" class="nav-link">
+            @endif
 
-                <p>Data Satuan</p>
+            @if(in_array('Satuan', $views))
 
-              </a>
+              <li class="nav-item">
 
-            </li>
+                <a href="{{ url('unit') }}" class="nav-link">
 
-            <li class="nav-item">
+                  <p>Data Satuan</p>
 
-              <a href="{{ url('product') }}" class="nav-link">
+                </a>
 
-                <p>Data Produk</p>
+              </li>
 
-              </a>
+            @endif
 
-            </li>
+            @if(in_array('Produk', $views))
 
-            <li class="nav-item">
+              <li class="nav-item">
 
-              <a href="{{ url('barcode') }}" class="nav-link">
+                <a href="{{ url('product') }}" class="nav-link">
 
-                <p>Cetak Barcode</p>
+                  <p>Data Produk</p>
 
-              </a>
+                </a>
 
-            </li>
+              </li>
+
+            @endif
+
+            @if(in_array('Barcode', $views))
+
+              <li class="nav-item">
+
+                <a href="{{ url('barcode') }}" class="nav-link">
+
+                  <p>Cetak Barcode</p>
+
+                </a>
+
+              </li>
+          
+            @endif
 
           </ul>
 
@@ -241,85 +277,101 @@
 
           <ul class="nav nav-treeview">
 
-            <li class="nav-item">
+            @if(in_array('Penyuplai', $views))
 
-              <a href="{{ url('supplier') }}" class="nav-link">
+              <li class="nav-item">
 
-                <p>Data Penyuplai</p>
+                <a href="{{ url('supplier') }}" class="nav-link">
 
-              </a>
+                  <p>Data Penyuplai</p>
 
-            </li>
+                </a>
 
-            <li class="nav-item">
+              </li>
 
-              <a href="{{ url('supplier/product') }}" class="nav-link">
+            @endif
 
-                <p>Data Barang</p>
+            @if(in_array('Data Babang', $views))
 
-              </a>
+              <li class="nav-item">
 
-            </li>
+                <a href="{{ url('supplier/product') }}" class="nav-link">
 
-            <li class="nav-item">
+                  <p>Data Barang</p>
 
-              <a href="{{ url('supplier/purchasement') }}" class="nav-link">
+                </a>
 
-                <p>Pembelian Barang</p>
+              </li>
 
-              </a>
+            @endif
 
-            </li>
+            @if(in_array('Pembelian Cabang', $views))
 
-          </ul>
+              <li class="nav-item">
 
-        </li>
+                <a href="{{ url('supplier/purchasement') }}" class="nav-link">
 
-        <li class="nav-item has-treeview">
+                  <p>Pembelian Barang</p>
 
-          <a href="#" class="nav-link">
+                </a>
 
-            <i class="nav-icon fas fa-user"></i>
+              </li>
 
-            <p>
-
-              Master User
-
-              <i class="right fas fa-angle-left"></i>
-
-            </p>
-
-          </a>
-
-          <ul class="nav nav-treeview">
-
-            <li class="nav-item">
-
-              <a href="{{ url('user') }}" class="nav-link">
-
-                <i class="fas fa-user nav-icon"></i>
-
-                <p>Data User</p>
-
-              </a>
-
-            </li>
-
-            <li class="nav-item">
-
-              <a href="{{ url('role') }}" class="nav-link">
-
-                <i class="fas fa-user nav-icon"></i>
-
-                <p>Data Role</p>
-
-              </a>
-
-            </li>
+            @endif
 
           </ul>
 
         </li>
+
+        {{-- @if(Session::get('owner') === TRUE) --}}
+
+          <li class="nav-item has-treeview">
+
+            <a href="#" class="nav-link">
+
+              <i class="nav-icon fas fa-user"></i>
+
+              <p>
+
+                Master User
+
+                <i class="right fas fa-angle-left"></i>
+
+              </p>
+
+            </a>
+
+            <ul class="nav nav-treeview">
+
+              <li class="nav-item">
+
+                <a href="{{ url('user') }}" class="nav-link">
+
+                  <i class="fas fa-user nav-icon"></i>
+
+                  <p>Data User</p>
+
+                </a>
+
+              </li>
+
+              <li class="nav-item">
+
+                <a href="{{ url('role') }}" class="nav-link">
+
+                  <i class="fas fa-user nav-icon"></i>
+
+                  <p>Data Role</p>
+
+                </a>
+
+              </li>
+
+            </ul>
+
+          </li>
+
+        {{-- @endif --}}
 
       </ul>
 

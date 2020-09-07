@@ -102,7 +102,7 @@
             <div class="bar"></div>
 
         </div>
-
+        
         <!-- jQuery -->
         <script src="{{ asset('public/adminlte/plugins/jquery/jquery.min.js') }}"></script>
 
@@ -174,7 +174,7 @@
         
         <!-- TypeAhead -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
-    
+
         <!-- Common Script -->
         @include('scripts/common')
 
