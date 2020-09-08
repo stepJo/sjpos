@@ -7,18 +7,26 @@ use Illuminate\Http\Request;
 use App\Http\Requests\MSupplier\CreateProductSupplierRequest;
 use App\Http\Requests\MSupplier\UpdateProductSupplierRequest;
 use App\Repositories\MSupplier\IProductSupplierRepository;
+use App\Services\MUserService;
 use App\Services\MSupplierService;
 use App\Models\MSupplier\ProductSupplier;
+use Roles;
 
 class ProductSupplierController extends Controller
 {
     private $productSupplierRepository;
+    private $userService;
     private $supplierService;
 
-    public function __construct(IProductSupplierRepository $productSupplierRepository, MSupplierService $supplierService)
+    public function __construct(
+        IProductSupplierRepository $productSupplierRepository, 
+        MUserService $userService,
+        MSupplierService $supplierService
+    )
     {
         $this->productSupplierRepository = $productSupplierRepository;
-        $this->supplierService =$supplierService;
+        $this->userService = $userService;
+        $this->supplierService = $supplierService;
     }
     /**
      * Display a listing of the resource.
@@ -27,6 +35,13 @@ class ProductSupplierController extends Controller
      */
     public function index(Request $request)
     {
+        $views = $this->userService->menusRole();
+
+        if(!Roles::canView('Data Barang', $views))
+        {
+            return redirect('dashboard');
+        }
+
         $suppliers = $this->supplierService->allSuppliers();
 
         if($request->ajax())
@@ -34,7 +49,7 @@ class ProductSupplierController extends Controller
             return $this->productSupplierRepository->renderDataTable($request, $suppliers);
         }
 
-        return view('msupplier/p_s_index', compact('suppliers'));
+        return view('msupplier/p_s_index', compact('suppliers', 'views'));
     }
 
     /**

@@ -8,24 +8,24 @@ use App\Models\MProduct\Product;
 use DB;
 
 class MProductService {
-    function allProducts()
+    public function allProducts()
     {
         return Product::get(['p_id', 'p_code', 'p_name']);
     }
 
-    function findProduct($id)
+    public function findProduct($id)
     {
         return Product::find($id);
     }
 
-    function disableProducts($request)
+    public function disableProducts($request)
     {
         return DB::table('disable_products')
             ->where('b_id', $request->b_id)
             ->pluck('p_id');
     }
 
-    function searchProducts($request)
+    public function searchProducts($request)
     {
         $disables = $this->disableProducts($request);
 
@@ -35,7 +35,7 @@ class MProductService {
             ->get(['p_id', 'p_code', 'p_name', 'p_price']);
     }
 
-    function searchProductsWithDiscounts($request)
+    public function searchProductsWithDiscounts($request)
     {
         return Product::with('discount')
             ->where('p_name', 'LIKE', '%'.$request->p_name.'%')
@@ -43,7 +43,7 @@ class MProductService {
             ->get(['p_id', 'p_code', 'p_name', 'p_price', 'p_status']);
     }
 
-    function searchProductsWithoutDiscounts($request)
+    public function searchProductsWithoutDiscounts($request)
     {
         return Product::where('p_name', 'LIKE', '%'.$request->p_name.'%')
             ->where('p_code', 'LIKE', '%'.$request->p_code.'%')
@@ -51,22 +51,22 @@ class MProductService {
             ->get(['p_id', 'p_code', 'p_name', 'p_price', 'p_status']);
     }
 
-    function categoriesProducts()
+    public function categoriesProducts()
     {
         return Category::with('products')->get(['cat_id', 'cat_name']);
     }
 
-    function unitsProducts()
+    public function unitsProducts()
     {
         return Unit::with('products')->get(['unit_id', 'unit_name']);
     }
 
-    function discountsProducts()
+    public function discountsProducts()
     {
         return Product::with('discount')->get();
     }
 
-    function countNotActiveProducts()
+    public function countNotActiveProducts()
     {
         return Product::where('p_status', 0)->count();
     }

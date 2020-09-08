@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests\MBranch\CreateBranchProductRequest;
 use App\Http\Requests\MBranch\UpdateBranchProductRequest;
 use App\Repositories\MBranch\IBranchProductRepository;
+use App\Services\MUserService;
 use App\Services\MBranchService;
 use App\Services\MProductService;
-
+use Roles;
 
 class BranchProductController extends Controller
 {
@@ -17,9 +18,15 @@ class BranchProductController extends Controller
     private $branchService;
     private $productService;
 
-    public function __construct(IBranchProductRepository $branchProductRepository, MBranchService $branchService, MProductService $productService)
+    public function __construct(
+        IBranchProductRepository $branchProductRepository, 
+        MUserService $userService,
+        MBranchService $branchService,
+        MProductService $productService
+    )
     {
         $this->branchProductRepository = $branchProductRepository;
+        $this->userService = $userService;
         $this->branchService = $branchService;
         $this->productService = $productService;
     }
@@ -31,6 +38,13 @@ class BranchProductController extends Controller
      */
     public function index(Request $request)
     {
+        $views = $this->userService->menusRole();
+
+        if(!Roles::canView('Produk Cabang', $views))
+        {
+            return redirect('dashboard');
+        }
+
         if($request->ajax())
 	    {   
             $branches = $this->branchService->branchesProducts();
@@ -38,7 +52,7 @@ class BranchProductController extends Controller
             return $this->branchProductRepository->renderDataTable($branches);
 	    }
 
-        return view('mbranch.b_p_index');
+        return view('mbranch.b_p_index', compact('views'));
     }
 
     /**

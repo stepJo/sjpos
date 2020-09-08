@@ -7,11 +7,13 @@ use App\Repositories\MProduct\ICategoryRepository;
 use App\Repositories\MProduct\IUnitRepository;
 use App\Repositories\MSale\ITransactionRepository;
 use App\Repositories\MSale\IDetailTransactionRepository;
+use App\Services\MUserService;
 use App\Services\MProductService;
 use App\Models\MProduct\Category;
 use App\Models\MProduct\Unit;
 use App\Models\MSale\Transaction;
 use App\Models\MSale\DetailTransaction;
+use Roles;
 
 class POSController extends Controller
 {   
@@ -19,27 +21,43 @@ class POSController extends Controller
     private $unitRepository;
     private $transactionRepository;
     private $detailTransactionRepository;
+    private $userService;
     private $productService;
 
-    public function __construct(ICategoryRepository $categoryRepository, IUnitRepository $unitRepository, ITransactionRepository $transactionRepository, IDetailTransactionRepository $detailTransactionRepository, MProductService $productService)
+    public function __construct(
+        ICategoryRepository $categoryRepository, 
+        IUnitRepository $unitRepository, 
+        ITransactionRepository $transactionRepository, 
+        IDetailTransactionRepository $detailTransactionRepository, 
+        MUserService $userService,
+        MProductService $productService
+    )
     {
         $this->categoryRepository = $categoryRepository;
         $this->unitRepository = $unitRepository;
         $this->transactionRepository = $transactionRepository;
         $this->detailTransactionRepository = $detailTransactionRepository;
+        $this->userService = $userService;
         $this->productService = $productService;
     }
 
     public function index()
     {
+        $views = $this->userService->menusRole();
+
+        if(!Roles::canView('POS', $views))
+        {
+            return redirect('dashboard');
+        }
+
         $categories = $this->productService->categoriesProducts();
         $units = $this->productService->unitsProducts();
 
         $products = $this->productService->discountsProducts();
 
-    	$not_actives = $this->productService->countNotActiveProducts();
+        $not_actives = $this->productService->countNotActiveProducts();
         
-    	return view('pos', compact('categories', 'units', 'products', 'not_actives'));
+    	return view('pos', compact('categories', 'units', 'products', 'not_actives', 'views'));
     }
 
     public function allProduct()

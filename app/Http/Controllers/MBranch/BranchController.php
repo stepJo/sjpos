@@ -7,16 +7,19 @@ use Illuminate\Http\Request;
 use App\Http\Requests\MBranch\CreateBranchRequest;
 use App\Http\Requests\MBranch\UpdateBranchRequest;
 use App\Repositories\MBranch\IBranchRepository;
+use App\Services\MUserService;
 use App\Models\MBranch\Branch;
 use Roles;
 
 class BranchController extends Controller
 {
     private $branchRepository;
+    private $userService;
 
-    public function __construct(IBranchRepository $branchRepository)
+    public function __construct(IBranchRepository $branchRepository, MUserService $userService)
     {
         $this->branchRepository = $branchRepository;
+        $this->userService = $userService;
     }
 
     /**
@@ -26,19 +29,19 @@ class BranchController extends Controller
      */
     public function index(Request $request)
     {   
-        if(!Roles::canView('Cabang'))
+        $views = $this->userService->menusRole();
+
+        if(!Roles::canView('Cabang', $views))
         {
             return redirect('dashboard');
         }
-        else
-        {
-            if($request->ajax())
-            {
-                return $this->branchRepository->renderDataTable();
-            }
 
-            return view('mbranch.b_index');
+        if($request->ajax())
+        {
+            return $this->branchRepository->renderDataTable();
         }
+
+        return view('mbranch.b_index', compact('views'));
     }
 
     /**

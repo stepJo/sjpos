@@ -47,7 +47,7 @@ class AuthController extends Controller
         $b_id = $request->b_id;
         $role_id = $request->role_id;
 
-        $branch = Branch::find($b_id);
+        $branch = $this->branchService->findActiveBranch($b_id);
 
         $role = Role::find($role_id);
 

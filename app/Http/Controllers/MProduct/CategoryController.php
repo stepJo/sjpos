@@ -8,17 +8,21 @@ use App\Http\Requests\MProduct\CreateCategoryRequest;
 use App\Http\Requests\MProduct\UpdateCategoryRequest;
 use App\Repositories\MProduct\ICategoryRepository;
 use App\Services\MProductService;
+use App\Services\MUserService;
 use App\Models\MProduct\Category;
+use Roles;
 
 class CategoryController extends Controller
 {
     private $categoryRepository;
     private $productService;
+    private $userService;
 
-    public function __construct(ICategoryRepository $categoryRepository, MProductService $productService)
+    public function __construct(ICategoryRepository $categoryRepository, MUserService $userService, MProductService $productService)
     {
         $this->categoryRepository = $categoryRepository;
         $this->productService = $productService;
+        $this->userService = $userService;
     }
 
     /**
@@ -28,9 +32,16 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        $views = $this->userService->menusRole();
+
+        if(!Roles::canView('Kategori', $views))
+        {
+            return redirect('dashboard');
+        }
+
         $categories = $this->productService->categoriesProducts();
 
-        return view('mproduct.c_index', compact('categories'));
+        return view('mproduct.c_index', compact('categories', 'views'));
     }
 
     /**

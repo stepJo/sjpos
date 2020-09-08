@@ -6,17 +6,17 @@ use App\Models\MSupplier\Supplier;
 use App\Models\MSupplier\ProductSupplier;
 
 class MSupplierService {
-    function allSuppliers()
+    public function allSuppliers()
     {
         return Supplier::select('s_id', 's_name')->get();
     }
 
-    function suppliersProducts()
+    public function suppliersProducts()
     {
         return Supplier::with('products')->get(['s_id', 's_name']);
     }
 
-    function searchsupplierProducts($request)
+    public function searchsupplierProducts($request)
     {
         return ProductSupplier::with('supplier')
             ->where('ps_name', 'LIKE', '%'.$request->ps_name.'%')

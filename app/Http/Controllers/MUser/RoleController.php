@@ -8,17 +8,25 @@ use App\Http\Requests\MUser\CreateRoleRequest;
 use App\Http\Requests\MUser\UpdateRoleRequest;
 use App\Repositories\MUser\IRoleRepository;
 use App\Repositories\MUser\IMenuRepository;
+use App\Services\MUserService;
 use App\Models\MUser\Role;
+use Roles;
 
 class RoleController extends Controller
 {
     private $menuRepository;
     private $roleRepository;
+    private $userService;
     
-    public function __construct(IMenuRepository $menuRepository, IRoleRepository $roleRepository)
+    public function __construct(
+        IMenuRepository $menuRepository, 
+        IRoleRepository $roleRepository,
+        MUserService $userService
+    )
     {
         $this->menuRepository = $menuRepository;
         $this->roleRepository = $roleRepository;
+        $this->userService = $userService;
     }
 
     /**
@@ -28,10 +36,17 @@ class RoleController extends Controller
      */
     public function index()
     {
+        $views = $this->userService->menusRole();
+
+        // if(!Roles::canView('Role', $views))
+        // {
+        //     return redirect('dashboard');
+        // }
+
         $menus = $this->menuRepository->all();
         $roles = $this->roleRepository->all();
         
-        return view('muser.r_index', compact('menus', 'roles'));
+        return view('muser.r_index', compact('menus', 'roles', 'views'));
     }
 
     /**

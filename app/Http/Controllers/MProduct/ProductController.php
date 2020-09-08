@@ -7,17 +7,21 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MProduct\CreateProductRequest;
 use App\Http\Requests\MProduct\UpdateProductRequest;
 use App\Repositories\MProduct\IProductRepository;
+use App\Services\MUserService;
 use App\Models\MProduct\Category;
 use App\Models\MProduct\Unit;
 use App\Models\MProduct\Product;
+use Roles;
 
 class ProductController extends Controller
 {
     private $productRepository;
+    private $userService;
 
-    public function __construct(IProductRepository $productRepository)
+    public function __construct(IProductRepository $productRepository, MUserService $userService)
     {
         $this->productRepository = $productRepository;
+        $this->userService = $userService;
     }
 
     /**
@@ -27,12 +31,19 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {   
+        $views = $this->userService->menusRole();
+
+        if(!Roles::canView('Produk', $views))
+        {
+            return redirect('dashboard');
+        }
+
         if($request->ajax())
         {
             return $this->productRepository->renderDataTable();
         }
         
-        return view('mproduct.p_index');
+        return view('mproduct.p_index', compact('views'));
     }
 
     /**

@@ -7,15 +7,19 @@ use Illuminate\Http\Request;
 use App\Http\Requests\MSupplier\CreateSupplierRequest;
 use App\Http\Requests\MSupplier\UpdateSupplierRequest;
 use App\Repositories\MSupplier\ISupplierRepository;
+use App\Services\MUserService;
 use App\Models\MSupplier\Supplier;
+use Roles;
 
 class SupplierController extends Controller
 {
     private $supplierRepository;
+    private $userService;
 
-    public function __construct(ISupplierRepository $supplierRepository)
+    public function __construct(ISupplierRepository $supplierRepository, MUserService $userService)
     {
         $this->supplierRepository = $supplierRepository;
+        $this->userService = $userService;
     }
 
     /**
@@ -25,9 +29,16 @@ class SupplierController extends Controller
      */
     public function index()
     {
+        $views = $this->userService->menusRole();
+
+        if(!Roles::canView('Penyuplai', $views))
+        {
+            return redirect('dashboard');
+        }
+
         $suppliers = $this->supplierRepository->all();
 
-        return view('msupplier.s_index', compact('suppliers'));
+        return view('msupplier.s_index', compact('suppliers', 'views'));
     }
 
     /**

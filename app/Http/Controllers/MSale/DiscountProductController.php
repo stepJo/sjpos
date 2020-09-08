@@ -7,17 +7,21 @@ use Illuminate\Http\Request;
 use App\Http\Requests\MSale\CreateDiscountProductRequest;
 use App\Http\Requests\MSale\UpdateDiscountProductRequest;
 use App\Repositories\MSale\IDiscountProductRepository;
+use App\Services\MUserService;
 use App\Services\MProductService;
 use App\Models\MSale\DiscountProduct;
+use Roles;
 
 class DiscountProductController extends Controller
 {
     private $discountProductRepository;
+    private $userService;
     private $productService;
 
-    public function __construct(IDiscountProductRepository $discountProductRepository, MProductService $productService)
+    public function __construct(IDiscountProductRepository $discountProductRepository, MUSerService $userService, MProductService $productService)
     {
         $this->discountProductRepository = $discountProductRepository;
+        $this->userService = $userService;
         $this->productService = $productService;
     }
 
@@ -27,10 +31,17 @@ class DiscountProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
+        $views = $this->userService->menusRole();
+
+        if(!Roles::canView('Diskon Produk', $views))
+        {
+            return redirect('dashboard');
+        }
+
         $discounts = $this->discountProductRepository->all();
 
-        return view('msale.d_p_index', compact('discounts'));
+        return view('msale.d_p_index', compact('discounts', 'views'));
     }
 
     /**

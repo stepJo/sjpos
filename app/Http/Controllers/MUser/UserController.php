@@ -10,18 +10,27 @@ use App\Http\Requests\MUser\UpdateUserPasswordRequest;
 use App\Repositories\MUser\IRoleRepository;
 use App\Repositories\MUser\IUserRepository;
 use App\Services\MBranchService;
+use App\Services\MUserService;
 use App\Models\MUser\User;
+use Roles;
 
 class UserController extends Controller
 {
     private $roleRepository;
     private $userRepository;
+    private $userService;
     private $branchService;
 
-    public function __construct(IRoleRepository $roleRepository, IUserRepository $userRepository, MBranchService $branchService)
+    public function __construct(
+        IRoleRepository $roleRepository, 
+        IUserRepository $userRepository,
+        MUserService $userService, 
+        MBranchService $branchService
+    )
     {
         $this->roleRepository = $roleRepository;
         $this->userRepository = $userRepository;
+        $this->userService = $userService;
         $this->branchService = $branchService;
     }
 
@@ -32,11 +41,18 @@ class UserController extends Controller
      */
     public function index()
     {
+        $views = $this->userService->menusRole();
+
+        // if(!Roles::canView('User', $views))
+        // {
+        //     return redirect('dashboard');
+        // }
+
         $branches = $this->branchService->allBranches();
         $roles = $this->roleRepository->all();
         $users = $this->userRepository->all();
 
-        return view('muser.u_index', compact('branches', 'roles', 'users'));
+        return view('muser.u_index', compact('branches', 'roles', 'users', 'views'));
     }
 
     /**

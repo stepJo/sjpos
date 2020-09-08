@@ -19,7 +19,7 @@ Route::get('auth/login', 'AuthController@login')->name('login');
 Route::post('auth/check', 'AuthController@checkLogin')->name('check');
 Route::get('auth/logout', 'AuthController@logout')->name('logout');
 
-Route::group(['middleware' => 'pos_auth' ], function() {
+Route::group(['middleware' => 'auth' ], function() {
 	//DASHBOARD
 	Route::get('dashboard', 'DashboardController@dashboard');
 	

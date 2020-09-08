@@ -7,17 +7,21 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MProduct\CreateUnitRequest;
 use App\Http\Requests\MProduct\UpdateUnitRequest;
 use App\Repositories\MProduct\IUnitRepository;
+use App\Services\MUserService;
 use App\Services\MProductService;
 use App\Models\MProduct\Unit;
+use Roles;
 
 class UnitController extends Controller
 {
     private $unitRepository;
+    private $userService;
     private $unitService;
 
-    public function __construct(IUnitRepository $unitRepository, MProductService $unitService)
+    public function __construct(IUnitRepository $unitRepository, MUserService $userService, MProductService $unitService)
     {
         $this->unitRepository = $unitRepository;
+        $this->userService = $userService;
         $this->unitService = $unitService;
     }
 
@@ -28,9 +32,16 @@ class UnitController extends Controller
      */
     public function index()
     {
+        $views = $this->userService->menusRole();
+
+        if(!Roles::canView('Satuan', $views))
+        {
+            return redirect('dashboard');
+        }
+
         $units = $this->unitService->unitsProducts();  
 
-        return view('mproduct.u_index', compact('units'));
+        return view('mproduct.u_index', compact('units', 'views'));
     }
 
     /**
