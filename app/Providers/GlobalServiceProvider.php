@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Auth;
+use App\Models\MUser\Menu;
 use App\Models\MUser\Role;
 use Request;
 use Session;
@@ -31,18 +33,25 @@ class GlobalServiceProvider extends ServiceProvider
         if(Request::segment(2) != 'login')
         {
             View::composer('*', function ($view) {
-                $role = Role::with('menus')->find(Session::get('role_id'));
-
                 $views = [];
-            
-                foreach($role->menus as $menu)
-                {
-                    if($menu->pivot->view == 1)
-                    {
-                        $views[]  = $menu->menu_name;
-                    }   
-                }
 
+                if(Session::get('owner'))
+                {
+                    $views = Menu::get('menu_name')->toArray();
+                }
+                else
+                {
+                    $role = Role::with('menus')->find(Auth::user()->role_id);
+                
+                    foreach($role->menus as $menu)
+                    {
+                        if($menu->pivot->view == 1)
+                        {
+                            $views[]  = $menu->menu_name;
+                        }   
+                    }
+                }
+                
                 $view->with('views', $views);
             });
         }

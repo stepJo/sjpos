@@ -3,6 +3,8 @@
 namespace App\Helpers;
 
 class Role {
+
+    //FORM
     public static function addField($menu)
     {
         if($menu->menu_name != 'POS' && $menu->menu_name != 'Riwayat Transaksi' && $menu->menu_name != 'Barcode')
@@ -266,5 +268,11 @@ class Role {
                 </div>
             ';
         }
+    }
+
+    //VISIBLE
+    public static function canView($menu, $views)
+    {
+        return in_array($menu, $views);
     }
 }

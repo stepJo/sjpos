@@ -35,15 +35,12 @@ class AuthController extends Controller
         {
             return redirect('dashboard');
         }
-        else
-        {
-            $branches = $this->branchService->allBranches();
-            $roles = $this->userService->allRoles();
 
-            return view('auth.login', compact('branches', 'roles'));  
-        }
+        $branches = $this->branchService->allBranches();
+        $roles = $this->userService->allRoles();
+
+        return view('auth.login', compact('branches', 'roles'));  
     }
-
 
     public function checkLogin(UserLoginRequest $request)
     {	
@@ -68,6 +65,8 @@ class AuthController extends Controller
             {	
                 if(Hash::check($password, $user->u_password))
                 {	
+                    Auth::login($user);
+
                     $session = Session::put([
                         'logged_in' => true,
                         'u_id'      => $user->u_id,
@@ -90,7 +89,7 @@ class AuthController extends Controller
             }
             else
             {
-                return redirect()->back()->with('failed', 'Email atau password salah !');
+                return redirect()->back()->with('failed', 'User tidak ada !');
             }
         }
         else
