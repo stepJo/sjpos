@@ -8,6 +8,7 @@ use App\Http\Requests\MBranch\CreateBranchRequest;
 use App\Http\Requests\MBranch\UpdateBranchRequest;
 use App\Repositories\MBranch\IBranchRepository;
 use App\Models\MBranch\Branch;
+use Roles;
 
 class BranchController extends Controller
 {
@@ -25,12 +26,19 @@ class BranchController extends Controller
      */
     public function index(Request $request)
     {   
-        if($request->ajax())
+        if(!Roles::canView('Cabang'))
         {
-            return $this->branchRepository->renderDataTable();
+            return redirect('dashboard');
         }
+        else
+        {
+            if($request->ajax())
+            {
+                return $this->branchRepository->renderDataTable();
+            }
 
-        return view('mbranch.b_index');
+            return view('mbranch.b_index');
+        }
     }
 
     /**

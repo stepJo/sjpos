@@ -1,8 +1,30 @@
 <?php
 
 namespace App\Helpers;
+use Illuminate\Support\Facades\Auth;
+use App\Models\MUser\Role as menuRole;
 
 class Role {
+    //ACCESS
+    public static function canView($menu)
+    {
+        $role = menuRole::with('menus')->find(Auth::user()->role_id);
+
+        foreach($role->menus as $item)
+        {
+            if($item->menu_name == $menu)
+            {   
+                if($item->pivot->view == 1)
+                {
+                    return true;
+                }
+
+                return false;
+            }   
+        }
+
+        return false;
+    }
 
     //FORM
     public static function addField($menu)
@@ -268,11 +290,5 @@ class Role {
                 </div>
             ';
         }
-    }
-
-    //VISIBLE
-    public static function canView($menu, $views)
-    {
-        return in_array($menu, $views);
     }
 }
