@@ -5,13 +5,14 @@ use App\Repositories\MBranch\IBranchProductRepository;
 use App\Models\MBranch\Branch;
 use App\Models\MProduct\Product;
 use DataTables;
+use Roles;
 use Utilities;
 
 class BranchProductRepository implements IBranchProductRepository
 {
-    public function renderDataTable($branches)
+    public function renderDataTable($branches, $access)
     {
-        return Datatables::of($branches)
+        return Datatables::of($branches, $access)
             ->editColumn('b_status', function($branches) 
             {   
                 if($branches->b_status == 1)
@@ -132,83 +133,119 @@ class BranchProductRepository implements IBranchProductRepository
                     </div>
                     ';
             })
-            ->addColumn('actions', function($branches) 
+            ->addColumn('actions', function($branches) use($access)
             {
-                $token = csrf_token();
+                if($access->edit != 1 && $access->delete != 1)
+                {
+                    $html = Roles::noAccess();
+                }
+                else
+                {
+                    $edit_dropdown = '';
 
-                return 
-                    '
-                    <div class="dropdown">
-                        
-                        <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-
-                            Aksi
-                        
-                        </button>
-
-                        <div class="dropdown-menu mr-5" aria-labelledby="dropdownMenuLink">
-
+                    if($access->edit == 1)
+                    {
+                        $edit_dropdown =
+                            '
                             <a class="dropdown-item text-warning" href="'.route("branch-product.edit", $branches->b_id).'">
 
                                 <i class="fas fa-edit mr-1"></i> Edit
 
                             </a>
-                        
+                            ';
+                    }
+
+                    $delete_dropdown = '';
+
+                    if($access->delete == 1)
+                    {
+                        $delete_dropdown = 
+                            '
                             <a class="dropdown-item text-danger" data-toggle="modal" data-target="#delModal'.$branches->b_id.'">
 
                                 <i class="fas fa-trash mr-1"></i> Hapus
 
                             </a>
-                        
-                        </div>
+                            ';
+                    }
 
-                    </div>
-
-                    <div class="modal fade" id="delModal'.$branches->b_id.'">
-                                            
-                        <div class="modal-dialog">
-
-                            <div class="modal-content">
-
-                                <div class="modal-header">
-
-                                    <h4 class="modal-title">Aktifkan Produk <i class="fas fa-store ml-2"></i></h4>
-
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                                        <span aria-hidden="true">&times;</span>
+                    $html =
+                        '
+                        <div class="dropdown">
                             
-                                    </button>
-                                
-                                </div>
+                            <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-                                <form action="'.route('branch-product.destroy', $branches->b_id).'" method="POST">
-
-                                    <input type="hidden" name="_token" value="'.$token.'" />
-
-                                    <input type="hidden" name="_method" value="DELETE">
-
-                                    <div class="modal-body">
-                                
-                                        Yakin ingin mengaktifkan produk ke cabang <b>'.$branches->b_name.'</b> ?
+                                Aksi
                             
-                                    </div>
-                                
-                                    <div class="modal-footer justify-content-between">
-                                    
-                                        <button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
-                                    
-                                        <button type="submit" class="button-s1 button-red">Hapus</button>
-                                    
-                                    </div>
+                            </button>
 
-                                </form>
+                            <div class="dropdown-menu mr-5" aria-labelledby="dropdownMenuLink">
+
+                                '.$edit_dropdown.'
+                            
+                                '.$delete_dropdown.'
                             
                             </div>
-                        
+
                         </div>
-                        
-                    </div>';
+                        ';
+                    
+                    if($access->delete == 1)
+                    {
+                        $token = csrf_token();
+
+                        $html .=
+                            '
+                            <div class="modal fade" id="delModal'.$branches->b_id.'">
+                                                    
+                                <div class="modal-dialog">
+
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+
+                                            <h4 class="modal-title">Aktifkan Produk <i class="fas fa-store ml-2"></i></h4>
+
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                                                <span aria-hidden="true">&times;</span>
+                                    
+                                            </button>
+                                        
+                                        </div>
+
+                                        <form action="'.route('branch-product.destroy', $branches->b_id).'" method="POST">
+
+                                            <input type="hidden" name="_token" value="'.$token.'" />
+
+                                            <input type="hidden" name="_method" value="DELETE">
+
+                                            <div class="modal-body">
+                                        
+                                                Yakin ingin mengaktifkan produk ke cabang <b>'.$branches->b_name.'</b> ?
+                                    
+                                            </div>
+                                        
+                                            <div class="modal-footer justify-content-between">
+                                            
+                                                <button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
+                                            
+                                                <button type="submit" class="button-s1 button-red">Hapus</button>
+                                            
+                                            </div>
+
+                                        </form>
+                                    
+                                    </div>
+                                
+                                </div>
+                                
+                            </div>
+                            ';
+                    }
+                }
+
+                return $html;
             })
             ->rawColumns(['b_status', 'details', 'actions'])
             ->make(true);

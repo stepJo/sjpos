@@ -13,7 +13,7 @@ use Utilities;
 
 class PurchasementSupplierRepository implements IPurchasementSupplierRepository
 {
-    public function renderDataTable($request)
+    public function renderDataTable($request, $access)
     {
         if(!empty($request->start_date) && !empty($request->supplier) && $request->supplier != '*')
         {
@@ -47,20 +47,8 @@ class PurchasementSupplierRepository implements IPurchasementSupplierRepository
             {
                 return Utilities::emptyFormat($purchasements->pch_note);
             })
-            ->addColumn('actions', function($purchasements) 
+            ->addColumn('actions', function($purchasements) use($access)
             {
-                $token = csrf_token();
-
-                $total = Utilities::rupiahFormat($purchasements->pch_cost);
-
-                $tax = Utilities::rupiahFormat($purchasements->pch_tax);
-
-                $discount = Utilities::rupiahFormat($purchasements->pch_disc);
-
-                $shipment = Utilities::rupiahFormat($purchasements->pch_ship);
-
-                $date = Utilities::dateFormat($purchasements->pch_date);
-
                 $details = '';
 
                 foreach($purchasements->detailPurchasements as $dp) {
@@ -80,7 +68,31 @@ class PurchasementSupplierRepository implements IPurchasementSupplierRepository
                     ';
                 }
 
-                return 
+                $total = Utilities::rupiahFormat($purchasements->pch_cost);
+
+                $tax = Utilities::rupiahFormat($purchasements->pch_tax);
+
+                $discount = Utilities::rupiahFormat($purchasements->pch_disc);
+
+                $shipment = Utilities::rupiahFormat($purchasements->pch_ship);
+
+                $date = Utilities::dateFormat($purchasements->pch_date);
+
+                $delete_dropdown = '';
+
+                if($access->delete == 1)
+                {
+                    $edit_dropdown =
+                        '
+                        <a class="dropdown-item text-danger" data-toggle="modal" data-target="#delModal'.$purchasements->pch_id.'">
+
+                            <i class="fas fa-trash mr-1"></i> Hapus
+
+                        </a>
+                        ';
+                }
+
+                $html = 
                     '
                     <div class="dropdown">
                         
@@ -97,12 +109,8 @@ class PurchasementSupplierRepository implements IPurchasementSupplierRepository
                                 <i class="fas fa-info-circle mr-1"></i> Detail
 
                             </a>
-                        
-                            <a class="dropdown-item text-danger" data-toggle="modal" data-target="#delModal'.$purchasements->pch_id.'">
-
-                                <i class="fas fa-trash mr-1"></i> Hapus
-
-                            </a>
+                            
+                            '.$delete_dropdown.'
                         
                         </div>
 
@@ -173,52 +181,63 @@ class PurchasementSupplierRepository implements IPurchasementSupplierRepository
                         </div>
 
                     </div>
+                    ';
 
-                    <div class="modal fade" id="delModal'.$purchasements->pch_id.'">
-                                            
-                        <div class="modal-dialog">
+                if($access->delete == 1)
+                {
+                    $token = csrf_token();
 
-                            <div class="modal-content">
+                    $html .= 
+                        '
+                        <div class="modal fade" id="delModal'.$purchasements->pch_id.'">
+                                                
+                            <div class="modal-dialog">
 
-                                <div class="modal-header">
+                                <div class="modal-content">
 
-                                    <h4 class="modal-title">Hapus Pembelian Barang <i class="nav-icon fas fa-truck ml-2"></i></h4>
+                                    <div class="modal-header">
 
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <h4 class="modal-title">Hapus Pembelian Barang <i class="nav-icon fas fa-truck ml-2"></i></h4>
 
-                                            <span aria-hidden="true">&times;</span>
-                                
-                                        </button>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                                                <span aria-hidden="true">&times;</span>
                                     
+                                            </button>
+                                        
+                                    </div>
+
+                                    <form action="'.route('purchasement-supplier.destroy', $purchasements->pch_id).'" method="POST">
+
+                                        <input type="hidden" name="_token" value="'.$token.'" />
+
+                                        <input type="hidden" name="_method" value="DELETE">
+
+                                        <div class="modal-body">
+                                    
+                                            Yakin ingin menghapus pembelian barang dari penyuplai <b>'.$purchasements->supplier->s_name.'</b> ?
+                                
+                                        </div>
+                                    
+                                        <div class="modal-footer justify-content-between">
+                                        
+                                            <button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
+                                        
+                                            <button type="submit" class="button-s1 button-red">Hapus</button>
+                                        
+                                        </div>
+
+                                    </form>
+                                
                                 </div>
-
-                                <form action="'.route('purchasement-supplier.destroy', $purchasements->pch_id).'" method="POST">
-
-                                    <input type="hidden" name="_token" value="'.$token.'" />
-
-                                    <input type="hidden" name="_method" value="DELETE">
-
-                                    <div class="modal-body">
-                                
-                                        Yakin ingin menghapus pembelian barang dari penyuplai <b>'.$purchasements->supplier->s_name.'</b> ?
-                            
-                                    </div>
-                                
-                                    <div class="modal-footer justify-content-between">
-                                    
-                                        <button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
-                                    
-                                        <button type="submit" class="button-s1 button-red">Hapus</button>
-                                    
-                                    </div>
-
-                                </form>
                             
                             </div>
-                        
+                            
                         </div>
-                        
-                    </div>';
+                        ';
+                }
+
+                return $html;
             })
             ->with('sum_pch_cost', $purchasements->sum('pch_cost'))
             ->rawColumns(['pch_date', 'actions'])

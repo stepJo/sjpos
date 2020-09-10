@@ -11,7 +11,7 @@ use Utilities;
 
 class ProductRepository implements IProductRepository
 {
-    public function renderDataTable()
+    public function renderDataTable($access)
     {
         $products = Product::with('category', 'unit')->get();
         
@@ -55,7 +55,7 @@ class ProductRepository implements IProductRepository
                     ';
                 }
             })
-            ->addColumn('actions', function($products) 
+            ->addColumn('actions', function($products) use($access) 
             {
                 $token = csrf_token();
 
@@ -67,7 +67,35 @@ class ProductRepository implements IProductRepository
 
                 $status = Utilities::statusFormat($products->p_status);
 
-                return 
+                $edit_dropdown = '';
+
+                if($access->edit == 1)
+                {
+                    $edit_dropdown = 
+                        '
+                        <a class="dropdown-item text-warning" href="'.route("product.edit", $products->p_id).'">
+
+                            <i class="fas fa-edit mr-1"></i> Edit
+
+                        </a>
+                        ';
+                }
+
+                $delete_dropdown = '';
+
+                if($access->delete == 1)
+                {
+                    $delete_dropdown = 
+                        '
+                        <a class="dropdown-item text-danger" data-toggle="modal" data-target="#delModal'.$products->p_id.'">
+
+                            <i class="fas fa-trash mr-1"></i> Hapus
+
+                        </a>
+                        ';
+                }
+
+                $html =  
                     '
                     <div class="dropdown">
                         
@@ -85,17 +113,9 @@ class ProductRepository implements IProductRepository
 
                             </a>
                         
-                            <a class="dropdown-item text-warning" href="'.route("product.edit", $products->p_id).'">
-
-                                <i class="fas fa-edit mr-1"></i> Edit
-
-                            </a>
+                            '.$edit_dropdown.'
                         
-                            <a class="dropdown-item text-danger" data-toggle="modal" data-target="#delModal'.$products->p_id.'">
-
-                                <i class="fas fa-trash mr-1"></i> Hapus
-
-                            </a>
+                            '.$delete_dropdown.'
                         
                         </div>
 
@@ -172,52 +192,61 @@ class ProductRepository implements IProductRepository
                         </div>
 
                     </div>
+                    ';
 
-                    <div class="modal fade" id="delModal'.$products->p_id.'">
-                                            
-                        <div class="modal-dialog">
+                if($access->delete == 1)
+                {
+                    $html .=
+                        '
+                        <div class="modal fade" id="delModal'.$products->p_id.'">
+                                                
+                            <div class="modal-dialog">
 
-                            <div class="modal-content">
+                                <div class="modal-content">
 
-                                <div class="modal-header">
+                                    <div class="modal-header">
 
-                                    <h4 class="modal-title">Hapus Produk</h4>
+                                        <h4 class="modal-title">Hapus Produk</h4>
 
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
-                                            <span aria-hidden="true">&times;</span>
-                                
-                                        </button>
+                                                <span aria-hidden="true">&times;</span>
                                     
+                                            </button>
+                                        
+                                    </div>
+
+                                    <form action="'.route('product.destroy', $products->p_id).'" method="POST">
+
+                                        <input type="hidden" name="_token" value="'.$token.'" />
+
+                                        <input type="hidden" name="_method" value="DELETE">
+
+                                        <div class="modal-body">
+                                    
+                                            Yakin ingin menghapus kategori <b>'.$products->p_name.'</b> ?
+                                
+                                        </div>
+                                    
+                                        <div class="modal-footer justify-content-between">
+                                        
+                                            <button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
+                                        
+                                            <button type="submit" class="button-s1 button-red">Hapus</button>
+                                        
+                                        </div>
+
+                                    </form>
+                                
                                 </div>
-
-                                <form action="'.route('product.destroy', $products->p_id).'" method="POST">
-
-                                    <input type="hidden" name="_token" value="'.$token.'" />
-
-                                    <input type="hidden" name="_method" value="DELETE">
-
-                                    <div class="modal-body">
-                                
-                                        Yakin ingin menghapus kategori <b>'.$products->p_name.'</b> ?
-                            
-                                    </div>
-                                
-                                    <div class="modal-footer justify-content-between">
-                                    
-                                        <button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
-                                    
-                                        <button type="submit" class="button-s1 button-red">Hapus</button>
-                                    
-                                    </div>
-
-                                </form>
                             
                             </div>
-                        
+                            
                         </div>
-                        
-                    </div>';
+                        ';
+                }
+
+                return $html;
             })
             ->rawColumns(['p_code', 'p_image', 'p_status', 'actions'])
             ->make(true);

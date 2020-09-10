@@ -20,9 +20,4 @@ class CategoryRepository implements ICategoryRepository
     {
         $category->delete();
     }
-
-    public function search($request)
-    {
-        return Category::with('products', 'discounts')->find($request->cat_id);
-    }
 }

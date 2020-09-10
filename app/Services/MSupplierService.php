@@ -8,7 +8,7 @@ use App\Models\MSupplier\ProductSupplier;
 class MSupplierService {
     public function allSuppliers()
     {
-        return Supplier::select('s_id', 's_name')->get();
+        return Supplier::get(['s_id', 's_name']);
     }
 
     public function suppliersProducts()

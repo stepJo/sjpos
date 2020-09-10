@@ -35,11 +35,15 @@
 	              
 	              				<table id="productTable" class="table table-hover">
 
-									<button class="button-s1 button-green">
+									@if($access->add == 1)
 
-										<a href="{{ url('product/create') }}" class="text-white">Tambah Produk</a>
-	
-									</button>
+										<button class="button-s1 button-green">
+
+											<a href="{{ url('product/create') }}" class="text-white">Tambah Produk</a>
+		
+										</button>
+
+									@endif
 	                		
 	              					<div class="offset-md-12 d-flex justify-content-end mb-3">
 

@@ -6,24 +6,27 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\MSupplier\CreateProductSupplierRequest;
 use App\Http\Requests\MSupplier\UpdateProductSupplierRequest;
+use App\Policies\MSupplier\ProductSupplierPolicy;
 use App\Repositories\MSupplier\IProductSupplierRepository;
 use App\Services\MUserService;
 use App\Services\MSupplierService;
 use App\Models\MSupplier\ProductSupplier;
-use Roles;
 
 class ProductSupplierController extends Controller
 {
+    private $productSupplierPolicy;
     private $productSupplierRepository;
     private $userService;
     private $supplierService;
 
     public function __construct(
+        ProductSupplierPolicy $productSupplierPolicy,
         IProductSupplierRepository $productSupplierRepository, 
         MUserService $userService,
         MSupplierService $supplierService
     )
     {
+        $this->productSupplierPolicy = $productSupplierPolicy;
         $this->productSupplierRepository = $productSupplierRepository;
         $this->userService = $userService;
         $this->supplierService = $supplierService;
@@ -35,21 +38,25 @@ class ProductSupplierController extends Controller
      */
     public function index(Request $request)
     {
-        $views = $this->userService->menusRole();
+        $access = $this->productSupplierPolicy->access();
 
-        if(!Roles::canView('Data Barang', $views))
+        if($access->view != 1)
         {
-            return redirect('dashboard');
+            return redirect('dashboard')->with('fail', 'Tidak memiliki hak untuk melihat barang');
         }
-
-        $suppliers = $this->supplierService->allSuppliers();
-
-        if($request->ajax())
+        else
         {
-            return $this->productSupplierRepository->renderDataTable($request, $suppliers);
-        }
+            $suppliers = $this->supplierService->allSuppliers();
 
-        return view('msupplier/p_s_index', compact('suppliers', 'views'));
+            if($request->ajax())
+            {
+                return $this->productSupplierRepository->renderDataTable($request, $suppliers, $access);
+            }
+
+            $views = $this->userService->menusRole();
+
+            return view('msupplier/p_s_index', compact('suppliers', 'access', 'views'));
+        }
     }
 
     /**
@@ -60,11 +67,24 @@ class ProductSupplierController extends Controller
      */
     public function store(CreateProductSupplierRequest $request)
     {
-        ProductSupplier::create($request->validated());
+        $access = $this->productSupplierPolicy->access();
 
-        return response()->json([
-            'message' => 'Berhasil tambah barang'
-        ]);
+        if($access->add != 1)
+        {
+            return response()->json([
+                'status'  => 'Fail',
+                'message' => 'Tidak memiliki hak untuk tambah barang'
+            ]);
+        }
+        else
+        {
+            ProductSupplier::create($request->validated());
+
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Berhasil tambah barang'
+            ]);
+        }
     }
 
     /**
@@ -76,11 +96,24 @@ class ProductSupplierController extends Controller
      */
     public function update(UpdateProductSupplierRequest $request, ProductSupplier $product)
     {
-        $this->productSupplierRepository->update($request, $product);
-        
-        return response()->json([
-            'message' => 'Berhasil ubah barang'
-        ]);
+        $access = $this->productSupplierPolicy->access();
+
+        if($access->edit != 1)
+        {
+            return response()->json([
+                'status'  => 'Fail',
+                'message' => 'Tidak memiliki hak untuk ubah barang'
+            ]);
+        }
+        else
+        {
+            $this->productSupplierRepository->update($request, $product);
+            
+            return response()->json([
+                'status'  => 'Success',
+                'message' => 'Berhasil ubah barang'
+            ]);
+        }
     }
 
     /**
@@ -91,9 +124,18 @@ class ProductSupplierController extends Controller
      */
     public function destroy(ProductSupplier $product)
     {
-        $this->productSupplierRepository->destroy($product);
+        $access = $this->productSupplierPolicy->access();
 
-        return redirect()->back()->with('success', 'Berhasil hapus barang');
+        if($access->delete != 1)
+        {
+            return redirect('dashboard')->with('fail', 'Tidak memiliki hak untuk hapus barang');
+        }
+        else
+        {
+            $this->productSupplierRepository->destroy($product);
+
+            return redirect()->back()->with('success', 'Berhasil hapus barang');
+        }
     }
 
     public function exportCSV()

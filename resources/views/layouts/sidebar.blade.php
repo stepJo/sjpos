@@ -18,13 +18,15 @@
 
         <span class="text-warning">User : &nbsp;</span>
 
-        <a href="">{{ Auth::user()->u_name }}</a>
-
-        <br/>
+        <p class="text-white font-weight-bold">{{ Auth::user()->u_name }}</p>
 
         <span class="text-warning">Email : &nbsp;</span>
 
-        <a href="">{{ Auth::user()->u_email }}</a>
+        <p class="text-white font-weight-bold">{{ Auth::user()->u_email }}</p>
+
+        <span class="text-warning">Role : &nbsp;</span>
+
+        <p class="text-white font-weight-bold">{{ Session::get('role_name') }}</p>
       
       </div>
 
@@ -44,6 +46,22 @@
             <p>
 
               Dasbor
+
+            </p>
+
+          </a>
+
+        </li>
+
+        <li class="nav-item">
+
+          <a href="{{ url('pos') }}" class="nav-link">
+
+            <i class="nav-icon fas fa-home"></i>
+
+            <p>
+
+              Profil Usaha
 
             </p>
 
@@ -71,7 +89,7 @@
 
         @endif
 
-        @if(Roles::canView('Cabang', $views) && Roles::canView('Produk Cabang', $views))
+        @if(Roles::canView('Cabang', $views) || Roles::canView('Produk Cabang', $views))
 
           <li class="nav-item has-treeview">
 
@@ -125,7 +143,25 @@
 
         @endif
 
-        @if(Roles::canView('Riwayat Transaksi', $views) && Roles::canView('Diskon Produk', $views))
+        <li class="nav-item has-treeview">
+
+          <a href="#" class="nav-link">
+
+            <i class="nav-icon fas fa-envelope-open-text"></i>
+
+            <p>
+
+              Master Laporan
+
+              <i class="right fas fa-angle-left"></i>
+
+            </p>
+
+          </a>
+
+        </li>
+
+        @if(Roles::canView('Riwayat Transaksi', $views) || Roles::canView('Diskon Produk', $views))
 
           <li class="nav-item has-treeview">
 
@@ -189,7 +225,7 @@
 
         @endif
 
-        @if(Roles::canView('Produk', $views) && Roles::canView('Kategori', $views) && Roles::canView('Satuan', $views) && Roles::canView('Barcode', $views))
+        @if(Roles::canView('Produk', $views) || Roles::canView('Kategori', $views) || Roles::canView('Satuan', $views) || Roles::canView('Barcode', $views))
 
           <li class="nav-item has-treeview">
 
@@ -271,7 +307,7 @@
 
         @endif
 
-        @if(Roles::canView('Penyuplai', $views) && Roles::canView('Data Barang', $views) && Roles::canView('Pembelian Barang', $views))
+        @if(Roles::canView('Penyuplai', $views) || Roles::canView('Data Barang', $views) || Roles::canView('Pembelian Barang', $views))
 
           <li class="nav-item has-treeview">
 
@@ -303,9 +339,9 @@
 
                 </li>
 
-              @endif
+              @endif  
 
-              @if(Roles::canView('Data Babang', $views))
+              @if(Roles::canView('Data Barang', $views))
 
                 <li class="nav-item">
 
@@ -319,7 +355,7 @@
 
               @endif
 
-              @if(Roles::canView('Pembelian Cabang', $views))
+              @if(Roles::canView('Pembelian Barang', $views))
 
                 <li class="nav-item">
 

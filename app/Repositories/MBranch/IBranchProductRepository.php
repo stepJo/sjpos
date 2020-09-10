@@ -3,7 +3,7 @@
 namespace App\Repositories\MBranch;
 
 interface IBranchProductRepository {
-    public function renderDataTable($branches);
+    public function renderDataTable($branches, $access);
 
     public function store($request);
 

@@ -230,7 +230,7 @@
     $(document).ready(function() {
         $.ajax({
             type: 'GET',
-            url: '{{ url('branch/'.Request::segment(2).'/product/get') }}',
+            url: "{{ url('branch/'.Request::segment(2).'/product/get') }}",
             data: {},
             success: function(data) {
                 if(data.branch != null) {
@@ -276,7 +276,7 @@
 
         $.ajax({
             type: 'POST',
-            url: '{{ url('branch/product/store') }}',
+            url: "{{ route('branch-product.store') }}",
             data: {
                 _token: "{{ csrf_token() }}",
                 b_id: $('#b_id').val(),

@@ -35,76 +35,80 @@
 	            			<div class="card-body">
 	              
 	              				<table id="masterTable" class="table table-hover">
-	                		
-	              					<button class="button-s1 button-green mb-4" data-toggle="modal" data-target="#addModal">
-    					
-				    					Tambah Satuan
+									
+									@if($access->add == 1)
 
-				    				</button>
+										<button class="button-s1 button-green mb-4" data-toggle="modal" data-target="#addModal">
+							
+											Tambah Satuan
 
-				    				<div class="modal fade" id="addModal">
-								        
-								        <div class="modal-dialog">
+										</button>
 
-								          <div class="modal-content">
+										<div class="modal fade" id="addModal">
+											
+											<div class="modal-dialog">
 
-								            <div class="modal-header">
+											<div class="modal-content">
 
-								              	<h4 class="modal-title">Tambah Satuan <i class="fas fa-box-open ml-2"></i></h4>
+												<div class="modal-header">
 
-							              		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<h4 class="modal-title">Tambah Satuan <i class="fas fa-box-open ml-2"></i></h4>
 
-							                		<span aria-hidden="true">&times;</span>
-							              		
-							              		</button>
-								            		
-								            	</div>
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
-								            	<form id="add-unit-form">
+														<span aria-hidden="true">&times;</span>
+													
+													</button>
+														
+													</div>
 
-								            		@csrf
+													<form id="add-unit-form">
 
-							            			<div class="modal-body">
-								              		
-							            				<p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
+														@csrf
 
-								              			<div class="form-group">
+														<div class="modal-body">
+														
+															<p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
 
-										                  	<label class="modal-label">Nama *</label>
+															<div class="form-group">
 
-									                  		<br/>
+																<label class="modal-label">Nama *</label>
 
-									                  		<span class="text-danger add-unit-name-error"></span>
+																<br/>
 
-									                  		<input 
-									                  			type="text" 
-									                  			name="unit_name" 
-									                  			class="modal-input add-unit-name-modal-error" 
-									                  			placeholder="Nama Satuan"
-									                  		>
+																<span class="text-danger add-unit-name-error"></span>
 
-										                </div>
-								            
-								            		</div>
-									            
-									            	<div class="modal-footer justify-content-between">
-									              
-									              		<button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
-									              
-								              			<button type="submit" class="button-s1 button-green">Simpan</button>
-									            	
-									            	</div>
+																<input 
+																	type="text" 
+																	name="unit_name" 
+																	class="modal-input add-unit-name-modal-error" 
+																	placeholder="Nama Satuan"
+																>
 
-									            </form>
-								          
-								          	</div>
-								          	<!-- /.modal-content -->
-								        
-								        </div>
-								        <!-- /.modal-dialog -->
-								      
-								    </div>
-								    <!-- /.modal -->
+															</div>
+												
+														</div>
+													
+														<div class="modal-footer justify-content-between">
+													
+															<button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
+													
+															<button type="submit" class="button-s1 button-green">Simpan</button>
+														
+														</div>
+
+													</form>
+											
+												</div>
+												<!-- /.modal-content -->
+											
+											</div>
+											<!-- /.modal-dialog -->
+										
+										</div>
+										<!-- /.modal -->
+
+									@endif
 
 	                				<thead>
 	                
@@ -136,130 +140,144 @@
 
 							                  	<td>
 
-								                  	<button class="button-s1 button-yellow" data-toggle="modal" data-target="#editModal{{ $unit->unit_id }}">
+													@if($access->edit != 1 && $access->delete != 1)
 
-							                  			<i class="fas fa-marker mr-1"></i> Edit
+														{!! Roles::noAccess() !!}
 
-							                  		</button>
+													@endif
 
-							                  		<div class="modal fade" id="editModal{{ $unit->unit_id }}">
-								        
-												        <div class="modal-dialog">
+													@if($access->edit == 1)
 
-												          	<div class="modal-content">
+														<button class="button-s1 button-yellow" data-toggle="modal" data-target="#editModal{{ $unit->unit_id }}">
 
-												            	<div class="modal-header">
+															<i class="fas fa-marker mr-1"></i> Edit
 
-												              		<h4 class="modal-title">Edit Satuan <i class="fas fa-box-open ml-2"></i></h4>
+														</button>
 
-											              			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+														<div class="modal fade" id="editModal{{ $unit->unit_id }}">
+											
+															<div class="modal-dialog">
 
-											                			<span aria-hidden="true">&times;</span>
-											              		
-											              			</button>
-												            		
-												            	</div>
+																<div class="modal-content">
 
-												            	<form class="edit-unit-form" data-id="{{ $unit->unit_id }}">
+																	<div class="modal-header">
 
-												            		@csrf
+																		<h4 class="modal-title">Edit Satuan <i class="fas fa-box-open ml-2"></i></h4>
 
-											            			<div class="modal-body">
+																		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
-											            				<p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
-												              	
-												              			<div class="form-group">
+																			<span aria-hidden="true">&times;</span>
+																	
+																		</button>
+																		
+																	</div>
 
-														                  	<label class="modal-label">Nama *</label>
+																	<form class="edit-unit-form" data-id="{{ $unit->unit_id }}">
 
-													                  		<br/>
+																		@csrf
 
-													                  		<span class="text-danger edit-unit-name-error"></span>
+																		<div class="modal-body">
 
-													                  		<input 
-													                  			type="text" 
-													                  			name="unit_name" 
-													                  			class="modal-input edit-unit-name-modal-error"
-													                  			value="{{ $unit->unit_name }}"
-													                  		>
+																			<p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
+																	
+																			<div class="form-group">
 
-														                </div>
-												            
-												            		</div>
-													            
-													            	<div class="modal-footer justify-content-between">
-													              
-													              		<button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
-													              
-												              			<button type="submit" class="button-s1 button-yellow">Ubah</button>
-													            	
-													            	</div>
+																				<label class="modal-label">Nama *</label>
 
-													            </form>
-												          
-												          	</div>
-												          	<!-- /.modal-content -->
-												        
-												        </div>
-												        <!-- /.modal-dialog -->
-												      
-												    </div>
-												    <!-- /.modal -->
+																				<br/>
 
-												    <button class="button-s1 button-red" data-toggle="modal" data-target="#delModal{{ $unit->unit_id }}">
+																				<span class="text-danger edit-unit-name-error"></span>
 
-							                  			<i class="fas fa-trash mr-1"></i> Hapus
+																				<input 
+																					type="text" 
+																					name="unit_name" 
+																					class="modal-input edit-unit-name-modal-error"
+																					value="{{ $unit->unit_name }}"
+																				>
 
-							                  		</button>
+																			</div>
+																
+																		</div>
+																	
+																		<div class="modal-footer justify-content-between">
+																	
+																			<button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
+																	
+																			<button type="submit" class="button-s1 button-yellow">Ubah</button>
+																		
+																		</div>
 
-							                  		<div class="modal fade" id="delModal{{ $unit->unit_id }}">
-								        
-												        <div class="modal-dialog">
+																	</form>
+															
+																</div>
+																<!-- /.modal-content -->
+															
+															</div>
+															<!-- /.modal-dialog -->
+														
+														</div>
+														<!-- /.modal -->
 
-												          	<div class="modal-content">
+													@endif
 
-											            		<div class="modal-header">
+													@if($access->delete == 1)
 
-												              		<h4 class="modal-title">Hapus Satuan <i class="fas fa-box-open ml-2"></i></h4>
+														<button class="button-s1 button-red" data-toggle="modal" data-target="#delModal{{ $unit->unit_id }}">
 
-											              			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+															<i class="fas fa-trash mr-1"></i> Hapus
 
-											                			<span aria-hidden="true">&times;</span>
-											              		
-											              			</button>
-												            		
-												            	</div>
+														</button>
 
-												            	<form action="{{ route('unit.destroy', $unit->unit_id) }}" method="POST">
+														<div class="modal fade" id="delModal{{ $unit->unit_id }}">
+											
+															<div class="modal-dialog">
 
-												            		@method('DELETE')
+																<div class="modal-content">
 
-												            		@csrf
+																	<div class="modal-header">
 
-											            			<div class="modal-body">
-												              	
-												              			Yakin ingin menghapus satuan <b>{{ $unit->unit_name }}</b> ?
-												            
-												            		</div>
-													            
-													            	<div class="modal-footer justify-content-between">
-													              
-													              		<button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
-													              
-												              			<button type="submit" class="button-s1 button-red">Hapus</button>
-													            	
-													            	</div>
+																		<h4 class="modal-title">Hapus Satuan <i class="fas fa-box-open ml-2"></i></h4>
 
-													            </form>
-												          
-												          	</div>
-												          	<!-- /.modal-content -->
-												        
-												        </div>
-												        <!-- /.modal-dialog -->
-												      
-												    </div>
-												    <!-- /.modal -->
+																		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+																			<span aria-hidden="true">&times;</span>
+																	
+																		</button>
+																		
+																	</div>
+
+																	<form action="{{ route('unit.destroy', $unit->unit_id) }}" method="POST">
+
+																		@method('DELETE')
+
+																		@csrf
+
+																		<div class="modal-body">
+																	
+																			Yakin ingin menghapus satuan <b>{{ $unit->unit_name }}</b> ?
+																
+																		</div>
+																	
+																		<div class="modal-footer justify-content-between">
+																	
+																			<button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
+																	
+																			<button type="submit" class="button-s1 button-red">Hapus</button>
+																		
+																		</div>
+
+																	</form>
+															
+																</div>
+																<!-- /.modal-content -->
+															
+															</div>
+															<!-- /.modal-dialog -->
+														
+														</div>
+														<!-- /.modal -->
+
+													@endif
 
 												</td>
 

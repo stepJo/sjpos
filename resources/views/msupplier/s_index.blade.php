@@ -35,206 +35,210 @@
 	            			<div class="card-body">
 	              
 	              				<table id="masterTable" class="table table-hover">
-	                		
-	              					<button class="button-s1 button-green mb-4" data-toggle="modal" data-target="#addModal">
-    					
-				    					Tambah Penyuplai
+									
+									@if($access->add == 1)
 
-				    				</button>
+										<button class="button-s1 button-green mb-4" data-toggle="modal" data-target="#addModal">
+							
+											Tambah Penyuplai
 
-				    				<div class="modal fade" id="addModal">
-								        
-								        <div class="modal-dialog modal-lg">
+										</button>
 
-								          <div class="modal-content">
+										<div class="modal fade" id="addModal">
+											
+											<div class="modal-dialog modal-lg">
 
-								            <div class="modal-header">
+											<div class="modal-content">
 
-								              	<h4 class="modal-title">Tambah Penyuplai <i class="nav-icon fas fa-truck ml-2"></i></h4>
+												<div class="modal-header">
 
-							              		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<h4 class="modal-title">Tambah Penyuplai <i class="nav-icon fas fa-truck ml-2"></i></h4>
 
-							                		<span aria-hidden="true">&times;</span>
-							              		
-							              		</button>
-								            		
-								            	</div>
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
-								            	<form id="add-supplier-form">
+														<span aria-hidden="true">&times;</span>
+													
+													</button>
+														
+													</div>
 
-								            		@csrf
+													<form id="add-supplier-form">
 
-							            			<div class="modal-body">
-								              			
-								              			<p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
+														@csrf
 
-								              			<div class="row">
-
-								              				<div class="col-md-6">
-
-										              			<div class="form-group">
-
-												                  	<label class="modal-label">Kode *</label>
-
-											                  		<br/>
-
-											                  		<span class="text-danger add-s-code-error"></span>
-
-											                  		<input 
-											                  			type="text" 
-											                  			name="s_code" 
-											                  			class="modal-input add-s-code-modal-error" 
-											                  			placeholder="Kode Penyuplai"
-											                  		>
-
-												                </div>
-
-												            </div>
-
-								              				<div class="col-md-6">
-
-										              			<div class="form-group">
-
-												                  	<label class="modal-label">Nama *</label>
-
-											                  		<br/>
-
-											                  		<span class="text-danger add-s-name-error"></span>
-
-											                  		<input 
-											                  			type="text" 
-											                  			name="s_name" 
-											                  			class="modal-input add-s-name-modal-error" 
-											                  			placeholder="Nama Penyuplai"
-											                  		>
-
-												                </div>
-
-												            </div>
-
-												            <div class="col-md-6">
-
-												            	<div class="form-group">
-
-												                  	<label class="modal-label">Email</label>
-
-											                  		<br/>
-
-											                  		<span class="text-danger add-s-email-error"></span>
-
-											                  		<input 
-											                  			type="text" 
-											                  			name="s_email" 
-											                  			class="modal-input add-s-email-modal-error" 
-											                  			placeholder="Email Penyuplai"
-											                  		>
-
-												                </div>
-
-												            </div>
-
-												            <div class="col-md-6">
-
-												            	<div class="form-group">
-
-												                  	<label class="modal-label">Kontak *</label>
-
-											                  		<br/>
-
-											                  		<span class="text-danger add-s-contact-error"></span>
-
-											                  		<input 
-											                  			type="text" 
-											                  			name="s_contact" 
-											                  			class="modal-input add-s-contact-modal-error" 
-											                  			placeholder="Kontak Penyuplai"
-											                  		>
-
-												                </div> 	
-
-												            </div>
-
-												            <div class="col-md-6">
-
-												            	<div class="form-group">
-
-												                  	<label class="modal-label">Bank</label>
-
-											                  		<br/>
-
-											                  		<span class="text-danger add-s-bank-error"></span>
-
-											                  		<input 
-											                  			type="text" 
-											                  			name="s_bank" 
-											                  			class="modal-input add-s-bank-modal-error" 
-											                  			placeholder="Bank Penyuplai"
-											                  			value="{{ old('s_bank') }}"
-											                  		>
-
-												                </div>
-
-												            </div>
-
-												            <div class="col-md-6">
-
-												            	<div class="form-group">
-
-												                  	<label class="modal-label">Rekening</label>
-
-											                  		<br/>
-
-											                  		<span class="text-danger add-s-bank-num-error"></span>
-
-											                  		<input 
-											                  			type="text" 
-											                  			name="s_bank_num" 
-											                  			class="modal-input add-s-bank-num-modal-error" 
-											                  			placeholder="Rekening Penyuplai"
-											                  		>
-
-												                </div> 
-
-												            </div>
-
-												            <div class="col-md-6">
-
-								            					<div class="form-group">
-
-								            						<label for="s_address">Alamat</label>
-
-								            						<br/>
-
-											                  		<span class="text-danger add-s-address-error"></span>
-
-																  	<textarea class="textarea-input add-s-address-modal-error" placeholder="Alamat Penyuplai" name="s_address"></textarea>
+														<div class="modal-body">
 															
-						          								</div>
+															<p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
 
-								            				</div>
+															<div class="row">
 
-											            </div>	
-								            
-								            		</div>
-									            
-									            	<div class="modal-footer justify-content-between">
-									              
-									              		<button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
-									              
-								              			<button type="submit" class="button-s1 button-green">Simpan</button>
-									            	
-									            	</div>
+																<div class="col-md-6">
 
-									            </form>
-								          
-								          	</div>
-								          	<!-- /.modal-content -->
-								        
-								        </div>
-								        <!-- /.modal-dialog -->
-								      
-								    </div>
-									<!-- /.modal -->
+																	<div class="form-group">
+
+																		<label class="modal-label">Kode *</label>
+
+																		<br/>
+
+																		<span class="text-danger add-s-code-error"></span>
+
+																		<input 
+																			type="text" 
+																			name="s_code" 
+																			class="modal-input add-s-code-modal-error" 
+																			placeholder="Kode Penyuplai"
+																		>
+
+																	</div>
+
+																</div>
+
+																<div class="col-md-6">
+
+																	<div class="form-group">
+
+																		<label class="modal-label">Nama *</label>
+
+																		<br/>
+
+																		<span class="text-danger add-s-name-error"></span>
+
+																		<input 
+																			type="text" 
+																			name="s_name" 
+																			class="modal-input add-s-name-modal-error" 
+																			placeholder="Nama Penyuplai"
+																		>
+
+																	</div>
+
+																</div>
+
+																<div class="col-md-6">
+
+																	<div class="form-group">
+
+																		<label class="modal-label">Email</label>
+
+																		<br/>
+
+																		<span class="text-danger add-s-email-error"></span>
+
+																		<input 
+																			type="text" 
+																			name="s_email" 
+																			class="modal-input add-s-email-modal-error" 
+																			placeholder="Email Penyuplai"
+																		>
+
+																	</div>
+
+																</div>
+
+																<div class="col-md-6">
+
+																	<div class="form-group">
+
+																		<label class="modal-label">Kontak *</label>
+
+																		<br/>
+
+																		<span class="text-danger add-s-contact-error"></span>
+
+																		<input 
+																			type="text" 
+																			name="s_contact" 
+																			class="modal-input add-s-contact-modal-error" 
+																			placeholder="Kontak Penyuplai"
+																		>
+
+																	</div> 	
+
+																</div>
+
+																<div class="col-md-6">
+
+																	<div class="form-group">
+
+																		<label class="modal-label">Bank</label>
+
+																		<br/>
+
+																		<span class="text-danger add-s-bank-error"></span>
+
+																		<input 
+																			type="text" 
+																			name="s_bank" 
+																			class="modal-input add-s-bank-modal-error" 
+																			placeholder="Bank Penyuplai"
+																			value="{{ old('s_bank') }}"
+																		>
+
+																	</div>
+
+																</div>
+
+																<div class="col-md-6">
+
+																	<div class="form-group">
+
+																		<label class="modal-label">Rekening</label>
+
+																		<br/>
+
+																		<span class="text-danger add-s-bank-num-error"></span>
+
+																		<input 
+																			type="text" 
+																			name="s_bank_num" 
+																			class="modal-input add-s-bank-num-modal-error" 
+																			placeholder="Rekening Penyuplai"
+																		>
+
+																	</div> 
+
+																</div>
+
+																<div class="col-md-6">
+
+																	<div class="form-group">
+
+																		<label for="s_address">Alamat</label>
+
+																		<br/>
+
+																		<span class="text-danger add-s-address-error"></span>
+
+																		<textarea class="textarea-input add-s-address-modal-error" placeholder="Alamat Penyuplai" name="s_address"></textarea>
+																
+																	</div>
+
+																</div>
+
+															</div>	
+												
+														</div>
+													
+														<div class="modal-footer justify-content-between">
+													
+															<button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
+													
+															<button type="submit" class="button-s1 button-green">Simpan</button>
+														
+														</div>
+
+													</form>
+											
+												</div>
+												<!-- /.modal-content -->
+											
+											</div>
+											<!-- /.modal-dialog -->
+										
+										</div>
+										<!-- /.modal -->
+									
+									@endif
 									
 									<div class="offset-md-12 d-flex justify-content-end mb-3">
 
@@ -294,19 +298,27 @@
 
 							                                    <i class="fas fa-info-circle mr-1"></i> Detail
 
-							                                </a>
+															</a>
+
+															@if($access->edit == 1)
 							                            
-							                                <a class="dropdown-item text-warning" data-toggle="modal" data-target="#editModal{{ $supplier->s_id }}">
+																<a class="dropdown-item text-warning" data-toggle="modal" data-target="#editModal{{ $supplier->s_id }}">
 
-							                                    <i class="fas fa-edit mr-1"></i> Edit
+																	<i class="fas fa-edit mr-1"></i> Edit
 
-							                                </a>
-							                            
-							                                <a class="dropdown-item text-danger" data-toggle="modal" data-target="#delModal{{ $supplier->s_id }}">
+																</a>
 
-							                                    <i class="fas fa-trash mr-1"></i> Hapus
+															@endif
 
-							                                </a>
+															@if($access->delete == 1)
+															
+																<a class="dropdown-item text-danger" data-toggle="modal" data-target="#delModal{{ $supplier->s_id }}">
+
+																	<i class="fas fa-trash mr-1"></i> Hapus
+
+																</a>
+
+															@endif
 							                            
 							                            </div>
 
@@ -355,251 +367,259 @@
 												        <!-- /.modal-dialog -->
 												      
 												    </div>
-												    <!-- /.modal -->
+													<!-- /.modal -->
+													
+													@if($access->edit == 1)
 
-							                  		<div class="modal fade" id="editModal{{ $supplier->s_id }}">
-								        
-												        <div class="modal-dialog modal-lg">
+														<div class="modal fade" id="editModal{{ $supplier->s_id }}">
+											
+															<div class="modal-dialog modal-lg">
 
-												          <div class="modal-content">
+															<div class="modal-content">
 
-												            <div class="modal-header">
+																<div class="modal-header">
 
-												              	<h4 class="modal-title">Edit Penyuplai <i class="nav-icon fas fa-truck ml-2"></i></h4>
+																	<h4 class="modal-title">Edit Penyuplai <i class="nav-icon fas fa-truck ml-2"></i></h4>
 
-											              		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
-											                		<span aria-hidden="true">&times;</span>
-											              		
-											              		</button>
-												            		
-												            	</div>
+																		<span aria-hidden="true">&times;</span>
+																	
+																	</button>
+																		
+																	</div>
 
-												            	<form class="edit-supplier-form" data-id="{{ $supplier->s_id }}">
+																	<form class="edit-supplier-form" data-id="{{ $supplier->s_id }}">
 
-												            		@method('PATCH')
+																		@method('PATCH')
 
-												            		@csrf
+																		@csrf
 
-											            			<div class="modal-body">
+																		<div class="modal-body">
 
-											            				<p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
+																			<p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
 
-											            				<div class="row">
+																			<div class="row">
 
-												              				<div class="col-md-6">
+																				<div class="col-md-6">
 
-														              			<div class="form-group">
+																					<div class="form-group">
 
-																                  	<label class="modal-label">Kode *</label>
+																						<label class="modal-label">Kode *</label>
 
-															                  		<br/>
+																						<br/>
 
-															                  		<span class="text-danger edit-s-code-error"></span>
+																						<span class="text-danger edit-s-code-error"></span>
 
-															                  		<input 
-															                  			type="text" 
-															                  			name="s_code" 
-															                  			class="modal-input edit-s-code-modal-error" 
-															                  			value="{{ $supplier->s_code }}"
-															                  		>
+																						<input 
+																							type="text" 
+																							name="s_code" 
+																							class="modal-input edit-s-code-modal-error" 
+																							value="{{ $supplier->s_code }}"
+																						>
 
-																                </div>
+																					</div>
 
-																            </div>
+																				</div>
 
-												              				<div class="col-md-6">
+																				<div class="col-md-6">
 
-														              			<div class="form-group">
+																					<div class="form-group">
 
-																                  	<label class="modal-label">Nama *</label>
+																						<label class="modal-label">Nama *</label>
 
-															                  		<br/>
+																						<br/>
 
-															                  		<span class="text-danger edit-s-name-error"></span>
+																						<span class="text-danger edit-s-name-error"></span>
 
-															                  		<input 
-															                  			type="text" 
-															                  			name="s_name" 
-															                  			class="modal-input edit-s-name-modal-error" 
-															                  			value="{{ $supplier->s_name }}"
-															                  		>
+																						<input 
+																							type="text" 
+																							name="s_name" 
+																							class="modal-input edit-s-name-modal-error" 
+																							value="{{ $supplier->s_name }}"
+																						>
 
-																                </div>
+																					</div>
 
-																            </div>
+																				</div>
 
-																            <div class="col-md-6">
+																				<div class="col-md-6">
 
-																            	<div class="form-group">
+																					<div class="form-group">
 
-																                  	<label class="modal-label">Email</label>
+																						<label class="modal-label">Email</label>
 
-															                  		<br/>
+																						<br/>
 
-															                  		<span class="text-danger edit-s-email-error"></span>
+																						<span class="text-danger edit-s-email-error"></span>
 
-															                  		<input 
-															                  			type="text" 
-															                  			name="s_email" 
-															                  			class="modal-input edit-s-email-modal-error" 
-															                  			value="{{ $supplier->s_email }}"
-															                  		>
+																						<input 
+																							type="text" 
+																							name="s_email" 
+																							class="modal-input edit-s-email-modal-error" 
+																							value="{{ $supplier->s_email }}"
+																						>
 
-																                </div>
+																					</div>
 
-																            </div>
+																				</div>
 
-																            <div class="col-md-6">
+																				<div class="col-md-6">
 
-																            	<div class="form-group">
+																					<div class="form-group">
 
-																                  	<label class="modal-label">Kontak *</label>
+																						<label class="modal-label">Kontak *</label>
 
-															                  		<br/>
+																						<br/>
 
-															                  		<span class="text-danger edit-s-contact-error"></span>
+																						<span class="text-danger edit-s-contact-error"></span>
 
-															                  		<input 
-															                  			type="text" 
-															                  			name="s_contact" 
-															                  			class="modal-input edit-s-contact-modal-error" 
-															                  			value="{{ $supplier->s_contact }}"
-															                  		>
+																						<input 
+																							type="text" 
+																							name="s_contact" 
+																							class="modal-input edit-s-contact-modal-error" 
+																							value="{{ $supplier->s_contact }}"
+																						>
 
-																                </div> 	
+																					</div> 	
 
-																            </div>
+																				</div>
 
-																            <div class="col-md-6">
+																				<div class="col-md-6">
 
-																            	<div class="form-group">
+																					<div class="form-group">
 
-																                  	<label class="modal-label">Bank</label>
+																						<label class="modal-label">Bank</label>
 
-																                  		<br/>
+																							<br/>
 
-																                  		<span class="text-danger edit-s-banke-error"></span>
+																							<span class="text-danger edit-s-banke-error"></span>
 
-															                  		<input 
-															                  			type="text" 
-															                  			name="s_bank" 
-															                  			class="modal-input edit-s-bank-modal-error" 
-															                  			value="{{ $supplier->s_bank }}"
-															                  		>
+																						<input 
+																							type="text" 
+																							name="s_bank" 
+																							class="modal-input edit-s-bank-modal-error" 
+																							value="{{ $supplier->s_bank }}"
+																						>
 
-																                </div>
+																					</div>
 
-																            </div>
+																				</div>
 
-																            <div class="col-md-6">
+																				<div class="col-md-6">
 
-																            	<div class="form-group">
+																					<div class="form-group">
 
-																                  	<label class="modal-label">Rekening</label>
+																						<label class="modal-label">Rekening</label>
 
-															                  		<br/>
+																						<br/>
 
-															                  		<span class="text-danger edit-s-bank-num-error"></span>
+																						<span class="text-danger edit-s-bank-num-error"></span>
 
-															                  		<input 
-															                  			type="text" 
-															                  			name="s_bank_num" 
-															                  			class="modal-input edit-s-bank-num-modal-error" 
-															                  			value="{{ $supplier->s_bank_num }}"
-															                  		>
+																						<input 
+																							type="text" 
+																							name="s_bank_num" 
+																							class="modal-input edit-s-bank-num-modal-error" 
+																							value="{{ $supplier->s_bank_num }}"
+																						>
 
-																                </div> 
+																					</div> 
 
-																            </div>
+																				</div>
 
-																            <div class="col-md-6">
+																				<div class="col-md-6">
 
-												            					<div class="form-group">
+																					<div class="form-group">
 
-												            						<label for="s_address">Alamat</label>
+																						<label for="s_address">Alamat</label>
 
-												            						<br/>
+																						<br/>
 
-															                  		<span class="text-danger edit-s-address-error"></span>
+																						<span class="text-danger edit-s-address-error"></span>
 
-																				  	<textarea class="textarea-input edit-s-address-modal-error" placeholder="Alamat Penyuplai" name="s_address">{{ $supplier->s_address }}</textarea>
-																			
-										          								</div>
+																						<textarea class="textarea-input edit-s-address-modal-error" placeholder="Alamat Penyuplai" name="s_address">{{ $supplier->s_address }}</textarea>
+																				
+																					</div>
 
-												            				</div>
+																				</div>
 
-															            </div>		
-												              
-												            		</div>
-													            
-													            	<div class="modal-footer justify-content-between">
-													              
-													              		<button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
-													              
-												              			<button type="submit" class="button-s1 button-yellow">Ubah</button>
-													            	
-													            	</div>
+																			</div>		
+																
+																		</div>
+																	
+																		<div class="modal-footer justify-content-between">
+																	
+																			<button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
+																	
+																			<button type="submit" class="button-s1 button-yellow">Ubah</button>
+																		
+																		</div>
 
-													            </form>
-												          
-												          	</div>
-												          	<!-- /.modal-content -->
-												        
-												        </div>
-												        <!-- /.modal-dialog -->
-												      
-												    </div>
-												    <!-- /.modal -->
+																	</form>
+															
+																</div>
+																<!-- /.modal-content -->
+															
+															</div>
+															<!-- /.modal-dialog -->
+														
+														</div>
+														<!-- /.modal -->
 
-							                  		<div class="modal fade" id="delModal{{ $supplier->s_id }}">
-								        
-												        <div class="modal-dialog">
+													@endif
 
-												          <div class="modal-content">
+													@if($access->delete == 1)
 
-												            <div class="modal-header">
+														<div class="modal fade" id="delModal{{ $supplier->s_id }}">
+											
+															<div class="modal-dialog">
 
-												              	<h4 class="modal-title">Hapus Penyuplai <i class="nav-icon fas fa-truck ml-2"></i></h4>
+															<div class="modal-content">
 
-											              		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+																<div class="modal-header">
 
-											                		<span aria-hidden="true">&times;</span>
-											              		
-											              		</button>
-												            		
-												            	</div>
+																	<h4 class="modal-title">Hapus Penyuplai <i class="nav-icon fas fa-truck ml-2"></i></h4>
 
-												            	<form action="{{ route('supplier.destroy', $supplier->s_id) }}" method="POST">
+																	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
-												            		@method('DELETE')
+																		<span aria-hidden="true">&times;</span>
+																	
+																	</button>
+																		
+																	</div>
 
-												            		@csrf
+																	<form action="{{ route('supplier.destroy', $supplier->s_id) }}" method="POST">
 
-											            			<div class="modal-body">
-												              	
-												              			Yakin ingin menghapus Penyuplai <b>{{ $supplier->s_name }}</b> ?
-												            
-												            		</div>
-													            
-													            	<div class="modal-footer justify-content-between">
-													              
-													              		<button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
-													              
-												              			<button type="submit" class="button-s1 button-red">Hapus</button>
-													            	
-													            	</div>
+																		@method('DELETE')
 
-													            </form>
-												          
-												          	</div>
-												          	<!-- /.modal-content -->
-												        
-												        </div>
-												        <!-- /.modal-dialog -->
-												      
-												    </div>
-												    <!-- /.modal -->
+																		@csrf
+
+																		<div class="modal-body">
+																	
+																			Yakin ingin menghapus Penyuplai <b>{{ $supplier->s_name }}</b> ?
+																
+																		</div>
+																	
+																		<div class="modal-footer justify-content-between">
+																	
+																			<button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
+																	
+																			<button type="submit" class="button-s1 button-red">Hapus</button>
+																		
+																		</div>
+
+																	</form>
+															
+																</div>
+																<!-- /.modal-content -->
+															
+															</div>
+															<!-- /.modal-dialog -->
+														
+														</div>
+														<!-- /.modal -->
+
+													@endif
 
 							                  	</td>
 

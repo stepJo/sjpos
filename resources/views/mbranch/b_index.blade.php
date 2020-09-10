@@ -33,182 +33,186 @@
 
 	            			<div class="card-body">	
 
-	            				<button class="button-s1 button-green mb-4" data-toggle="modal" data-target="#addModal">
-    					
-                                    Tambah Cabang
+                                @if($access->add == 1)
 
-                                </button>
-								
-								<div class="modal fade" id="addModal">
+                                    <button class="button-s1 button-green mb-4" data-toggle="modal" data-target="#addModal">
+                            
+                                        Tambah Cabang
+
+                                    </button>
                                     
-                                    <div class="modal-dialog modal-lg">
+                                    <div class="modal fade" id="addModal">
+                                        
+                                        <div class="modal-dialog modal-lg">
 
-                                        <div class="modal-content">
+                                            <div class="modal-content">
 
-                                            <div class="modal-header">
+                                                <div class="modal-header">
 
-                                                <h4 class="modal-title">Tambah Cabang <i class="nav-icon fas fa-store ml-2"></i></h4>
+                                                    <h4 class="modal-title">Tambah Cabang <i class="nav-icon fas fa-store ml-2"></i></h4>
 
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
-                                                    <span aria-hidden="true">&times;</span>
-                                              
-                                                </button>
+                                                        <span aria-hidden="true">&times;</span>
                                                 
-                                            </div>
+                                                    </button>
+                                                    
+                                                </div>
 
-                                            <form id="add-branch-form">
+                                                <form id="add-branch-form">
 
-                                                @csrf
+                                                    @csrf
 
-                                                <div class="modal-body">
-                                                      
-                                                      <p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
-
-                                                      <div class="row">
-
-                                                        <div class="col-md-6">
-
-                                                            <div class="form-group">
-
-                                                                <label class="modal-label">Kode *</label>
-
-                                                                <br/>
-
-                                                                <span class="text-danger add-b-code-error"></span>
-
-                                                                <input 
-                                                                    type="text" 
-                                                                    name="b_code" 
-                                                                    class="modal-input add-b-code-modal-error" 
-                                                                    placeholder="Kode Cabang"
-                                                                > 
-
-															</div>
-
-															<div class="form-group">
-
-                                                                <label class="modal-label">Email *</label>
-
-                                                                <br/>
-
-                                                                <span class="text-danger add-b-email-error"></span>
-
-                                                                <input 
-                                                                    type="email" 
-                                                                    name="b_email" 
-                                                                    class="modal-input add-b-email-modal-error" 
-                                                                    placeholder="Email Cabang"
-                                                                > 
-
-															</div>
-															
-															<div class="form-group">
-
-                                                                <label for="b_desc">Deskripsi</label>
-
-                                                                <br/>
-
-																<span class="text-danger add-b-desc-error"></span>
-
-																<textarea class="textarea-input add-b-desc-modal-error" placeholder="Deskripsi Cabang" name=b_desc"></textarea>
+                                                    <div class="modal-body">
                                                         
-															</div>
+                                                        <p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
 
-															<div class="form-group">
-				
-																<label for="b_status">Status *</label>
+                                                        <div class="row">
 
-																<br/>
+                                                            <div class="col-md-6">
 
-																<span class="text-danger add-b-status-error"></span>
-				
-																<select class="select modal-input add-b-status-modal-error" name="b_status" id="b_status">
-				
-																	<option value="" class="font-weight-bold" selected>- Status Cabang -</option>
-				
-																	<option value="1" class="font-italic font-weight-bold text-success">Aktif</option>
-				
-																	<option value="0" class="font-italic font-weight-bold text-danger">Tidak Aktif</option>
-				
-																</select>
-				
-															</div>
-				
-														</div>
-														
-                                                        <div class="col-md-6">
+                                                                <div class="form-group">
 
-															<div class="form-group">
+                                                                    <label class="modal-label">Kode *</label>
 
-                                                                <label class="modal-label">Nama *</label>
+                                                                    <br/>
 
-                                                                <br/>
+                                                                    <span class="text-danger add-b-code-error"></span>
 
-                                                                <span class="text-danger add-b-name-error"></span>
+                                                                    <input 
+                                                                        type="text" 
+                                                                        name="b_code" 
+                                                                        class="modal-input add-b-code-modal-error" 
+                                                                        placeholder="Kode Cabang"
+                                                                    > 
 
-                                                                <input 
-                                                                    type="text" 
-                                                                    name="b_name" 
-                                                                    class="modal-input add-b-name-modal-error" 
-                                                                    placeholder="Nama Cabang"
-                                                                > 
+                                                                </div>
 
-															</div>
-															
-															<div class="form-group">
+                                                                <div class="form-group">
 
-                                                                <label class="modal-label">Kontak *</label>
+                                                                    <label class="modal-label">Email *</label>
 
-                                                                <br/>
+                                                                    <br/>
 
-                                                                <span class="text-danger add-b-contact-error"></span>
+                                                                    <span class="text-danger add-b-email-error"></span>
 
-                                                                <input 
-                                                                    type="text" 
-                                                                    name="b_contact" 
-                                                                    class="modal-input add-b-contact-modal-error" 
-                                                                    placeholder="Kontak Cabang"
-                                                                > 
+                                                                    <input 
+                                                                        type="email" 
+                                                                        name="b_email" 
+                                                                        class="modal-input add-b-email-modal-error" 
+                                                                        placeholder="Email Cabang"
+                                                                    > 
+
+                                                                </div>
+                                                                
+                                                                <div class="form-group">
+
+                                                                    <label for="b_desc">Deskripsi</label>
+
+                                                                    <br/>
+
+                                                                    <span class="text-danger add-b-desc-error"></span>
+
+                                                                    <textarea class="textarea-input add-b-desc-modal-error" placeholder="Deskripsi Cabang" name=b_desc"></textarea>
+                                                            
+                                                                </div>
+
+                                                                <div class="form-group">
+                    
+                                                                    <label for="b_status">Status *</label>
+
+                                                                    <br/>
+
+                                                                    <span class="text-danger add-b-status-error"></span>
+                    
+                                                                    <select class="select modal-input add-b-status-modal-error" name="b_status" id="b_status">
+                    
+                                                                        <option value="" class="font-weight-bold" selected>- Status Cabang -</option>
+                    
+                                                                        <option value="1" class="font-weight-bold text-success">Aktif</option>
+                    
+                                                                        <option value="0" class="font-weight-bold text-danger">Tidak Aktif</option>
+                    
+                                                                    </select>
+                    
+                                                                </div>
+                    
+                                                            </div>
+                                                            
+                                                            <div class="col-md-6">
+
+                                                                <div class="form-group">
+
+                                                                    <label class="modal-label">Nama *</label>
+
+                                                                    <br/>
+
+                                                                    <span class="text-danger add-b-name-error"></span>
+
+                                                                    <input 
+                                                                        type="text" 
+                                                                        name="b_name" 
+                                                                        class="modal-input add-b-name-modal-error" 
+                                                                        placeholder="Nama Cabang"
+                                                                    > 
+
+                                                                </div>
+                                                                
+                                                                <div class="form-group">
+
+                                                                    <label class="modal-label">Kontak *</label>
+
+                                                                    <br/>
+
+                                                                    <span class="text-danger add-b-contact-error"></span>
+
+                                                                    <input 
+                                                                        type="text" 
+                                                                        name="b_contact" 
+                                                                        class="modal-input add-b-contact-modal-error" 
+                                                                        placeholder="Kontak Cabang"
+                                                                    > 
+
+                                                                </div>
+
+                                                                <div class="form-group">
+
+                                                                    <label for="b_address">Alamat</label>
+
+                                                                    <br/>
+
+                                                                        <span class="text-danger add-b-address-error"></span>
+
+                                                                        <textarea class="textarea-input add-b-address-modal-error" placeholder="Alamat Cabang" name="b_address"></textarea>
+                                                            
+                                                                </div>
 
                                                             </div>
 
-                                                            <div class="form-group">
-
-                                                                <label for="b_address">Alamat</label>
-
-                                                                <br/>
-
-                                                                  	<span class="text-danger add-b-address-error"></span>
-
-                                                                  	<textarea class="textarea-input add-b-address-modal-error" placeholder="Alamat Cabang" name="b_address"></textarea>
-                                                        
-															</div>
-
-                                                        </div>
-
-                                                    </div>	
-                                        
-                                                </div>
+                                                        </div>	
                                             
-                                                <div class="modal-footer justify-content-between">
-                                              
-                                                      <button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
-                                              
-                                                      <button type="submit" class="button-s1 button-green">Simpan</button>
+                                                    </div>
                                                 
-                                                </div>
+                                                    <div class="modal-footer justify-content-between">
+                                                
+                                                        <button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
+                                                
+                                                        <button type="submit" class="button-s1 button-green">Simpan</button>
+                                                    
+                                                    </div>
 
-                                            </form>
-                                      
-                                          </div>
-                                          <!-- /.modal-content -->
+                                                </form>
+                                        
+                                            </div>
+                                            <!-- /.modal-content -->
+                                        
+                                        </div>
+                                        <!-- /.modal-dialog -->
                                     
                                     </div>
-                                    <!-- /.modal-dialog -->
-                                  
-                                </div>
-                                <!-- /.modal -->
+                                    <!-- /.modal -->
+
+                                @endif
 	              
 	              				<table id="branchTable" class="table table-hover">
 	                		

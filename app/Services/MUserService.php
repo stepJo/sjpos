@@ -4,7 +4,9 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\MUser\Role;
+use App\Models\MUser\Menu;
 use App\Models\MUser\User;
+use DB;
 
 class MUserService {
     public function allRoles()
@@ -14,7 +16,8 @@ class MUserService {
 
     public function menusRole()
     {
-        $role = Role::with('menus:menu_name')->find(Auth::user()->role_id);
+        $role = Role::with('menus:menu_name')
+            ->find(Auth::user()->role_id, ['role_id', 'role_name']);
 
         $views = [];
 
@@ -27,5 +30,18 @@ class MUserService {
         }
 
         return $views;
+    }
+
+    public function findMenu($menu_name)
+    {
+        return Menu::where('menu_name', $menu_name)->first(['menu_id', 'menu_name']);
+    }
+
+    public function findMenuRole($menu_id, $role_id)
+    {
+        return DB::table('menu_roles')
+        ->where('menu_id', $menu_id)
+        ->where('role_id', $role_id)
+        ->first();
     }
 }

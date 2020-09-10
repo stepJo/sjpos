@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\MProduct\Category;
 use App\Models\MProduct\Unit;
 use App\Models\MProduct\Product;
@@ -18,29 +19,30 @@ class MProductService {
         return Product::find($id);
     }
 
-    public function disableProducts($request)
+    public function disableProducts($b_id)
     {
         return DB::table('disable_products')
-            ->where('b_id', $request->b_id)
+            ->where('b_id', $b_id)
             ->pluck('p_id');
     }
 
     public function searchProducts($request)
     {
-        $disables = $this->disableProducts($request);
+        $disables = $this->disableProducts($request->b_id);
 
         return Product::where('p_name', 'LIKE', '%'.$request->p_name.'%')
             ->where('p_code', 'LIKE', '%'.$request->p_code.'%')
             ->whereNotIn('p_id', $disables)
-            ->get(['p_id', 'p_code', 'p_name', 'p_price']);
+            ->get();
     }
 
-    public function searchProductsWithDiscounts($request)
+    public function searchProductsWithDiscounts($request, $disables = [])
     {
         return Product::with('discount')
             ->where('p_name', 'LIKE', '%'.$request->p_name.'%')
             ->where('p_code', 'LIKE', '%'.$request->p_code.'%')
-            ->get(['p_id', 'p_code', 'p_name', 'p_price', 'p_status']);
+            ->whereNotIn('p_id', $disables)
+            ->get();
     }
 
     public function searchProductsWithoutDiscounts($request)
@@ -48,26 +50,51 @@ class MProductService {
         return Product::where('p_name', 'LIKE', '%'.$request->p_name.'%')
             ->where('p_code', 'LIKE', '%'.$request->p_code.'%')
             ->doesntHave('discount')
-            ->get(['p_id', 'p_code', 'p_name', 'p_price', 'p_status']);
+            ->get();
     }
 
-    public function categoriesProducts()
+    public function searchCategoryProducts($request, $disables = [])
     {
-        return Category::with('products')->get(['cat_id', 'cat_name']);
+        return Category::with(['discounts', 'products' => function($product) use($disables) {
+            $product->whereNotIn('p_id', $disables);
+        }])
+        ->find($request->cat_id);
     }
 
-    public function unitsProducts()
+    public function searchunitProducts($request, $disables = [])
     {
-        return Unit::with('products')->get(['unit_id', 'unit_name']);
+        return Unit::with(['discounts', 'products' => function($product) use($disables) {
+            $product->whereNotIn('p_id', $disables);
+        }])
+        ->find($request->unit_id);
     }
 
-    public function discountsProducts()
+    public function categoriesProducts($disables = [])
     {
-        return Product::with('discount')->get();
+        return Category::with(['products' => function($product) use ($disables) {
+            $product->whereNotIn('p_id', $disables);
+        }])
+        ->get(['cat_id', 'cat_name']);
     }
 
-    public function countNotActiveProducts()
+    public function unitsProducts($disables = [])
     {
-        return Product::where('p_status', 0)->count();
+        return Unit::with(['products' => function($product) use ($disables) {
+            $product->whereNotIn('p_id', $disables);
+        }])
+        ->get(['unit_id', 'unit_name']);
+    }
+
+    public function discountsProducts($disables = [])
+    {
+        return Product::with('discount')->whereNotIn('p_id', $disables)->get();
+    }
+
+    public function countNotActiveProducts($disables)
+    {
+        return Product::where('p_status', 0)
+            ->orWhereIn('p_id', $disables)
+            ->distinct()
+            ->count();
     }
 }

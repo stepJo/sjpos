@@ -8,6 +8,4 @@ interface ICategoryRepository {
     public function update($request, $category);
 
     public function destroy($category);
-
-    public function search($request);
 }

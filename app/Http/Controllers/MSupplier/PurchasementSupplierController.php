@@ -5,6 +5,7 @@ namespace App\Http\Controllers\MSupplier;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\MSupplier\CreatePurchasementSupplierRequest;
+use App\Policies\MSupplier\PurchasementSupplierPolicy;
 use App\Repositories\MSupplier\IPurchasementSupplierRepository;
 use App\Services\MUserService;
 use App\Services\MSupplierService;
@@ -13,12 +14,19 @@ use Roles;
 
 class PurchasementSupplierController extends Controller
 {
+    private $purchasementSupplierPolicy;
     private $purchasementSupplierRepository;
     private $userService;
     private $supplierService;
 
-    public function __construct(IPurchasementSupplierRepository $purchasementSupplierRepository, MUserService $userService, MSupplierService $supplierService)
+    public function __construct(
+        PurchasementSupplierPolicy $purchasementSupplierPolicy,
+        IPurchasementSupplierRepository $purchasementSupplierRepository, 
+        MUserService $userService, 
+        MSupplierService $supplierService
+    )
     {
+        $this->purchasementSupplierPolicy = $purchasementSupplierPolicy;
         $this->purchasementSupplierRepository = $purchasementSupplierRepository;
         $this->userService =$userService;
         $this->supplierService =$supplierService;
@@ -31,21 +39,25 @@ class PurchasementSupplierController extends Controller
      */
     public function index(Request $request)
     {
-        $views = $this->userService->menusRole();
+        $access = $this->purchasementSupplierPolicy->access();
 
-        if(!Roles::canView('Pembelian Barang', $views))
+        if($access->view != 1)
         {
-            return redirect('dashboard');
+            return redirect('dashboard')->with('fail', 'Tidak memiliki hak untuk melihat pembelian barang');
         }
-
-        $suppliers = $this->supplierService->allSuppliers();
-
-        if($request->ajax())
+        else
         {
-            return $this->purchasementSupplierRepository->renderDataTable($request);
-        }
+            $suppliers = $this->supplierService->allSuppliers();
 
-        return view('msupplier/pch_s_index', compact('suppliers', 'views'));
+            if($request->ajax())
+            {
+                return $this->purchasementSupplierRepository->renderDataTable($request, $access);
+            }
+
+            $views = $this->userService->menusRole();
+
+            return view('msupplier/pch_s_index', compact('suppliers', 'access', 'views'));
+        }
     }
 
     /**
@@ -55,9 +67,20 @@ class PurchasementSupplierController extends Controller
      */
     public function create()
     {
-        $suppliers = $this->supplierService->suppliersProducts();
+        $access = $this->purchasementSupplierPolicy->access();
 
-        return view('msupplier/pch_s_a', compact('suppliers'));
+        if($access->add != 1)
+        {
+            return redirect('dashboard')->with('fail', 'Tidak memiliki hak untuk tambah pembelian barang');
+        }
+        else
+        {
+            $suppliers = $this->supplierService->suppliersProducts();
+
+            $views = $this->userService->menusRole();
+
+            return view('msupplier/pch_s_a', compact('suppliers', 'access', 'views'));
+        }
     }
 
     /**
@@ -68,9 +91,24 @@ class PurchasementSupplierController extends Controller
      */
     public function store(CreatePurchasementSupplierRequest $request)
     {
-        $this->purchasementSupplierRepository->store($request);
+        $access = $this->purchasementSupplierPolicy->access();
 
-        return response()->json(['message' => 'Pembelian barang berhasil']);  
+        if($access->add != 1)
+        {
+            return response()->json([
+                'status'  => 'Fail',
+                'message' => 'Tidak memiliki hak akses untuk tambah pembelian barang'
+            ]);  
+        }
+        else
+        {
+            $this->purchasementSupplierRepository->store($request);
+
+            return response()->json([
+                'status'  => 'Success',
+                'message' => 'Pembelian barang berhasil'
+            ]);  
+        }
     }
 
     /**
@@ -81,9 +119,18 @@ class PurchasementSupplierController extends Controller
      */
     public function destroy(PurchasementSupplier $purchasement)
     {
-        $this->purchasementSupplierRepository->destroy($purchasement);
+        $access = $this->purchasementSupplierPolicy->access();
 
-        return redirect()->back()->with('success', 'Berhasil hapus pembelian barang');
+        if($access->delete != 1)
+        {
+            return redirect('dashboard')->with('fail', 'Tidak memiliki hak untuk hapus pembelian barang');
+        }
+        else
+        {
+            $this->purchasementSupplierRepository->destroy($purchasement);
+
+            return redirect()->back()->with('success', 'Berhasil hapus pembelian barang');
+        }
     }
 
     public function searchProduct(Request $request)

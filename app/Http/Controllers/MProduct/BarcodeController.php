@@ -3,20 +3,27 @@
 namespace App\Http\Controllers\MProduct;
 
 use App\Http\Controllers\Controller;
+use App\Policies\MProduct\BarcodePolicy;
 use Illuminate\Http\Request;
 use App\Repositories\MProduct\IBarcodeRepository;
 use App\Services\MUserService;
 use App\Services\MProductService;
-use Roles;
 
 class BarcodeController extends Controller
 {
+    private $barcodePolicy;
     private $barcodeRepository;
     private $productService;
     private $userService;
 
-    public function __construct(IBarcodeRepository $barcodeRepository, MUserService $userService, MProductService $productService)
+    public function __construct(
+        BarcodePolicy $barcodePolicy,
+        IBarcodeRepository $barcodeRepository, 
+        MUserService $userService, 
+        MProductService $productService
+    )
     {
+        $this->barcodePolicy = $barcodePolicy;
         $this->barcodeRepository = $barcodeRepository;
         $this->userService = $userService;
         $this->productService = $productService;
@@ -29,21 +36,25 @@ class BarcodeController extends Controller
      */
     public function index(Request $request)
     {   
-        $views = $this->userService->menusRole();
+        $access = $this->barcodePolicy->access();
 
-        if(!Roles::canView('Barcode', $views))
+        if($access->view != 1)
         {
-            return redirect('dashboard');
+            return redirect('dashboard')->with('fail', 'Tidak memiliki hak untuk lihat barcode');
         }
-
-        $products = $this->productService->allProducts();
-
-        if($request->ajax())
+        else
         {
-            return $this->barcodeRepository->renderDataTable($products);
-        }
+            $products = $this->productService->allProducts();
 
-        return view('mproduct.b_index', compact('products', 'views'));
+            if($request->ajax())
+            {
+                return $this->barcodeRepository->renderDataTable($products);
+            }
+
+            $views = $this->userService->menusRole();
+
+            return view('mproduct.b_index', compact('products', 'views'));
+        }
     }
     
     public function getProduct($id)

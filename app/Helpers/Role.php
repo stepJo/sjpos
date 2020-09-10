@@ -10,6 +10,11 @@ class Role {
         return in_array($menu, $views);
     }
 
+    public static function noAccess()
+    {
+        return '<i class="fas fa-lock fa-lg text-indigo"></i>';
+    }
+
     //FORM
     public static function addField($menu)
     {

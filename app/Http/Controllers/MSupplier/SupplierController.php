@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\MSupplier\CreateSupplierRequest;
 use App\Http\Requests\MSupplier\UpdateSupplierRequest;
+use App\Policies\MSupplier\SupplierPolicy;
 use App\Repositories\MSupplier\ISupplierRepository;
 use App\Services\MUserService;
 use App\Models\MSupplier\Supplier;
@@ -13,11 +14,17 @@ use Roles;
 
 class SupplierController extends Controller
 {
+    private $supplierPolicy;
     private $supplierRepository;
     private $userService;
 
-    public function __construct(ISupplierRepository $supplierRepository, MUserService $userService)
+    public function __construct(
+        SupplierPolicy $supplierPolicy,
+        ISupplierRepository $supplierRepository, 
+        MUserService $userService
+    )
     {
+        $this->supplierPolicy = $supplierPolicy;
         $this->supplierRepository = $supplierRepository;
         $this->userService = $userService;
     }
@@ -29,16 +36,20 @@ class SupplierController extends Controller
      */
     public function index()
     {
-        $views = $this->userService->menusRole();
+        $access = $this->supplierPolicy->access();
 
-        if(!Roles::canView('Penyuplai', $views))
+        if($access->view != 1)
         {
-            return redirect('dashboard');
+            return redirect('dashboard')->with('fail', 'Tidak memiliki hak untuk melihat penyuplai');
         }
+        else
+        {
+            $suppliers = $this->supplierRepository->all();
 
-        $suppliers = $this->supplierRepository->all();
+            $views = $this->userService->menusRole();
 
-        return view('msupplier.s_index', compact('suppliers', 'views'));
+            return view('msupplier.s_index', compact('suppliers', 'access', 'views'));
+        }
     }
 
     /**
@@ -49,9 +60,24 @@ class SupplierController extends Controller
      */
     public function store(CreateSupplierRequest $request)
     {   
-        $this->supplierRepository->store($request);
+        $access = $this->supplierPolicy->access();
 
-        return response()->json(['message' => 'Berhasil tambah penyuplai']);
+        if($access->add != 1)
+        {
+            return response()->json([
+                'status'  => 'Fail',
+                'message' => 'Tidak memiliki hak untuk tambah penyuplai'
+            ]);
+        }
+        else
+        {
+            $this->supplierRepository->store($request);
+
+            return response()->json([
+                'status'  => 'Success',
+                'message' => 'Berhasil tambah penyuplai'
+            ]);
+        }
     }
 
     /**
@@ -62,10 +88,25 @@ class SupplierController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateSupplierRequest $request, Supplier $supplier)
-    {   
-        $this->supplierRepository->update($request, $supplier);
+    {
+        $access = $this->supplierPolicy->access();
 
-        return response()->json(['message' => 'Berhasil ubah penyuplai']);
+        if($access->edit != 1)
+        {
+            return response()->json([
+                'status'  => 'Fail',
+                'message' => 'Tidak memiliki hak untuk ubah penyuplai'
+            ]);
+        }
+        else
+        {
+            $this->supplierRepository->update($request, $supplier);
+
+            return response()->json([
+                'status'  => 'Success',
+                'message' => 'Berhasil ubah penyuplai'
+            ]);
+        }
     }
 
     /**
@@ -76,9 +117,18 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        $this->supplierRepository->destroy($supplier);
+        $access = $this->supplierPolicy->access();
 
-        return redirect()->back()->with('success', 'Berhasil hapus penyuplai');
+        if($access->delete != 1)
+        {
+            return redirect('dashboard')->with('fail', 'Tidak memiliki hak untuk hapus penyuplai');
+        }
+        else
+        {
+            $this->supplierRepository->destroy($supplier);
+
+            return redirect()->back()->with('success', 'Berhasil hapus penyuplai');
+        }
     }
 
     public function exportCSV()

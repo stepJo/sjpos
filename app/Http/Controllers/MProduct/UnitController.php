@@ -4,22 +4,29 @@ namespace App\Http\Controllers\MProduct;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Policies\MProduct\UnitPolicy;
 use App\Http\Requests\MProduct\CreateUnitRequest;
 use App\Http\Requests\MProduct\UpdateUnitRequest;
 use App\Repositories\MProduct\IUnitRepository;
 use App\Services\MUserService;
 use App\Services\MProductService;
 use App\Models\MProduct\Unit;
-use Roles;
 
 class UnitController extends Controller
 {
+    private $unitPolicy;
     private $unitRepository;
     private $userService;
     private $unitService;
 
-    public function __construct(IUnitRepository $unitRepository, MUserService $userService, MProductService $unitService)
+    public function __construct(
+        UnitPolicy $unitPolicy,
+        IUnitRepository $unitRepository, 
+        MUserService $userService, 
+        MProductService $unitService
+    )
     {
+        $this->unitPolicy = $unitPolicy;
         $this->unitRepository = $unitRepository;
         $this->userService = $userService;
         $this->unitService = $unitService;
@@ -32,16 +39,20 @@ class UnitController extends Controller
      */
     public function index()
     {
-        $views = $this->userService->menusRole();
+        $access = $this->unitPolicy->access();
 
-        if(!Roles::canView('Satuan', $views))
+        if($access->view != 1)
         {
-            return redirect('dashboard');
+            return redirect('dashboard')->with('fail', 'Tidak memiliki hak untuk lihat satuan');
         }
+        else
+        {
+            $units = $this->unitService->unitsProducts(); 
+            
+            $views = $this->userService->menusRole();
 
-        $units = $this->unitService->unitsProducts();  
-
-        return view('mproduct.u_index', compact('units', 'views'));
+            return view('mproduct.u_index', compact('units', 'access', 'access', 'views'));
+        }
     }
 
     /**
@@ -52,11 +63,24 @@ class UnitController extends Controller
      */
     public function store(CreateUnitRequest $request)
     {
-        $this->unitRepository->store($request);
+        $access = $this->unitPolicy->access();
 
-        return response()->json([
-            'message' => 'Berhasil tambah satuan'
-        ]);
+        if($access->add != 1)
+        {
+            return response()->json([
+                'status' => 'Fail',
+                'message' => 'Tidak memiliki hak untuk tambah satuan'
+            ]);
+        }
+        else
+        {
+            $this->unitRepository->store($request);
+
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Berhasil tambah satuan'
+            ]);
+        }
     }
 
     /**
@@ -68,11 +92,24 @@ class UnitController extends Controller
      */
     public function update(UpdateUnitRequest $request, Unit $unit)
     {
-        $this->unitRepository->update($request, $unit);
-        
-        return response()->json([
-            'message' => 'Berhasil ubah satuan'
-        ]);
+        $access = $this->unitPolicy->access();
+
+        if($access->edit != 1)
+        {
+            return response()->json([
+                'status' => 'Fail',
+                'message' => 'Tidak memiliki hak untuk ubah satuan'
+            ]);
+        }    
+        else
+        {
+            $this->unitRepository->update($request, $unit);
+            
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Berhasil ubah satuan'
+            ]);
+        }
     }
 
     /**
@@ -83,8 +120,17 @@ class UnitController extends Controller
      */
     public function destroy(Unit $unit)
     {
-        $this->unitRepository->destroy($unit);
+        $access = $this->unitPolicy->access();
 
-        return redirect()->back()->with('success', 'Berhasil hapus satuan');
+        if($access->delete != 1)
+        {
+            return redirect('dashboard')->with('fail', 'Tidak memiliki hak untuk hapus satuan');
+        }
+        else
+        {
+            $this->unitRepository->destroy($unit);
+
+            return redirect()->back()->with('success', 'Berhasil hapus satuan');
+        }
     }
 }

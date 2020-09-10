@@ -8,6 +8,4 @@ interface IUnitRepository {
     public function update($request, $unit);
 
     public function destroy($unit);
-
-    public function search($request);
 }

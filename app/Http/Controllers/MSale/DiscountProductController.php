@@ -4,22 +4,29 @@ namespace App\Http\Controllers\MSale;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Policies\MSale\DiscountProductPolicy;
 use App\Http\Requests\MSale\CreateDiscountProductRequest;
 use App\Http\Requests\MSale\UpdateDiscountProductRequest;
 use App\Repositories\MSale\IDiscountProductRepository;
 use App\Services\MUserService;
 use App\Services\MProductService;
 use App\Models\MSale\DiscountProduct;
-use Roles;
 
 class DiscountProductController extends Controller
 {
+    private $discountProductPolicy;
     private $discountProductRepository;
     private $userService;
     private $productService;
 
-    public function __construct(IDiscountProductRepository $discountProductRepository, MUSerService $userService, MProductService $productService)
+    public function __construct(
+        DiscountProductPolicy $discountProductPolicy,
+        IDiscountProductRepository $discountProductRepository, 
+        MUSerService $userService, 
+        MProductService $productService
+    )
     {
+        $this->discountProductPolicy = $discountProductPolicy;
         $this->discountProductRepository = $discountProductRepository;
         $this->userService = $userService;
         $this->productService = $productService;
@@ -32,16 +39,20 @@ class DiscountProductController extends Controller
      */
     public function index()
     {   
-        $views = $this->userService->menusRole();
+        $access = $this->discountProductPolicy->access();
 
-        if(!Roles::canView('Diskon Produk', $views))
+        if($access->view != 1)
         {
-            return redirect('dashboard');
+            return redirect('dashboard')->with('fail', 'Tidak memiliki hak untuk lihat diskon produk');
         }
+        else
+        {
+            $discounts = $this->discountProductRepository->all();
 
-        $discounts = $this->discountProductRepository->all();
+            $views = $this->userService->menusRole();
 
-        return view('msale.d_p_index', compact('discounts', 'views'));
+            return view('msale.d_p_index', compact('discounts', 'access', 'views'));
+        }
     }
 
     /**
@@ -52,11 +63,24 @@ class DiscountProductController extends Controller
      */
     public function store(CreateDiscountProductRequest $request)
     {
-        $discount = $this->discountProductRepository->store($request);
+        $access = $this->discountProductPolicy->access();
 
-        return response()->json([
-            'message' => 'Berhasil tambah diskon produk'
-        ]);
+        if($access->add != 1)
+        {
+            return response()->json([
+                'status' => 'Fail',
+                'message' => 'Tidak memiliki hak untuk tambah diskon produk'
+            ]);
+        }
+        else
+        {
+            $discount = $this->discountProductRepository->store($request);
+
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Berhasil tambah diskon produk'
+            ]);
+        }
     }
 
     /**
@@ -68,11 +92,23 @@ class DiscountProductController extends Controller
      */
     public function update(UpdateDiscountProductRequest $request, DiscountProduct $product)
     {
-        $product->update($request->validated());
+        $access = $this->discountProductPolicy->access();
 
-        return response()->json([
-            'message' => 'Berhasil ubah diskon produk'
-        ]);
+        if($access->edit != 1)
+        {
+            return response()->json([
+                'status' => 'Fail',
+                'message' => 'Tidak memiliki hak untuk ubah diskon produk'
+            ]);
+        }
+        else
+        {
+            $product->update($request->validated());
+
+            return response()->json([
+                'message' => 'Berhasil ubah diskon produk'
+            ]);
+        }
     }
 
     /**
@@ -83,9 +119,18 @@ class DiscountProductController extends Controller
      */
     public function destroy(DiscountProduct $product)
     {   
-        $this->discountProductRepository->destroy($product);
+        $access = $this->discountProductPolicy->access();
 
-        return redirect()->back()->with('success', 'Berhasil hapus diskon produk');
+        if($access->delete != 1)
+        {
+            return redirect('dashboard')->with('fail', 'Tidak memiliki hak untuk hapus diskon produk');
+        }
+        else
+        {
+            $this->discountProductRepository->destroy($product);
+
+            return redirect()->back()->with('success', 'Berhasil hapus diskon produk');
+        }
     }
 
     public function searchProduct(Request $request)

@@ -8,8 +8,7 @@ class RoleRepository implements IRoleRepository
 {
     public function all()
     {
-        return Role::with('users:role_id')
-            ->get(['role_id', 'role_name']);
+        return Role::get(['role_id', 'role_name']);
     }
 
     public function store($request)

@@ -1,6 +1,7 @@
 <?php 
 
 namespace App\Repositories\MBranch;
+
 use App\Repositories\MBranch\IBranchRepository;
 use App\Exports\MBranch\BranchExport;
 use App\Models\MBranch\Branch;
@@ -11,7 +12,7 @@ use Utilities;
 
 class BranchRepository implements IBranchRepository
 {
-    public function renderDataTable()
+    public function renderDataTable($access)
     {
         $branches = Branch::all();
             
@@ -53,9 +54,26 @@ class BranchRepository implements IBranchRepository
                     ';
                 }
             })
-            ->addColumn('actions', function($branches) 
+            ->addColumn('actions', function($branches) use($access) 
             {
                 $token = csrf_token();
+
+                $status_list = "";
+
+                if($branches->b_status == 1)
+                {
+                    $status_list.= '
+                        <option value="1" class="font-weight-bold text-success" selected>Aktif</option>
+                        <option value="0" class="font-weight-bold text-danger">Tidak Aktif</option>
+                    ';
+                }
+                else
+                {
+                    $status_list.= '
+                        <option value="1" class="font-weight-bold text-success">Aktif</option>
+                        <option value="0" class="font-weight-bold text-danger" selected>Tidak Aktif</option>
+                    ';
+                }
 
                 $desc = Utilities::emptyFormat($branches->b_desc);
 
@@ -63,24 +81,34 @@ class BranchRepository implements IBranchRepository
 
                 $status = Utilities::statusFormat($branches->b_status);
 
-                $status_list = "";
+                $edit_dropdown = '';
 
-                if($branches->b_status == 1)
+                if($access->edit == 1)
                 {
-                    $status_list.= '
-                        <option value="1" class="font-italic font-weight-bold text-success" selected>Aktif</option>
-                        <option value="0" class="font-italic font-weight-bold text-danger">Tidak Aktif</option>
-                    ';
-                }
-                else
-                {
-                    $status_list.= '
-                        <option value="1" class="font-italic font-weight-bold text-success">Aktif</option>
-                        <option value="0" class="font-italic font-weight-bold text-danger" selected>Tidak Aktif</option>
-                    ';
+                    $edit_dropdown = 
+                        '
+                        <a class="dropdown-item text-warning" data-toggle="modal" data-target="#editModal'.$branches->b_id.'">
+
+                            <i class="fas fa-edit mr-1"></i> Edit
+
+                        </a>
+                        ';
                 }
 
-                return 
+                $delete_dropdown = '';
+                
+                if($access->delete == 1)
+                {
+                    $delete_dropdown =
+                        '<a class="dropdown-item text-danger" data-toggle="modal" data-target="#delModal'.$branches->b_id.'">
+
+                            <i class="fas fa-trash mr-1"></i> Hapus
+
+                        </a>
+                        ';
+                }
+
+                $html = 
                     '
                     <div class="dropdown">
                         
@@ -98,17 +126,9 @@ class BranchRepository implements IBranchRepository
 
                             </a>
                         
-                            <a class="dropdown-item text-warning" data-toggle="modal" data-target="#editModal'.$branches->b_id.'">
-
-                                <i class="fas fa-edit mr-1"></i> Edit
-
-                            </a>
+                            '.$edit_dropdown.'
                         
-                            <a class="dropdown-item text-danger" data-toggle="modal" data-target="#delModal'.$branches->b_id.'">
-
-                                <i class="fas fa-trash mr-1"></i> Hapus
-
-                            </a>
+                            '.$delete_dropdown.'    
                         
                         </div>
 
@@ -181,173 +201,184 @@ class BranchRepository implements IBranchRepository
                         </div>
 
                     </div>
+                    ';
 
-                    <div class="modal fade" id="editModal'.$branches->b_id.'">
+                if($access->edit == 1)
+                {
+                    $html .=
+                        '
+                        <div class="modal fade" id="editModal'.$branches->b_id.'">
+                                        
+                            <div class="modal-dialog modal-lg">
+
+                                <div class="modal-content">
+
+                                <div class="modal-header">
+
+                                    <h4 class="modal-title">Edit Cabang <i class="fas fa-store ml-2"></i></h4>
+
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+                                        <span aria-hidden="true">&times;</span>
                                     
-                        <div class="modal-dialog modal-lg">
+                                    </button>
+                                        
+                                    </div>
 
-                            <div class="modal-content">
+                                    <form class="edit-branch-form" data-id="'.$branches->b_id.'">
 
-                            <div class="modal-header">
+                                        <input type="hidden" name="_token" value="'.$token.'" />
 
-                                <h4 class="modal-title">Edit Cabang <i class="fas fa-store ml-2"></i></h4>
+                                        <input type="hidden" name="_method" value="PATCH">
 
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <div class="modal-body">
 
-                                    <span aria-hidden="true">&times;</span>
+                                            <p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
+
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+
+                                                    <div class="form-group">
+
+                                                        <label class="modal-label">Kode *</label>
+
+                                                        <br/>
+
+                                                        <span class="text-danger edit-b-code-error"></span>
+
+                                                        <input 
+                                                            type="text" 
+                                                            name="b_code" 
+                                                            class="modal-input edit-b-code-modal-error" 
+                                                            value="'.$branches->b_code.'"
+                                                        > 
+
+                                                    </div>
+
+                                                    <div class="form-group">
+
+                                                        <label class="modal-label">Email *</label>
+
+                                                        <br/>
+
+                                                        <span class="text-danger edit-b-email-error"></span>
+
+                                                        <input 
+                                                            type="email" 
+                                                            name="b_email" 
+                                                            class="modal-input edit-b-email-modal-error" 
+                                                            value="'.$branches->b_email.'"
+                                                        > 
+
+                                                    </div>
+
+                                                    <div class="form-group">
+
+                                                        <label for="b_desc">Deskripsi</label>
+
+                                                        <br/>
+
+                                                        <span class="text-danger edit-b-desc--error"></span>
+
+                                                        <textarea class="textarea-input edit-b-desc-modal-error" name="b_desc">'.$branches->b_desc.'</textarea>
+                                                
+                                                    </div>
+
+                                                    <div class="form-group">
+
+                                                        <label class="modal-label">Status *</label>
+
+                                                        <br/>
+
+                                                        <span class="text-danger edit-b-status-error"></span>
+
+                                                        <select class="form-control modal-input select2bs4 edit-b-status-modal-error" style="width: 100%;" name="b_status">
+
+                                                            '.$status_list.'
+
+                                                        </select>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-md-6">
+
+                                                    <div class="form-group">
+
+                                                        <label class="modal-label">Nama *</label>
+
+                                                        <br/>
+
+                                                        <span class="text-danger edit-b-name-error"></span>
+
+                                                        <input 
+                                                            type="text" 
+                                                            name="b_name" 
+                                                            class="modal-input edit-b-name-modal-error" 
+                                                            value="'.$branches->b_name.'"
+                                                        > 
+
+                                                    </div>
+
+                                                    <div class="form-group">
+
+                                                        <label class="modal-label">Kontak *</label>
+
+                                                        <br/>
+
+                                                        <span class="text-danger edit-b-contact-error"></span>
+
+                                                        <input 
+                                                            type="text" 
+                                                            name="b_contact" 
+                                                            class="modal-input edit-b-contact-modal-error" 
+                                                            value="'.$branches->b_contact.'"
+                                                        > 
+
+                                                    </div>
+
+                                                    <div class="form-group">
+
+                                                        <label for="b_address">Alamat</label>
+
+                                                        <br/>
+
+                                                        <span class="text-danger edit-b-address-error"></span>
+
+                                                        <textarea class="textarea-input edit-b-address-modal-error" name="b_address">'.$branches->b_address.'</textarea>
+                                                
+                                                    </div>
+
+                                                </div>
+
+                                            </div>		
+                                    
+                                        </div>
+                                    
+                                        <div class="modal-footer justify-content-between">
+                                        
+                                            <button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
+                                        
+                                            <button type="submit" class="button-s1 button-yellow">Ubah</button>
+                                        
+                                        </div>
+
+                                    </form>
                                 
-                                </button>
-                                    
                                 </div>
-
-                                <form class="edit-branch-form" data-id="'.$branches->b_id.'">
-
-                                    <input type="hidden" name="_token" value="'.$token.'" />
-
-                                    <input type="hidden" name="_method" value="PATCH">
-
-                                    <div class="modal-body">
-
-                                        <p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
-
-                                        <div class="row">
-
-                                            <div class="col-md-6">
-
-                                                <div class="form-group">
-
-                                                    <label class="modal-label">Kode *</label>
-
-                                                    <br/>
-
-                                                    <span class="text-danger edit-b-code-error"></span>
-
-                                                    <input 
-                                                        type="text" 
-                                                        name="b_code" 
-                                                        class="modal-input edit-b-code-modal-error" 
-                                                        value="'.$branches->b_code.'"
-                                                    > 
-
-                                                </div>
-
-                                                <div class="form-group">
-
-                                                    <label class="modal-label">Email *</label>
-
-                                                    <br/>
-
-                                                    <span class="text-danger edit-b-email-error"></span>
-
-                                                    <input 
-                                                        type="email" 
-                                                        name="b_email" 
-                                                        class="modal-input edit-b-email-modal-error" 
-                                                        value="'.$branches->b_email.'"
-                                                    > 
-
-                                                </div>
-
-                                                <div class="form-group">
-
-                                                    <label for="b_desc">Deskripsi</label>
-
-                                                    <br/>
-
-                                                    <span class="text-danger edit-b-desc--error"></span>
-
-                                                    <textarea class="textarea-input edit-b-desc-modal-error" name="b_desc">'.$branches->b_desc.'</textarea>
-                                            
-                                                </div>
-
-                                                <div class="form-group">
-
-                                                    <label class="modal-label">Status *</label>
-
-                                                    <br/>
-
-                                                    <span class="text-danger edit-b-status-error"></span>
-
-                                                    <select class="form-control modal-input select2bs4 edit-b-status-modal-error" style="width: 100%;" name="b_status">
-
-                                                        '.$status_list.'
-
-                                                    </select>
-
-                                                </div>
-
-                                            </div>
-
-                                            <div class="col-md-6">
-
-                                                <div class="form-group">
-
-                                                    <label class="modal-label">Nama *</label>
-
-                                                    <br/>
-
-                                                    <span class="text-danger edit-b-name-error"></span>
-
-                                                    <input 
-                                                        type="text" 
-                                                        name="b_name" 
-                                                        class="modal-input edit-b-name-modal-error" 
-                                                        value="'.$branches->b_name.'"
-                                                    > 
-
-                                                </div>
-
-                                                <div class="form-group">
-
-                                                    <label class="modal-label">Kontak *</label>
-
-                                                    <br/>
-
-                                                    <span class="text-danger edit-b-contact-error"></span>
-
-                                                    <input 
-                                                        type="text" 
-                                                        name="b_contact" 
-                                                        class="modal-input edit-b-contact-modal-error" 
-                                                        value="'.$branches->b_contact.'"
-                                                    > 
-
-                                                </div>
-
-                                                <div class="form-group">
-
-                                                    <label for="b_address">Alamat</label>
-
-                                                    <br/>
-
-                                                    <span class="text-danger edit-b-address-error"></span>
-
-                                                    <textarea class="textarea-input edit-b-address-modal-error" name="b_address">'.$branches->b_address.'</textarea>
-                                            
-                                                </div>
-
-                                            </div>
-
-                                        </div>		
-                                
-                                    </div>
-                                
-                                    <div class="modal-footer justify-content-between">
-                                    
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-                                    
-                                        <button type="submit" class="btn btn-warning">Ubah</button>
-                                    
-                                    </div>
-
-                                </form>
                             
                             </div>
-                        
+                            
                         </div>
-                        
-                    </div>
+                        ';
+                }
 
+                if($access->delete == 1)
+                {
+                    $html .=
+                    '
                     <div class="modal fade" id="delModal'.$branches->b_id.'">
                                             
                         <div class="modal-dialog">
@@ -392,7 +423,11 @@ class BranchRepository implements IBranchRepository
                         
                         </div>
                         
-                    </div>';
+                    </div>
+                    ';
+                }
+
+                return $html;
             })
             ->rawColumns(['b_status', 'actions'])
             ->make(true);

@@ -37,11 +37,15 @@
 
                                     <div class="col-md-4">
 
-                                        <button class="button-s1 button-green">
+										@if($access->add == 1)
 
-                                            <a href="{{ url('supplier/purchasement/create') }}" class="text-white">Tambah Pembelian Barang</a>
-        
-                                        </button>
+											<button class="button-s1 button-green">
+
+												<a href="{{ url('supplier/purchasement/create') }}" class="text-white">Tambah Pembelian Barang</a>
+			
+											</button>
+											
+										@endif
 
                                     </div>
 

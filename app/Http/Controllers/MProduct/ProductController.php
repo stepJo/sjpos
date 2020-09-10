@@ -4,6 +4,7 @@ namespace App\Http\Controllers\MProduct;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Policies\MProduct\ProductPolicy;
 use App\Http\Requests\MProduct\CreateProductRequest;
 use App\Http\Requests\MProduct\UpdateProductRequest;
 use App\Repositories\MProduct\IProductRepository;
@@ -11,15 +12,20 @@ use App\Services\MUserService;
 use App\Models\MProduct\Category;
 use App\Models\MProduct\Unit;
 use App\Models\MProduct\Product;
-use Roles;
 
 class ProductController extends Controller
 {
+    private $productPolicy;
     private $productRepository;
     private $userService;
 
-    public function __construct(IProductRepository $productRepository, MUserService $userService)
+    public function __construct(
+        ProductPolicy $productPolicy,
+        IProductRepository $productRepository, 
+        MUserService $userService
+    )
     {
+        $this->productPolicy = $productPolicy;
         $this->productRepository = $productRepository;
         $this->userService = $userService;
     }
@@ -31,19 +37,23 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {   
-        $views = $this->userService->menusRole();
+        $access = $this->productPolicy->access();
 
-        if(!Roles::canView('Produk', $views))
+        if($access->view != 1)
         {
-            return redirect('dashboard');
+            return redirect('dashboard')->with('fail', 'Tidak memiliki hak untuk lihat produk');
         }
+        else
+        {
+            if($request->ajax())
+            {
+                return $this->productRepository->renderDataTable($access);
+            }
+            
+            $views = $this->userService->menusRole();
 
-        if($request->ajax())
-        {
-            return $this->productRepository->renderDataTable();
+            return view('mproduct.p_index', compact('access', 'views'));
         }
-        
-        return view('mproduct.p_index', compact('views'));
     }
 
     /**
@@ -53,10 +63,21 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
-        $units = Unit::all();
+        $access = $this->productPolicy->access();
 
-        return view('mproduct.p_a' ,compact('categories', 'units'));
+        if($access->add != 1)
+        {
+            return redirect('dashboard')->with('fail', 'Tidak memiliki hak untuk tambah produk');
+        }
+        else
+        {
+            $categories = Category::all();
+            $units = Unit::all();
+
+            $views = $this->userService->menusRole();
+
+            return view('mproduct.p_a' ,compact('categories', 'units', 'access', 'views'));
+        }
     }
 
     /**
@@ -67,9 +88,18 @@ class ProductController extends Controller
      */
     public function store(CreateProductRequest $request)
     {   
-        $this->productRepository->store($request);
+        $access = $this->productPolicy->access();
 
-        return redirect('product')->with('success', 'Berhasil tambah produk');
+        if($access->add != 1)
+        {
+            return redirect('dashboard')->with('fail', 'Tidak memiliki hak untuk tambah produk');;
+        }
+        else
+        {
+            $this->productRepository->store($request);
+
+            return redirect('product')->with('success', 'Berhasil tambah produk');
+        }
     }
 
     /**
@@ -80,10 +110,21 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $categories = Category::all();
-        $units = Unit::all();
+        $access = $this->productPolicy->access();
 
-        return view('mproduct.p_e' ,compact('product', 'categories', 'units'));
+        if($access->edit != 1)
+        {
+            return redirect('dashboard')->with('fail', 'Tidak memiliki hak untuk ubah produk');
+        }
+        else
+        {
+            $categories = Category::all();
+            $units = Unit::all();
+
+            $views = $this->userService->menusRole();
+
+            return view('mproduct.p_e' ,compact('product', 'categories', 'units', 'views'));
+        }
     }
 
     /**
@@ -95,9 +136,18 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, $id)
     {   
-        $this->productRepository->update($request, $id);
+        $access = $this->productPolicy->access();
 
-        return redirect('product')->with('success', 'Berhasil ubah produk');
+        if($access->edit != 1)
+        {
+            return redirect('dashboard')->with('fail', 'Tidak memiliki hak untuk ubah produk');
+        }
+        else
+        {
+            $this->productRepository->update($request, $id);
+
+            return redirect('product')->with('success', 'Berhasil ubah produk');
+        }
     }
 
     /**
@@ -108,9 +158,18 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        $this->productRepository->destroy($product);
+        $access = $this->productPolicy->access();
 
-        return redirect()->back()->with('success', 'Berhasil hapus produk');
+        if($access->delete != 1)
+        {
+            return redirect('dashboard')->with('fail', 'Tidak memiliki hak untuk hapus produk');
+        }
+        else
+        {
+            $this->productRepository->destroy($product);
+
+            return redirect()->back()->with('success', 'Berhasil hapus produk');
+        }
     }
 
     public function exportCSV()

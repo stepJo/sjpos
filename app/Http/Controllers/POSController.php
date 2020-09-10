@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Repositories\MProduct\ICategoryRepository;
-use App\Repositories\MProduct\IUnitRepository;
+use App\Policies\POSPolicy;
 use App\Repositories\MSale\ITransactionRepository;
 use App\Repositories\MSale\IDetailTransactionRepository;
 use App\Services\MUserService;
@@ -17,24 +17,21 @@ use Roles;
 
 class POSController extends Controller
 {   
-    private $categoryRepository;
-    private $unitRepository;
+    private $posPolicy;
     private $transactionRepository;
     private $detailTransactionRepository;
     private $userService;
     private $productService;
 
     public function __construct(
-        ICategoryRepository $categoryRepository, 
-        IUnitRepository $unitRepository, 
+        POSPolicy $posPolicy,
         ITransactionRepository $transactionRepository, 
         IDetailTransactionRepository $detailTransactionRepository, 
         MUserService $userService,
         MProductService $productService
     )
     {
-        $this->categoryRepository = $categoryRepository;
-        $this->unitRepository = $unitRepository;
+        $this->posPolicy = $posPolicy;
         $this->transactionRepository = $transactionRepository;
         $this->detailTransactionRepository = $detailTransactionRepository;
         $this->userService = $userService;
@@ -43,47 +40,61 @@ class POSController extends Controller
 
     public function index()
     {
-        $views = $this->userService->menusRole();
+        $access = $this->posPolicy->access();
 
-        if(!Roles::canView('POS', $views))
+        if($access->view != 1)
         {
-            return redirect('dashboard');
+            return redirect('dashboard')->with('fail', 'Tidak memiliki hak untuk akses POS');
         }
+        else
+        {
+            $disables = $this->productService->disableProducts(Auth::user()->b_id);
 
-        $categories = $this->productService->categoriesProducts();
-        $units = $this->productService->unitsProducts();
+            $categories = $this->productService->categoriesProducts($disables);
+            $units = $this->productService->unitsProducts($disables);
 
-        $products = $this->productService->discountsProducts();
+            $products = $this->productService->discountsProducts($disables);
 
-        $not_actives = $this->productService->countNotActiveProducts();
-        
-    	return view('pos', compact('categories', 'units', 'products', 'not_actives', 'views'));
+            $not_actives = $this->productService->countNotActiveProducts($disables);
+
+            $views = $this->userService->menusRole();
+
+            return view('pos', compact('categories', 'units', 'products', 'not_actives', 'views'));
+        }
     }
 
     public function allProduct()
     {
-        $products = $this->productService->discountsProducts();
+        $disables = $this->productService->disableProducts(Auth::user()->b_id);
+
+        $products = $this->productService->discountsProducts($disables);
 
         return response()->json($products);
     }
 
     public function searchProduct(Request $request)
     {
-        $products = $this->productService->searchProductsWithDiscounts($request);
+        $disables = $this->productService->disableProducts(Auth::user()->b_id);
+
+        $products = $this->productService->searchProductsWithDiscounts($request, $disables);
 
     	return response()->json($products);
     }
 
     public function searchCategory(Request $request)
     {   
-        $category = $this->categoryRepository->search($request);
+        $disables = $this->productService->disableProducts(Auth::user()->b_id);
+
+        $category = $this->productService->searchCategoryProducts($request, $disables);
 
         return response()->json($category);
     }
 
     public function searchUnit(Request $request)
     {
-        $unit = $this->unitRepository->search($request);
+        $disables = $this->productService->disableProducts(Auth::user()->b_id);
+
+        $unit = $this->productService->searchUnitProducts($request, $disables);
 
         return response()->json($unit);
     }

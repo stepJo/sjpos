@@ -3,7 +3,7 @@
 namespace App\Repositories\MProduct;
 
 interface IProductRepository {
-    public function renderDataTable();
+    public function renderDataTable($access);
 
     public function store($request);
 

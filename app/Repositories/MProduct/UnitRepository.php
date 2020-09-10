@@ -20,9 +20,4 @@ class UnitRepository implements IUnitRepository
     {
         $unit->delete();
     }
-
-    public function search($request)
-    {
-        return Unit::with('products', 'discounts')->find($request->unit_id);
-    }
 }

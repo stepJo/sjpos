@@ -3,7 +3,7 @@
 namespace App\Repositories\MSupplier;
 
 interface IPurchasementSupplierRepository {
-    public function renderDataTable($request);
+    public function renderDataTable($request, $access);
 
     public function store($request);
 

@@ -22,15 +22,12 @@ class MBranchService {
     {
         return Branch::where('b_id', $b_id)
             ->where('b_status', 1)
-            ->first('b_id', 'b_name');
+            ->first();
     }
 
     public function findBranchProducts($id)
     {
-        return Branch::with(['products' => function($query) {
-            return $query->select('p_code', 'p_name', 'p_price');
-        }])
-        ->find($id, ['b_id', 'b_name']);
+        return Branch::with('products')->find($id);
     }
 
     public function destroyBranchProducts($id)

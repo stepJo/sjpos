@@ -12,7 +12,7 @@ use Utilities;
 
 class TransactionRepository implements ITransactionRepository
 {
-    public function renderDataTable($request)
+    public function renderDataTable($request, $access)
     {
         if(!empty($request->start_date))
         {
@@ -44,18 +44,8 @@ class TransactionRepository implements ITransactionRepository
             {
                 return '<span class="badge badge-info">'.Utilities::dateFormat($transactions->t_date).'</span>';
             })
-            ->addColumn('actions', function($transactions) 
+            ->addColumn('actions', function($transactions) use($access)
             {
-                $token = csrf_token();
-
-                $total = Utilities::rupiahFormat($transactions->t_total);
-
-                $tax = Utilities::rupiahFormat($transactions->t_tax);
-
-                $disc = Utilities::rupiahFormat($transactions->t_disc);
-
-                $date = date('d F Y H:i:s', strtotime($transactions->t_date));
-
                 $details = '';
 
                 foreach($transactions->detailTransactions as $td) {
@@ -75,7 +65,31 @@ class TransactionRepository implements ITransactionRepository
                     ';
                 }
 
-                return 
+                $token = csrf_token();
+
+                $total = Utilities::rupiahFormat($transactions->t_total);
+
+                $tax = Utilities::rupiahFormat($transactions->t_tax);
+
+                $disc = Utilities::rupiahFormat($transactions->t_disc);
+
+                $date = date('d F Y H:i:s', strtotime($transactions->t_date));
+
+                $edit_dropdown = '';
+
+                if($access->delete == 1)
+                {
+                    $edit_dropdown =
+                        '
+                        <a class="dropdown-item text-danger" data-toggle="modal" data-target="#delModal'.$transactions->t_id.'">
+
+                            <i class="fas fa-trash mr-1"></i> Hapus
+
+                        </a>
+                        ';
+                }
+
+                $html = 
                     '
                     <div class="dropdown">
                         
@@ -92,12 +106,8 @@ class TransactionRepository implements ITransactionRepository
                                 <i class="fas fa-info-circle mr-1"></i> Detail
 
                             </a>
-                        
-                            <a class="dropdown-item text-danger" data-toggle="modal" data-target="#delModal'.$transactions->t_id.'">
 
-                                <i class="fas fa-trash mr-1"></i> Hapus
-
-                            </a>
+                            '.$edit_dropdown.'
                         
                         </div>
 
@@ -164,52 +174,61 @@ class TransactionRepository implements ITransactionRepository
                         </div>
 
                     </div>
+                    ';
+                
+                if($access->delete == 1)
+                {
+                    $html =
+                        '
+                        <div class="modal fade" id="delModal'.$transactions->t_id.'">
+                                                
+                            <div class="modal-dialog">
 
-                    <div class="modal fade" id="delModal'.$transactions->t_id.'">
-                                            
-                        <div class="modal-dialog">
+                                <div class="modal-content">
 
-                            <div class="modal-content">
+                                    <div class="modal-header">
 
-                                <div class="modal-header">
+                                        <h4 class="modal-title">Hapus Transaksi <i class="fas fa-tags ml-2"></i></h4>
 
-                                    <h4 class="modal-title">Hapus Transaksi <i class="fas fa-tags ml-2"></i></h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-
-                                            <span aria-hidden="true">&times;</span>
-                                
-                                        </button>
+                                                <span aria-hidden="true">&times;</span>
                                     
+                                            </button>
+                                        
+                                    </div>
+
+                                    <form action="'.route('transaction.destroy', $transactions->t_id).'" method="POST">
+
+                                        <input type="hidden" name="_token" value="'.$token.'" />
+
+                                        <input type="hidden" name="_method" value="DELETE">
+
+                                        <div class="modal-body">
+                                    
+                                            Yakin ingin menghapus transaksi <b>'.$transactions->t_code.'</b> ?
+                                
+                                        </div>
+                                    
+                                        <div class="modal-footer justify-content-between">
+                                        
+                                            <button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
+                                        
+                                            <button type="submit" class="button-s1 button-red">Hapus</button>
+                                        
+                                        </div>
+
+                                    </form>
+                                
                                 </div>
-
-                                <form action="'.route('transaction.destroy', $transactions->t_id).'" method="POST">
-
-                                    <input type="hidden" name="_token" value="'.$token.'" />
-
-                                    <input type="hidden" name="_method" value="DELETE">
-
-                                    <div class="modal-body">
-                                
-                                        Yakin ingin menghapus transaksi <b>'.$transactions->t_code.'</b> ?
-                            
-                                    </div>
-                                
-                                    <div class="modal-footer justify-content-between">
-                                    
-                                        <button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
-                                    
-                                        <button type="submit" class="button-s1 button-red">Hapus</button>
-                                    
-                                    </div>
-
-                                </form>
                             
                             </div>
-                        
+                            
                         </div>
-                        
-                    </div>';
+                        ';
+                }
+
+                return $html;
             })
             ->with('sum_t_total', $transactions->sum('t_total'))
             ->rawColumns(['t_date', 'actions'])

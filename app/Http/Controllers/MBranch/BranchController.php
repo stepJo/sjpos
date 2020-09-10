@@ -3,21 +3,27 @@
 namespace App\Http\Controllers\MBranch;
 
 use App\Http\Controllers\Controller;
+use App\Policies\MBranch\BranchPolicy;
 use Illuminate\Http\Request;
 use App\Http\Requests\MBranch\CreateBranchRequest;
 use App\Http\Requests\MBranch\UpdateBranchRequest;
 use App\Repositories\MBranch\IBranchRepository;
 use App\Services\MUserService;
 use App\Models\MBranch\Branch;
-use Roles;
 
 class BranchController extends Controller
 {
+    private $branchPolicy;
     private $branchRepository;
     private $userService;
 
-    public function __construct(IBranchRepository $branchRepository, MUserService $userService)
+    public function __construct(
+        BranchPolicy $branchPolicy, 
+        IBranchRepository $branchRepository, 
+        MUserService $userService
+    )
     {
+        $this->branchPolicy = $branchPolicy;
         $this->branchRepository = $branchRepository;
         $this->userService = $userService;
     }
@@ -29,19 +35,23 @@ class BranchController extends Controller
      */
     public function index(Request $request)
     {   
-        $views = $this->userService->menusRole();
+        $access = $this->branchPolicy->access();
 
-        if(!Roles::canView('Cabang', $views))
+        if($access->view != 1)
         {
-            return redirect('dashboard');
+            return redirect('dashboard')->with('fail', 'Tidak memiliki hak untuk melihat cabang');
         }
-
-        if($request->ajax())
+        else
         {
-            return $this->branchRepository->renderDataTable();
-        }
+            if($request->ajax())
+            {
+                return $this->branchRepository->renderDataTable($access);
+            }
 
-        return view('mbranch.b_index', compact('views'));
+            $views = $this->userService->menusRole();
+
+            return view('mbranch.b_index', compact('access', 'views'));
+        }
     }
 
     /**
@@ -52,9 +62,24 @@ class BranchController extends Controller
      */
     public function store(CreateBranchRequest $request)
     {
-        $this->branchRepository->store($request);
+        $access = $this->branchPolicy->access();
 
-        return response()->json(['message' => 'Berhasil tambah cabang']);
+        if($access->add != 1)
+        {
+            return response()->json([
+                'status'  => 'Fail',
+                'message' => 'Tidak memiliki hak untuk tambah cabang'
+            ]);
+        }
+        else
+        {
+            $this->branchRepository->store($request);
+
+            return response()->json([
+                'status'  => 'Success',
+                'message' => 'Berhasil tambah cabang'
+            ]);
+        }
     }
 
     /**
@@ -65,12 +90,25 @@ class BranchController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateBranchRequest $request, Branch $branch)
-    {
-        $this->branchRepository->update($request, $branch);
-        
-        return response()->json([
-            'message' => 'Berhasil ubah cabang'
-        ]);
+    {   
+        $access = $this->branchPolicy->access();
+
+        if($access->edit != 1)
+        {
+            return response()->json([
+                'status'  => 'Fail',
+                'message' => 'Tidak memiliki hak untuk ubah cabang'
+            ]);
+        }
+        else
+        {
+            $this->branchRepository->update($request, $branch);
+            
+            return response()->json([
+                'status'  => 'Success',
+                'message' => 'Berhasil ubah cabang'
+            ]);
+        }
     }
 
     /**
@@ -81,9 +119,18 @@ class BranchController extends Controller
      */
     public function destroy(Branch $branch)
     {
-        $this->branchRepository->destroy($branch);
+        $access = $this->branchPolicy->access();
 
-        return redirect()->back()->with('success', 'Berhasil hapus cabang');
+        if($access->delete != 1)
+        {
+            return redirect()->back()->with('fail', 'Tidak memiliki hak untuk hapus cabang');
+        }
+        else
+        {
+            $this->branchRepository->destroy($branch);
+
+            return redirect()->back()->with('success', 'Berhasil hapus cabang');
+        }
     }
 
     public function exportCSV()

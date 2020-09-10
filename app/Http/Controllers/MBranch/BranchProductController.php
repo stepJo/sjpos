@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\MBranch;
 
 use App\Http\Controllers\Controller;
+use App\Policies\MBranch\BranchProductPolicy;
 use Illuminate\Http\Request;
 use App\Http\Requests\MBranch\CreateBranchProductRequest;
 use App\Http\Requests\MBranch\UpdateBranchProductRequest;
@@ -10,21 +11,23 @@ use App\Repositories\MBranch\IBranchProductRepository;
 use App\Services\MUserService;
 use App\Services\MBranchService;
 use App\Services\MProductService;
-use Roles;
 
 class BranchProductController extends Controller
 {
+    private $branchProductPolicy;
     private $branchProductRepository;
     private $branchService;
     private $productService;
 
     public function __construct(
+        BranchProductPolicy $branchProductPolicy,
         IBranchProductRepository $branchProductRepository, 
         MUserService $userService,
         MBranchService $branchService,
         MProductService $productService
     )
     {
+        $this->branchProductPolicy = $branchProductPolicy;
         $this->branchProductRepository = $branchProductRepository;
         $this->userService = $userService;
         $this->branchService = $branchService;
@@ -38,21 +41,25 @@ class BranchProductController extends Controller
      */
     public function index(Request $request)
     {
-        $views = $this->userService->menusRole();
+        $access = $this->branchProductPolicy->access();
 
-        if(!Roles::canView('Produk Cabang', $views))
+        if($access->view != 1)
         {
-            return redirect('dashboard');
+            return redirect('dashboard')->with('fail', 'Tidak memiliki hak untuk lihat produk cabang');
         }
+        else
+        {
+            if($request->ajax())
+            {   
+                $branches = $this->branchService->branchesProducts();
 
-        if($request->ajax())
-	    {   
-            $branches = $this->branchService->branchesProducts();
+                return $this->branchProductRepository->renderDataTable($branches, $access);
+            }
+            
+            $views = $this->userService->menusRole();
 
-            return $this->branchProductRepository->renderDataTable($branches);
-	    }
-
-        return view('mbranch.b_p_index', compact('views'));
+            return view('mbranch.b_p_index', compact('access', 'views'));
+        }
     }
 
     /**
@@ -62,9 +69,20 @@ class BranchProductController extends Controller
      */
     public function create()
     {
-        $branches = $this->branchService->allBranches();
+        $access = $this->branchProductPolicy->access();
 
-        return view('mbranch/b_p_a', compact('branches'));
+        if($access->add != 1)
+        {
+            return redirect('dashboard')->with('fail', 'Tidak memiliki hak untuk tambah diaktivasi produk cabang');
+        }
+        else
+        {
+            $branches = $this->branchService->allBranches();
+
+            $views = $this->userService->menusRole();
+
+            return view('mbranch/b_p_a', compact('branches', 'access', 'views'));
+        }
     }
 
     /**
@@ -75,9 +93,24 @@ class BranchProductController extends Controller
      */
     public function store(CreateBranchProductRequest $request)
     {
-        $this->branchProductRepository->store($request);
+        $access = $this->branchProductPolicy->access();
 
-        return response()->json(['message' => 'Produk cabang tidak aktif']);
+        if($access->add != 1)
+        {
+            return response()->json([
+                'status'  => 'Fail',
+                'message' => 'Tidak memiliki hak untuk tambah diaktivasi produk cabang'
+            ]);
+        }
+        else
+        {
+            $this->branchProductRepository->store($request);
+
+            return response()->json([
+                'status'  => 'Success',
+                'message' => 'Produk cabang tidak aktif'
+            ]);
+        }
     }
 
     /**
@@ -87,10 +120,19 @@ class BranchProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    {   
+        $access = $this->branchProductPolicy->access();
+
+        if($access->edit != 1)
+        {
+            return redirect('dashboard')->with('fail', 'Tidak memiliki hak untuk ubah diaktivasi produk cabang');
+        }
+
         $branch = $this->branchService->findBranchProducts($id);
 
-        return view('mbranch.b_p_e', compact('branch'));
+        $views = $this->userService->menusRole();
+
+        return view('mbranch.b_p_e', compact('branch', 'views'));
     }
 
     /**
@@ -102,9 +144,24 @@ class BranchProductController extends Controller
      */
     public function update(UpdateBranchProductRequest $request)
     {
-        $this->branchProductRepository->update($request);
+        $access = $this->branchProductPolicy->access();
 
-        return response()->json(['message' => 'Produk cabang yang tidak aktif berhasil diubah']);
+        if($access->edit != 1)
+        {
+            return response()->json([
+                'status'  => 'Fail',
+                'message' => 'Tidak memiliki hak untuk ubah diaktivasi produk cabang'
+            ]);
+        }
+        else
+        {
+            $this->branchProductRepository->update($request);
+
+            return response()->json([
+                'status'  => 'Success',
+                'message' => 'Produk cabang yang tidak aktif berhasil diubah'
+            ]);
+        }
     }
 
     /**wwwwwwww
@@ -115,9 +172,18 @@ class BranchProductController extends Controller
      */
     public function destroy($id)
     {
-        $this->branchService->destroyBranchProducts($id);
+        $access = $this->branchProductPolicy->access();
 
-        return redirect()->back()->with('success', 'Produk cabang kembali aktif');
+        if($access->delete != 1)
+        {
+            return redirect()->back()->with('fail', 'Tidak memiliki hak untuk hapus diaktivasi produk cabang');
+        }
+        else
+        {
+            $this->branchService->destroyBranchProducts($id);
+
+            return redirect()->back()->with('success', 'Produk cabang kembali aktif');
+        }
     }
 
     public function getProduct($id)

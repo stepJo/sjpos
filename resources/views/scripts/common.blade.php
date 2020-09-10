@@ -285,13 +285,18 @@
 
     //RESPONSE
     function successResponse(data) {
-        toastr.success(`${data.message}`);
+        if(data.status == 'Fail') {
+            toastr.error(`${data.message}`);
+        }
+        else {
+            toastr.success(`${data.message}`);
+        }
 
         $('.modal').modal('hide');
 
         setTimeout(function() {
             location.reload();
-        }, 300);
+        }, 500);
     }
 
     //SELECT2
@@ -342,9 +347,9 @@
         "hideMethod": "fadeOut"
     }
 
-    @if(Session::has('failed'))
+    @if(Session::has('fail'))
 
-        toastr.error("{{ Session::get('failed') }}");
+        toastr.error("{{ Session::get('fail') }}");
         
     @endif
 

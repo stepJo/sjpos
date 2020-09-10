@@ -35,11 +35,15 @@
 						
 	              				<table id="branchProductTable" class="table table-hover">
 
-									<button class="button-s1 button-green mb-4">
+									@if($access->add == 1)
 
-										<a href="{{ url('branch/product/create') }}" class="text-white">Tambah Produk Diaktivasi</a>
-	
-									</button>
+										<button class="button-s1 button-green mb-4">
+
+											<a href="{{ url('branch/product/create') }}" class="text-white">Tambah Produk Diaktivasi</a>
+		
+										</button>
+
+									@endif
 
 	                				<thead>
 	                
