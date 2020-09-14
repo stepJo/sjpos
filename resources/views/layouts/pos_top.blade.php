@@ -1,8 +1,26 @@
 <!-- Navbar -->
 <nav class="navbar navbar-expand navbar-dark navbar-indigo">
+  
+  <ul class="navbar-nav d-flex align-items-baseline">
+
+    <li class="nav-item mr-4">
+
+      <i class="fas fa-user text-white"></i> 
+      
+      <span class="text-white">User : <span class="ml-1">{{ Auth::user()->u_name }}</span></span>
+
+    </li>
+
+    <li class="nav-item">
+
+      <button class="btn-calculator btn btn-sm btn-light">Kalkulator</button>
+
+    </li>
+
+  </ul>
 
   <!-- Right navbar links -->
-  <ul class="navbar-nav ml-auto">
+  <ul class="navbar-nav ml-auto align-items-baseline">
 
     <!-- Messages Dropdown Menu -->
     <li class="nav-item dropdown">

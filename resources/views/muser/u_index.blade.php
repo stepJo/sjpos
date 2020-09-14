@@ -62,8 +62,6 @@
 
 								            	<form id="add-user-form">
 
-								            		@csrf
-
 							            			<div class="modal-body">
 								              			
 								              			<p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
@@ -342,8 +340,6 @@
 
 												            		@method('PATCH')
 
-												            		@csrf
-
 											            			<div class="modal-body">
 
 											            				<p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
@@ -520,10 +516,8 @@
 
 												            	<form class="edit-user-password-form" data-id="{{ $user->u_id }}">
 
-												            		@method('PATCH')
-
-												            		@csrf
-
+																	@method('PATCH')
+																	
 											            			<div class="modal-body">
 
 											            				<p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
@@ -615,9 +609,9 @@
 
 												            	<form action="{{ route('user.destroy', $user->u_id) }}" method="POST">
 
-												            		@method('DELETE')
-
-												            		@csrf
+																	@method('DELETE')
+																	
+																	@csrf
 
 											            			<div class="modal-body">
 												              	

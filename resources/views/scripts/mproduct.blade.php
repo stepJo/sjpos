@@ -10,6 +10,7 @@
         $.ajax({
             type:'POST',
             url: '{{ route('category.store') }}',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             data: $(this).serialize(),
             success: function(data) {
                 successResponse(data);
@@ -30,6 +31,7 @@
         $.ajax({
             type:'PATCH',
             url: url.replace(':id', id),
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             data: $(this).serialize(),
             success: function(data) {
                 successResponse(data);
@@ -47,6 +49,7 @@
         $.ajax({
             type:'POST',
             url: '{{ route('unit.store') }}',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             data: $(this).serialize(),
             success: function(data) {
                 successResponse(data);
@@ -67,6 +70,7 @@
         $.ajax({
             type:'PATCH',
             url: url.replace(':id', id),
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             data: $(this).serialize(),
             success: function(data) {
                 successResponse(data);
@@ -209,10 +213,13 @@
 
         $(document).on('click', '.button-select-item', function() {
             id = $(this).attr('id');    
-            
+
+            let url = '{{ route('product-barcode.get', ':id') }}';
+
             $.ajax({
                 type: 'GET',
-                url: `{{ url("barcode/product") }}/${id}`,
+                url: url.replace(':id', id),
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 data: { p_id: id },
                 success: function(data) {
                     name.val(data.p_name);

@@ -29,7 +29,7 @@ class CreateProductRequest extends FormRequest
             'p_name'   => 'required|unique:products',
             'unit_id'  => 'required',
             'p_price'  => 'required|numeric',
-            'p_image'  => 'required|image|mimes:jpeg,jpg,png,gif,svg|max:5048',
+            'image'    => 'required|image|mimes:jpeg,jpg,png,gif,svg|max:2048',
             'p_status' => 'required',
         ];
     }
@@ -45,10 +45,10 @@ class CreateProductRequest extends FormRequest
             'unit_id.required'  => 'Satuan dibutuhkan !',
             'p_price.required'  => 'Harga dibutuhkan !',
             'p_price.numeric'   => 'Harga hanya boleh angka !',
-            'p_image.required'  => 'Gambar diperlukan !',
-            'p_image.image'     => 'File tidak diijinkan !',
-            'p_image.mimes'     => 'Ekstensi tidak diijinkan !',
-            'p_image.max'       => 'File maksimal 5 MB !',
+            'image.required'    => 'Gambar diperlukan !',
+            'image.image'       => 'File tidak diijinkan !',
+            'image.mimes'       => 'Ekstensi tidak diijinkan !',
+            'image.max'         => 'File maksimal 2 MB !',
             'p_status.required' => 'Status dibutuhkan !',
         ];
     }

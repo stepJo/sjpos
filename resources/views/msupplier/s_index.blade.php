@@ -64,8 +64,6 @@
 
 													<form id="add-supplier-form">
 
-														@csrf
-
 														<div class="modal-body">
 															
 															<p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
@@ -393,8 +391,6 @@
 
 																		@method('PATCH')
 
-																		@csrf
-
 																		<div class="modal-body">
 
 																			<p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
@@ -590,9 +586,9 @@
 
 																	<form action="{{ route('supplier.destroy', $supplier->s_id) }}" method="POST">
 
-																		@method('DELETE')
-
 																		@csrf
+
+																		@method('DELETE')
 
 																		<div class="modal-body">
 																	

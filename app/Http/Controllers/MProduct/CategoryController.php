@@ -74,6 +74,8 @@ class CategoryController extends Controller
         }
         else
         {
+            $this->categoryRepository->store($request);
+
             return response()->json([
                 'status' => 'Success',
                 'message' => 'Berhasil tambah kategori'

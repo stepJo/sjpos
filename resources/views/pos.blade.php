@@ -14,7 +14,7 @@
 
 				<div class="col-md-6">
 
-					<div class="row">
+					<div class="row mt-2">
 							
 						<div class="col-md-12">
 
@@ -36,7 +36,7 @@
 
 						<div class="col-md-12">
 
-							<div class="row">
+							<div class="row mt-2">
 
 								<button class="button-s2 btn-category">Kategori</button>
 
@@ -126,9 +126,21 @@
 
 								</div>	
 
-								<div class="col-md-6 d-flex align-self-end justify-content-end" style="margin-left: 50%;">
+							</div>
 
-									<p class="font-weight-bold">
+							<div class="row mt-3">
+
+								<div class="col-md-6 d-flex align-items-baseline">	
+
+									<i class="fas fa-clock mr-1"></i>
+
+									<p id="clock"></p>
+
+								</div>
+
+								<div class="col-md-6 d-flex justify-content-end">
+
+									<p>
 
 										Total Produk : {{ count($products) }} 
 
@@ -139,25 +151,6 @@
 										@endif
 
 									</p>
-
-								</div>
-
-							</div>
-
-							<div class="row">
-
-								<div class="col-md-6 d-flex justify-content-start">
-
-									<p>
-
-										<i class="fas fa-user fa-sm"></i> User : <span class="text-indigo">{{ Session::get('u_name') }}</span>
-									</p>
-
-								</div>
-								
-								<div class="col-md-6 d-flex justify-content-end">	
-									
-									<p id="clock"></p>
 
 								</div>
 							
@@ -407,9 +400,9 @@
 
 								<button class="button-s2 btn-credit" data-target="#payModal">Kartu Kredit</button>
 	
-			    				<button class="button-s2 btn-ovo" data-target="#payModal">OVO</button>
+			    				{{-- <button class="button-s2 btn-ovo" data-target="#payModal">OVO</button>
 
-			    				<button class="button-s2 btn-gopay" data-target="#payModal">Gopay</button>
+			    				<button class="button-s2 btn-gopay" data-target="#payModal">Gopay</button> --}}
 
 				    			<div class="modal fade" id="payModal" tabindex="-1" role="dialog"aria-hidden="true">
 								  
@@ -606,8 +599,6 @@
 			    			</div>
 
 			    			<div class="col-md-6">
-
-		    					<button class="button-s2 btn-calculator btn-secondary d-flex justify-content-end">Kalkulator</button>
 
 		    					<div class="calculator">
 

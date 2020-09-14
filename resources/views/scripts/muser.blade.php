@@ -90,8 +90,8 @@
         $.ajax({
             type:'POST',
             url: '{{ route('role.store') }}',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             data: {
-                _token: '{{ csrf_token() }}',
                 role_name: $('#role_name').val(),
                 menus: menus,
                 views: views,
@@ -126,8 +126,8 @@
         $.ajax({
             type:'PATCH',
             url: url.replace(':id', id),
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             data: {
-                _token: '{{ csrf_token() }}',
                 role_name: $(this).find('input[name="role_name"]').val(),
                 menus: menus,
                 views: views,
@@ -151,6 +151,7 @@
         $.ajax({
             type:'POST',
             url: '{{ route('user.store') }}',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             data: $(this).serialize(),
             success: function(data) {
                 successResponse(data);
@@ -177,6 +178,7 @@
         $.ajax({
             type:'PATCH',
             url: url.replace(':id', id),
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             data: $(this).serialize(),
             success: function(data) {
                 successResponse(data);
@@ -201,6 +203,7 @@
         $.ajax({
             type:'PATCH',
             url: url.replace(':id', id),
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             data: $(this).serialize(),
             success: function(data) {
                 successResponse(data);

@@ -61,8 +61,6 @@
 
                                                 <form id="add-branch-form">
 
-                                                    @csrf
-
                                                     <div class="modal-body">
                                                         
                                                         <p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>

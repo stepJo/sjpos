@@ -63,9 +63,7 @@
 													</div>
 
 													<form id="add-category-form">
-
-														@csrf
-
+														
 														<div class="modal-body">
 															
 															<p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
@@ -173,8 +171,6 @@
 																	</div>
 
 																	<form class="edit-category-form" data-id={{ $category->cat_id }}>
-
-																		@csrf
 
 																		<div class="modal-body">
 

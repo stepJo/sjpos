@@ -274,7 +274,7 @@ class ProductRepository implements IProductRepository
 
         $product->update($request->validated());
 
-        if($request->hasfile('p_image'))
+        if($request->hasfile('image'))
         {   
             Utilities::deleteImage('products', $product->p_image);
 

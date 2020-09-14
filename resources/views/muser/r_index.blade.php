@@ -237,8 +237,6 @@
 
 															  	<form class="edit-role-form" data-id="{{ $role->role_id }}" id="edit-role-form-{{ $role->role_id }}">
 
-																	@csrf
-
 																  	<div class="modal-body">
 
 																	  	<p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>	
@@ -381,9 +379,9 @@
 
 															  	<form action="{{ route('role.destroy', $role->role_id) }}" method="POST">
 
-																  	@method('DELETE')
-
-																  	@csrf
+																	@method('DELETE')
+																		  
+																	@csrf
 
 																  	<div class="modal-body">
 																

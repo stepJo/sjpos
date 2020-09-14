@@ -15,8 +15,7 @@ class ProfilesTableSeeder extends Seeder
             'app_name'    => 'Mobisto POS',
             'app_email'   => 'mobisto@email.com',
             'app_contact' => '+62 877 8557 2292',
-            'app_address' => 'BSD',
-            'app_logo'    => 'default.jpg'
+            'app_address' => 'BSD'
         ]);
     }
 }

@@ -10,6 +10,7 @@
         $.ajax({
             type:'POST',
             url: '{{ route('supplier.store') }}',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             data: $(this).serialize(),
             success: function(data) {
                 successResponse(data);
@@ -36,6 +37,7 @@
         $.ajax({
             type:'PATCH',
             url: url.replace(':id', id),
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             data: $(this).serialize(),
             success: function(data) {
                 successResponse(data);
@@ -139,6 +141,7 @@
         $.ajax({
             type:'POST',
             url: '{{ route('product-supplier.store') }}',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             data: $(this).serialize(),
             success: function(data) {
                 successResponse(data);
@@ -163,6 +166,7 @@
             $.ajax({
                 type:'PATCH',
                 url: url.replace(':id', id),
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 data: $(this).serialize(),
                 success: function(data) {
                     successResponse(data);
@@ -586,8 +590,8 @@
         $.ajax({
             type: 'POST',
             url: '{{ url('supplier/purchasement/store') }}',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             data: {
-                _token: "{{ csrf_token() }}", 
                 pch_code: $('#pch_code').val(),
                 pch_cost: trackTotalPayment(),
                 pch_tax: parseInt($('#pch_tax').val()),

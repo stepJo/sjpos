@@ -38,9 +38,9 @@
 
 	            				<form action="{{ route('product.update', $product->p_id) }}" enctype="multipart/form-data" method="POST" class="form">
 
-	            					@method('PATCH')
+									@csrf
 
-	            					@csrf
+	            					@method('PATCH')
 
 	            					<div class="row">
 
@@ -183,8 +183,16 @@
 											        	
 											        	@foreach($categories as $category)
 
-										          			<li id="{{ $category->cat_id }}">{{ $category->cat_name }}</li>
-											          
+															@if(@old('cat_id') == $category->cat_id)
+
+										          				<li id="{{ $category->cat_id }}" selected>{{ $category->cat_name }}</li>
+														
+															@else
+
+																<li id="{{ $category->cat_id }}">{{ $category->cat_name }}</li>
+
+															@endif
+																  
 											          	@endforeach
 											        
 										        	</ul>
@@ -223,8 +231,16 @@
 											        	
 											        	@foreach($units as $unit)
 
-										          			<li id="{{ $unit->unit_id }}">{{ $unit->unit_name }}</li>
-											          
+															@if(@old('unit_id') == $unit->unit_id)
+
+										          				<li id="{{ $unit->unit_id }}" selected>{{ $unit->unit_name }}</li>
+														
+															@else
+
+																<li id="{{ $unit->unit_id }}">{{ $unit->unit_name }}</li>
+
+															@endif
+
 											          	@endforeach
 											        
 										        	</ul>
@@ -251,15 +267,15 @@
 
 			            							@if($product->p_status == 1)
 
-			            								<option value="1" class="font-italic font-weight-bold 	text-success" selected>Aktif</option>
+			            								<option value="1" class="font-weight-bold text-success" selected>Aktif</option>
 
-			            								<option value="0" class="font-italic font-weight-bold text-danger">Tidak Aktif</option>
+			            								<option value="0" class="font-weight-bold text-danger">Tidak Aktif</option>
 
 			            							@else
 
-			            								<option value="1" class="font-italic font-weight-bold 	text-success">Aktif</option>
+			            								<option value="1" class="font-weight-bold text-success">Aktif</option>
 
-			            								<option value="0" class="font-italic font-weight-bold text-danger" selected>Tidak Aktif</option>
+			            								<option value="0" class="font-weight-bold text-danger" selected>Tidak Aktif</option>
 
 					                          		@endif
 
@@ -295,9 +311,9 @@
 
 			            				<div class="col-md-6">
 
-			            					<label for="p_image">Gambar *</label>
+			            					<label for="image">Gambar *</label>
 
-			            					@error('p_image')
+			            					@error('image')
 
 						                  		<span class="text-danger"> {{ $message }}</span>
 
@@ -309,7 +325,7 @@
 
 													<div class="btn_upload">
 
-														<input type="file" id="upload_file" name="p_image">
+														<input type="file" id="upload_file" name="image">
 														
 														Upload Gambar
 

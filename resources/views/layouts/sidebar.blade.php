@@ -4,15 +4,21 @@
   <!-- Brand Logo -->
   <a href="{{ url('dashboard') }}">
 
-    <span class="font-weight-bold text-lg text-white mt-3 d-flex justify-content-center">SJPOS</span>
+    <div class="mt-3">
 
+      <span class="font-weight-bold text-lg text-white mx-3">{{ $profile->app_name }}</span>
+
+      {!! Utilities::renderImage('profiles', $profile->app_logo) !!}
+
+    </div>
+  
   </a>
 
   <!-- Sidebar -->
   <div class="sidebar">
 
     <!-- Sidebar user panel (optional) -->
-    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+    <div class="user-panel mt-3 mb-3 d-flex">
 
       <div class="info">
 
@@ -55,13 +61,13 @@
 
         <li class="nav-item">
 
-          <a href="{{ url('pos') }}" class="nav-link">
-
+          <a href="{{ url('profile') }}" class="nav-link">
+            
             <i class="nav-icon fas fa-home"></i>
 
             <p>
 
-              Profil Usaha
+             Master Aplikasi
 
             </p>
 
@@ -115,7 +121,7 @@
 
                   <a href="{{ url('branch') }}" class="nav-link">
 
-                    <p>Data Cabang</p>
+                    <p>Cabang</p>
 
                   </a>
 
@@ -251,7 +257,7 @@
 
                   <a href="{{ url('category') }}" class="nav-link">
 
-                    <p>Data Kategori</p>
+                    <p>Kategori</p>
 
                   </a>
 
@@ -265,7 +271,7 @@
 
                   <a href="{{ url('unit') }}" class="nav-link">
 
-                    <p>Data Satuan</p>
+                    <p>Satuan</p>
 
                   </a>
 
@@ -279,7 +285,7 @@
 
                   <a href="{{ url('product') }}" class="nav-link">
 
-                    <p>Data Produk</p>
+                    <p>Produk</p>
 
                   </a>
 
@@ -293,7 +299,7 @@
 
                   <a href="{{ url('barcode') }}" class="nav-link">
 
-                    <p>Cetak Barcode</p>
+                    <p>Barcode</p>
 
                   </a>
 
@@ -333,7 +339,7 @@
 
                   <a href="{{ url('supplier') }}" class="nav-link">
 
-                    <p>Data Penyuplai</p>
+                    <p>Penyuplai</p>
 
                   </a>
 
@@ -347,7 +353,7 @@
 
                   <a href="{{ url('supplier/product') }}" class="nav-link">
 
-                    <p>Data Barang</p>
+                    <p>Barang</p>
 
                   </a>
 
@@ -401,7 +407,7 @@
 
                   <i class="fas fa-user nav-icon"></i>
 
-                  <p>Data User</p>
+                  <p>User</p>
 
                 </a>
 
@@ -413,7 +419,7 @@
 
                   <i class="fas fa-user nav-icon"></i>
 
-                  <p>Data Role</p>
+                  <p>Role</p>
 
                 </a>
 

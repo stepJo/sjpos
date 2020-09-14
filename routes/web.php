@@ -20,10 +20,15 @@ Route::post('auth/check', 'AuthController@checkLogin')->name('check');
 Route::get('auth/logout', 'AuthController@logout')->name('logout');
 
 Route::group(['middleware' => 'auth' ], function() {
-	//DASHBOARD
+	//-----DASHBOARD-----//
 	Route::get('dashboard', 'DashboardController@dashboard');
-	
-	//POS
+
+	//-----MAPP-----//
+	//PROFILE {RESOURCE}
+	Route::patch('profile/{profile}/logo/update', 'MApp\ProfileController@updateLogo')->name('profile-logo.update');
+	Route::resource('profile', 'MApp\ProfileController');
+
+	//-----POS-----//
 	Route::get('pos', 'POSController@index');
 	Route::group(["prefix" => "pos"], function() {
 		Route::get('search/all', 'POSController@allProduct')->name('pos-search.all');

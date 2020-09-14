@@ -104,8 +104,6 @@
 
 								            	<form action="{{ route('discount.store') }}" method="POST" class="form">
 
-								            		@csrf
-
 							            			<div class="modal-body">
 
 							            				<p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
@@ -387,8 +385,6 @@
 
 												            		@method('PATCH')
 
-												            		@csrf
-
 											            			<div class="modal-body">
 
 											            				<p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
@@ -574,7 +570,7 @@
 
 												            		@method('DELETE')
 
-												            		@csrf
+																	@csrf
 
 											            			<div class="modal-body">
 												              	

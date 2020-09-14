@@ -10,6 +10,7 @@
         $.ajax({
             type:'POST',
             url: '{{ route('branch.store') }}',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             data: $(this).serialize(),
             success: function(data) {
                 successResponse(data);
@@ -35,6 +36,7 @@
             $.ajax({
                 type:'PATCH',
                 url: url.replace(':id', id),
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 data: $(this).serialize(),
                 success: function(data) {
                     successResponse(data);
@@ -277,8 +279,8 @@
         $.ajax({
             type: 'POST',
             url: "{{ route('branch-product.store') }}",
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             data: {
-                _token: "{{ csrf_token() }}",
                 b_id: $('#b_id').val(),
                 products: product_list
             },
@@ -303,8 +305,8 @@
         $.ajax({
             type: 'PATCH',
             url: url.replace(':id', id),
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             data: {
-                _token: "{{ csrf_token() }}",
                 b_id: id,
                 products: product_list
             },

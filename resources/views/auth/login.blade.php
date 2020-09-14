@@ -8,8 +8,10 @@
   
   			<div class="login-logo">
 				  
-    			<b>SJPOS</b>
-  
+				<b>{{ $profile->app_name }}</b>
+
+				<span class="ml-2">{!! Utilities::renderImage('profiles', $profile->app_logo) !!}</span>
+
   			</div>
   			<!-- /.login-logo -->
   

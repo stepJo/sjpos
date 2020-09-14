@@ -44,7 +44,7 @@ class Utility {
 
     public static function moveImage($request, $folder) 
     {
-        $image = $request->file('p_image');
+        $image = $request->file('image');
 
         $fullImage = time().'.'.$image->getClientOriginalExtension();
 

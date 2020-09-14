@@ -442,9 +442,9 @@
 
 																	<form action="{{ route('discount-product.destroy', $discount->dp_id) }}" method="POST">
 
-																		@csrf
-
 																		@method('DELETE')
+
+																		@csrf
 
 																		<div class="modal-body">
 																	

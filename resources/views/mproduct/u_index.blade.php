@@ -64,8 +64,6 @@
 
 													<form id="add-unit-form">
 
-														@csrf
-
 														<div class="modal-body">
 														
 															<p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
@@ -173,8 +171,6 @@
 																	</div>
 
 																	<form class="edit-unit-form" data-id="{{ $unit->unit_id }}">
-
-																		@csrf
 
 																		<div class="modal-body">
 

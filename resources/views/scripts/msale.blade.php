@@ -50,6 +50,7 @@
         $.ajax({
             type:'POST',
             url: '{{route('discount-product.store') }}',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             data: $(this).serialize(),
             success: function(data) {
                 successResponse(data);
@@ -72,6 +73,7 @@
         $.ajax({
             type:'PATCH',
             url: url.replace(':id', id),
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             data: $(this).serialize(),
             success: function(data) {
                 successResponse(data);

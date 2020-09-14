@@ -75,11 +75,11 @@ class TransactionRepository implements ITransactionRepository
 
                 $date = date('d F Y H:i:s', strtotime($transactions->t_date));
 
-                $edit_dropdown = '';
+                $delete_dropdown = '';
 
                 if($access->delete == 1)
                 {
-                    $edit_dropdown =
+                    $delete_dropdown =
                         '
                         <a class="dropdown-item text-danger" data-toggle="modal" data-target="#delModal'.$transactions->t_id.'">
 
@@ -107,7 +107,7 @@ class TransactionRepository implements ITransactionRepository
 
                             </a>
 
-                            '.$edit_dropdown.'
+                            '.$delete_dropdown.'
                         
                         </div>
 
@@ -178,7 +178,7 @@ class TransactionRepository implements ITransactionRepository
                 
                 if($access->delete == 1)
                 {
-                    $html =
+                    $html .=
                         '
                         <div class="modal fade" id="delModal'.$transactions->t_id.'">
                                                 
