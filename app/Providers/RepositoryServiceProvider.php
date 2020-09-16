@@ -23,6 +23,12 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\MBranch\IBranchProductRepository',
             'App\Repositories\MBranch\BranchProductRepository'
         );
+
+        //MCUSTOMER
+        $this->app->bind(
+            'App\Repositories\MCustomer\ICustomerRepository',
+            'App\Repositories\MCustomer\CustomerRepository'
+        );
         
         //MSALE
         $this->app->bind(

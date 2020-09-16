@@ -97,6 +97,8 @@
     //MSALE - TRANSACTION
     function renderTransactionTable(start_date = '', end_date = '') {
         $('#transactionTable').DataTable({
+            autoWidth: false,
+            responsive: true,
             processing: true,
             serverSide: true,
             ordering: true,

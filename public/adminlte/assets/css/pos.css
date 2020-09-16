@@ -238,14 +238,11 @@
     border: 2px solid #ccc;
     border-radius: 5px;
     background-color: #f0f0f0;
-    position: relative;
-    top: -114%;
-    right: 210%;
-    width: 101%;
-    height: 101.5%;
+    position: absolute;
+    top: -100%;
+    left: 22%;
     padding: 15px;
     align-items: start;
-    z-index: 500;
     transition-duration: 0.2s;
 }
 
@@ -254,9 +251,9 @@
 }
 
 .calculator.on {
-    position: relative; 
-    right: 103%;
-    top: -114%;
+    position: absolute; 
+    left: 22%;
+    top: 0%;
     transition-duration: 0.2s;
 }
 
@@ -334,14 +331,13 @@
 }
 
 .calc-close-icon {
-    width: 2.1em;
-    height: 2.1em;
+    width: 2em;
+    height: 2em;
     background: #ff4436;
-    border-radius: 10px;
     transition: all 0.3s ease-in-out;
     position: absolute;
-    right: -35px;
-    top: 45%;
+    left: -33px;
+    top: 50%;
     cursor: pointer;
 }
 
@@ -382,10 +378,24 @@
 }
 
 .btn-cash {
-    background: #d4c6b6;
+    color: #000;
+    background: none;
+    border: 2px solid  #a18484;
+}
+
+.btn-cash:hover {
+    color: #fff;
+    background: #a18484;
 }
 
 .btn-credit {
+    color: #000;
+    background: none;
+    border : 2px solid #d68c38;
+}
+
+.btn-credit:hover {
+    color: #fff;
     background: #d68c38;
 }
 
@@ -406,4 +416,8 @@
     background: #F32C52;
     color: #fff;
     font-size: 11px;
+}
+
+.button-delete-list:hover {
+    background:  #d81f41;
 }

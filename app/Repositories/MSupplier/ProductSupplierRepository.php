@@ -229,7 +229,7 @@ class ProductSupplierRepository implements IProductSupplierRepository
 
                                                             <div class="form-group">
 
-                                                                <label for="ps_desc">Deskripsi</label>
+                                                                <label class="modal-label">Deskripsi</label>
 
                                                                 <br/>
 

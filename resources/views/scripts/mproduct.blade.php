@@ -84,9 +84,9 @@
     //MPRODUCT - PRODUCT
     $('#productTable').DataTable({
         autoWidth: false,
+        responsive: true,
         ordering: true,
         order: [[ 2, 'asc' ]],
-        responsive: true,
         processing: true,
         serverSide: true,
         ajax: 

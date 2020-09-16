@@ -228,7 +228,7 @@
 
 										@if($product->p_status == 1)
 
-											<button class="add-item btn btn-secondary mt-2 mb-2" data-product="{{ $product->p_id }}">Pilih</button>
+											<button class="add-item button-s1 btn-dark mt-2 mb-2" data-product="{{ $product->p_id }}">Pilih</button>
 
 										@endif
 
@@ -240,12 +240,383 @@
 
 						</div>
 
+						<div class="col-md-6">
+
+							<div id="payment-selection">
+
+								<div class="row">
+		
+									<div class="col-md-12">
+		
+										<button class="button-s2 btn-cash" data-target="#payModal">Tunai</button>
+		
+										<button class="button-s2 btn-credit" data-target="#payModal">Kartu Kredit</button>
+			
+										{{-- <button class="button-s2 btn-ovo" data-target="#payModal">OVO</button>
+		
+										<button class="button-s2 btn-gopay" data-target="#payModal">Gopay</button> --}}
+		
+										<div class="modal fade" id="payModal" tabindex="-1" role="dialog"aria-hidden="true">
+										
+											<div class="modal-dialog modal-dialog-scrollable modal-lg">
+											
+												<div class="modal-content">
+											
+													<div class="modal-header">
+												
+														<h5 class="modal-title font-weight-bold">Bayar</h5>
+												
+														<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												
+															<span aria-hidden="true">&times;</span>
+												
+														</button>
+											
+													</div>
+											
+													<div class="modal-body">
+		
+														<table class="table table-hover">
+		
+															<thead>
+		
+																<th>Produk</th>
+		
+																<th>Jumlah</th>
+		
+																<th>Harga</th>
+		
+																<th>Sub Total</th>
+		
+															</thead>
+		
+															<tbody>
+																
+															</tbody>
+		
+														</table>
+		
+														<div class="row my-2">
+		
+															<div class="col-md-7">
+		
+																<h6 id="modal-grand-total" class="font-weight-bold"></h6>
+															
+															</div>
+															
+															<div class="col-md-5 d-flex justify-content-end">
+
+																<h6 id="modal-tax" class="font-weight-bold text-danger"></h6>
+
+															</div>
+
+															{{-- <div class="col-md-3 d-flex justify-content-end">
+		
+																<p>
+		
+																	Pisah Tagihan
+		
+																	<div class="ckbx-style-16 ml-2">
+																		
+																		<input type="checkbox" id="ckbx-style-16-1" value="0" name="ckbx-style-16">
+		
+																		<label for="ckbx-style-16-1"></label>
+		
+																	</div>
+		
+																</p>
+		
+															</div> --}}
+		
+														</div>
+		
+														<div class="row my-2">
+		
+															<div class="col-md-12">
+		
+																<p>
+		
+																	Diskon
+		
+																	<input type="radio" name="discount" id="fix-dc" value="Nominal" class="ml-4" />
+		
+																	<label class="discount-label" for="fix-dc">Nominal</label>
+																	
+																	<input type="radio" name="discount" id="percent-dc" value="Persen" class="ml-2" />
+																	
+																	<label class="discount-label" for="percent-dc">Persen</label>
+		
+																	<input type="text" id="fix-disc-amount" placeholder="Nominal" class="modal-input" name="nominal_value">
+		
+																	<input type="text" id="percent-disc-amount" placeholder="Persen" class="modal-input" name="percent_value">
+		
+																	<input type="hidden" id="percent_value_amount" name="percent_value_amount">
+		
+																</p>
+		
+															</div>
+		
+														</div>
+		
+														<div class="row">
+		
+															<div class="col-md-12">
+		
+																<div class="pay-tabs">
+		
+																	<div data-pws-tab="tab1" data-pws-tab-name="Tunai" data-pws-tab-icon="fas fa-money-bill-alt">
+																		
+																		<div class="row">
+		
+																			<div class="col-md-6">
+		
+																				<p>
+		
+																					Bayar : 
+		
+																					<input type="text" id="pay-amount" placeholder="Nominal" class="modal-input mt-1">
+		
+																					<input type="hidden" name="t_total" id="t_total">
+		
+																				</p>
+		
+																			</div>
+		
+																			<div class="col-md-6">
+		
+																				<p>
+		
+																					Kembalian : 
+		
+																					<input type="text" id="return-amount" placeholder="Nominal" class="modal-input mt-1" disabled>
+		
+																				</p>
+		
+																			</div>
+		
+																		</div>
+		
+																	</div>
+		
+																	<div data-pws-tab="tab2" data-pws-tab-name="Kartu Kredit" data-pws-tab-icon="fas fa-credit-card">
+																		
+																		<div class="row">
+		
+																			<div class="col-md-6">
+		
+																				<p>
+		
+																					Nomor : 
+		
+																					<input type="text" placeholder="Nomor Kartu Kredit" class="modal-input mt-1" id="credit-card-number">
+		
+																				</p>
+		
+																			</div>
+		
+																			<div class="col-md-6">
+		
+																				<p>
+		
+																					CVC : 
+		
+																					<input type="text" placeholder="Nomor CVC" class="modal-input mt-1" id="credit-card-cvc">
+		
+																				</p>
+		
+																			</div>
+		
+																		</div>
+		
+																	</div>
+		
+																</div>
+		
+															</div>
+		
+														</div>
+		
+														<div class="row d-flex justify-content-end">
+		
+															<button type="button" class="button-s2 button-grey" data-dismiss="modal">Batal</button>
+													
+															<button type="button" id="btn-pay" class="button-s2 button-darkorange">Bayar</button>
+		
+														</div>
+		
+													</div>
+												
+												</div>
+										
+											</div>
+										
+										</div>
+		
+									</div>
+		
+								</div>
+		
+							</div>
+
+						</div>
+
 					</div>
 
 				</div>
 
 				<div class="col-md-6">
 					
+					<div class="row d-flex align-items-center">
+
+						<div class="col-md-8">
+
+							<div class="form-group">
+	
+								<label>Pelanggan</label>
+	
+								<select class="form-control select2bs4" id="customer-list" style="width: 100%;" name="c_id">
+									
+									<option value="">Walk In</option>
+	
+									@foreach($customers as $customer)
+	
+										<option value="{{ $customer->c_id }}">{{ $customer->c_name }}</option>
+	
+									@endforeach
+	
+								</select>
+	
+							</div>
+							
+						</div>
+
+						<div class="col-md-4 mt-3">
+
+							<button class="button-s1 button-green" data-toggle="modal" data-target="#addModal"><i class="fas fa-plus"></i> Tambah pelanggan</button>
+
+							<div class="modal fade" id="addModal">
+                                        
+								<div class="modal-dialog">
+
+									<div class="modal-content">
+
+										<div class="modal-header">
+
+											<h4 class="modal-title">Tambah Pelanggan <i class="nav-icon far fa-grin ml-2"></i></h4>
+
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+
+												<span aria-hidden="true">&times;</span>
+										
+											</button>
+											
+										</div>
+
+										<form id="add-customer-form">
+
+											<div class="modal-body">
+												
+												<p class="text-secondary font-weight-bold">[*] Wajib Diisi</p>
+
+												<div class="row">
+
+													<div class="col-md-12">
+
+														<div class="form-group">
+
+															<label class="modal-label">Nama *</label>
+
+															<br/>
+
+															<span class="text-danger add-c-name-error"></span>
+
+															<input 
+																type="text" 
+																name="c_name" 
+																id="c_name"
+																class="modal-input add-c-name-modal-error" 
+																placeholder="Nama Pelanggan"
+															> 
+
+														</div>
+
+														<div class="form-group">
+
+															<label class="modal-label">Email</label>
+
+															<br/>
+
+															<span class="text-danger add-c-email-error"></span>
+
+															<input 
+																type="email" 
+																name="c_email" 
+																id="c_email"
+																class="modal-input add-c-email-modal-error" 
+																placeholder="Email Pelanggan"
+															> 
+
+														</div>
+
+														<div class="form-group">
+
+															<label class="modal-label">Kontak</label>
+
+															<br/>
+
+															<span class="text-danger add-c-contact-error"></span>
+
+															<input 
+																type="text" 
+																name="c_contact" 
+																id="c_contact"
+																class="modal-input add-c-contact-modal-error" 
+																placeholder="Kontak Pelanggan"
+															> 
+
+														</div>
+														
+														<div class="form-group">
+
+															<label class="modal-label">Alamat</label>
+
+															<br/>
+
+															<span class="text-danger add-c-address-error"></span>
+
+															<textarea class="textarea-input add-c-address-modal-error" placeholder="Alamat Pelanggan" id="c_address" name=c_address"></textarea>
+													
+														</div>
+
+													</div>
+													
+												</div>	
+									
+											</div>
+										
+											<div class="modal-footer justify-content-between">
+										
+												<button type="button" class="button-s1 button-grey" data-dismiss="modal">Batal</button>
+										
+												<button type="submit" class="button-s1 button-green">Simpan</button>
+											
+											</div>
+
+										</form>
+								
+									</div>
+									<!-- /.modal-content -->
+								
+								</div>
+								<!-- /.modal-dialog -->
+							
+							</div>
+							<!-- /.modal -->
+
+						</div>
+
+					</div>
+
 					<div class="row">
 
 						<div class="col-md-12">
@@ -255,28 +626,28 @@
 								<table id="productList" class="table">
 
 									<thead class="bg-indigo">
-					                
-				    					<tr>
-				      					
-				      						<th>Produk</th>
+									
+										<tr>
+										
+											<th>Produk</th>
 
-				      						<th>Harga</th>
+											<th>Harga</th>
 
-				      						<th>Jumlah</th>
+											<th>Jumlah</th>
 
-				      						<th>Subtotal</th>
+											<th>Subtotal</th>
 
-				    					</tr>
-				    	
-				    				</thead>
+										</tr>
+						
+									</thead>
 
-				    				<tbody></tbody>
+									<tbody></tbody>
 
-				    			</table>
+								</table>
 
-				    		</div>
+							</div>
 
-			    		</div>
+						</div>
 
 			    	</div>
 
@@ -386,287 +757,63 @@
 
 			</div>
 
-			<div class="row">
-	
-				<div class="col-md-12">
-
-		    		<div id="payment-selection">
-
-						<div class="row">
-
-							<div class="col-md-6">
-
-								<button class="button-s2 btn-cash" data-target="#payModal">Tunai</button>
-
-								<button class="button-s2 btn-credit" data-target="#payModal">Kartu Kredit</button>
-	
-			    				{{-- <button class="button-s2 btn-ovo" data-target="#payModal">OVO</button>
-
-			    				<button class="button-s2 btn-gopay" data-target="#payModal">Gopay</button> --}}
-
-				    			<div class="modal fade" id="payModal" tabindex="-1" role="dialog"aria-hidden="true">
-								  
-								  	<div class="modal-dialog modal-dialog-scrollable modal-lg">
-								    
-								    	<div class="modal-content">
-								      
-								      		<div class="modal-header">
-								        
-								        		<h5 class="modal-title font-weight-bold">Bayar</h5>
-								        
-							        			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								          
-								          			<span aria-hidden="true">&times;</span>
-								        
-								        		</button>
-								      
-								      		</div>
-								      
-								      		<div class="modal-body">
-
-								        		<table class="table table-hover">
-
-								        			<thead>
-
-								        				<th>Produk</th>
-
-								        				<th>Jumlah</th>
-
-								        				<th>Harga</th>
-
-								        				<th>Sub Total</th>
-
-								        			</thead>
-
-								        			<tbody>
-								        				
-								        			</tbody>
-
-								        		</table>
-
-								        		<div class="row">
-
-								        			<div class="col-md-9 d-flex">
-
-								        				<h6 id="modal-grand-total" class="ml-2 mr-5 font-weight-bold"></h6>
-								      				
-								      					<h6 id="modal-tax" class="ml-3"></h6>
-
-								        			</div>
-
-								        			<div class="col-md-3 d-flex justify-content-end">
-
-								        				{{-- <p>
-
-								        					Pisah Tagihan
-
-								        					<div class="ckbx-style-16 ml-2">
-										                        
-										                        <input type="checkbox" id="ckbx-style-16-1" value="0" name="ckbx-style-16">
-
-										                        <label for="ckbx-style-16-1"></label>
-
-										                    </div>
-
-								        				</p> --}}
-
-								        			</div>
-
-								        		</div>
-
-								        		<div class="row ml-2">
-
-									            	<div class="col-md-4">
-
-								        				<p>
-
-								        					Diskon
-
-								        					<input type="radio" name="discount" id="fix-dc" value="Nominal" class="ml-4" />
-
-															<label class="discount-label" for="fix-dc">Nominal</label>
-															  
-															<input type="radio" name="discount" id="percent-dc" value="Persen" class="ml-2" />
-															 
-															<label class="discount-label" for="percent-dc">Persen</label>
-
-								        					<input type="text" id="fix-disc-amount" placeholder="Nominal" class="modal-input" name="nominal_value">
-
-								        					<input type="text" id="percent-disc-amount" placeholder="Persen" class="modal-input" name="percent_value">
-
-								        					<input type="hidden" id="percent_value_amount" name="percent_value_amount">
-
-								        				</p>
-
-								        			</div>
-
-									            </div>
-
-								        		<div class="row ml-2">
-
-								        			<div class="col-md-12">
-
-											          	<div class="pay-tabs">
-
-														   	<div data-pws-tab="tab1" data-pws-tab-name="Tunai" data-pws-tab-icon="fas fa-money-bill-alt">
-														   		
-														   		<div class="row">
-
-												        			<div class="col-md-6">
-
-												        				<p>
-
-												        					Bayar : 
-
-												        					<input type="text" id="pay-amount" placeholder="Nominal" class="modal-input mt-1">
-
-												        					<input type="hidden" name="t_total" id="t_total">
-
-												        				</p>
-
-												        			</div>
-
-												        			<div class="col-md-6">
-
-												        				<p>
-
-												        					Kembalian : 
-
-												        					<input type="text" id="return-amount" placeholder="Nominal" class="modal-input mt-1" disabled>
-
-												        				</p>
-
-												        			</div>
-
-												        		</div>
-
-														   	</div>
-
-														   	<div data-pws-tab="tab2" data-pws-tab-name="Kartu Kredit" data-pws-tab-icon="fas fa-credit-card">
-														   		
-														   		<div class="row">
-
-														   			<div class="col-md-6">
-
-														   				<p>
-
-												        					Nomor : 
-
-												        					<input type="text" placeholder="Nomor Kartu Kredit" class="modal-input mt-1" id="credit-card-number">
-
-												        				</p>
-
-														   			</div>
-
-														   			<div class="col-md-6">
-
-														   				<p>
-
-												        					CVC : 
-
-												        					<input type="text" placeholder="Nomor CVC" class="modal-input mt-1" id="credit-card-cvc">
-
-												        				</p>
-
-														   			</div>
-
-												        		</div>
-
-														   	</div>
-
-														</div>
-
-											        </div>
-
-								        		</div>
-
-								        		<div class="row d-flex justify-content-end">
-
-									        		<button type="button" class="button-s2 btn-dark" data-dismiss="modal">Batal</button>
-										    
-										        	<button type="button" id="btn-pay" class="button-s2 button-darkorange">Bayar</button>
-
-										        </div>
-
-								      		</div>
-										   
-								    	</div>
-								  
-								  	</div>
-								
-								</div>
-
-			    			</div>
-
-			    			<div class="col-md-6">
-
-		    					<div class="calculator">
-
-		    						<div class="calc-close-icon"></div>
-								    
-							    	<textarea class="calc-display-prev" rows="1" value="" wrap="off" disabled></textarea>
-
-							    	<textarea class="calc-display" rows="1" wrap="off" disabled>0</textarea>
-
-							    	<div class="calc-keys">
-								      	
-								      	<button type="button" value="7">7</button>
-								      
-								      	<button type="button" value="8">8</button>
-								      
-								      	<button type="button" value="9">9</button>
-								      
-								      	<button type="button" class="key-op" data-action="divide" title="Divide [/]" value="/">&divide;</button>
-
-								      
-								      	<button type="button" class="key-pi" title="Pi" value="&pi;">&pi;</button>
-								      
-								      	<button type="button" value="4">4</button>
-								      
-								      	<button type="button" value="5">5</button>
-								      
-								      	<button type="button" value="6">6</button>
-								      
-								      	<button type="button" class="key-op" data-action="multiply" title="Multiply [*]" value="*">&times;</button>
-								      
-								      	<button type="button" class="key-pf" data-action="prime-factorization" title="Prime Factorization" value="PF">PF</button>
-								      
-								      	<button type="button" value="1">1</button>
-								      
-								      	<button type="button" value="2">2</button>
-								      
-								      	<button type="button" value="3">3</button>
-								      
-								      	<button type="button" class="key-op" data-action="subtract" title="Subtract [-]" value="-">-</button>
-								      
-								      	<button type="button" class="key-op" data-action="modulo" title="Modulus Divide [%]" value="%">mod</button>
-								      	
-								      	<button type="button" class="all-clear" data-action="clear" title="Clear Display" value="all-clear">AC</button>
-								      
-								      	<button type="button" value="0">0</button>
-								      
-								      	<button type="button" class="decimal" data-action="decimal" value=".">.</button>
-								      
-								      	<button type="button" class="key-op" data-action="add" title="Add [+]" value="+">+</button>            
-								      
-								      	<button type="button" class="equal-sign" data-action="calculate" title="Calculate Result" value="=">=</button>
-    
-				      	            </div>
-							  	
-							  	</div>
-
-		    				</div>
-
-		    			</div>
-
-		    		</div>
-
-		    	</div>
-
-		    </div>
-
 		</div>
 	 
+		<div class="calculator">
+
+			<div class="calc-close-icon"></div>
+			
+			<textarea class="calc-display-prev" rows="1" value="" wrap="off" disabled></textarea>
+
+			<textarea class="calc-display" rows="1" wrap="off" disabled>0</textarea>
+
+			<div class="calc-keys">
+					
+				<button type="button" value="7">7</button>
+			
+				<button type="button" value="8">8</button>
+			
+				<button type="button" value="9">9</button>
+			
+				<button type="button" class="key-op" data-action="divide" title="Divide [/]" value="/">&divide;</button>
+
+			
+				<button type="button" class="key-pi" title="Pi" value="&pi;">&pi;</button>
+			
+				<button type="button" value="4">4</button>
+			
+				<button type="button" value="5">5</button>
+			
+				<button type="button" value="6">6</button>
+			
+				<button type="button" class="key-op" data-action="multiply" title="Multiply [*]" value="*">&times;</button>
+			
+				<button type="button" class="key-pf" data-action="prime-factorization" title="Prime Factorization" value="PF">PF</button>
+			
+				<button type="button" value="1">1</button>
+			
+				<button type="button" value="2">2</button>
+			
+				<button type="button" value="3">3</button>
+			
+				<button type="button" class="key-op" data-action="subtract" title="Subtract [-]" value="-">-</button>
+			
+				<button type="button" class="key-op" data-action="modulo" title="Modulus Divide [%]" value="%">mod</button>
+
+				<button type="button" class="all-clear" data-action="clear" title="Clear Display" value="all-clear">AC</button>
+			
+				<button type="button" value="0">0</button>
+			
+				<button type="button" class="decimal" data-action="decimal" value=".">.</button>
+			
+				<button type="button" class="key-op" data-action="add" title="Add [+]" value="+">+</button>            
+			
+				<button type="button" class="equal-sign" data-action="calculate" title="Calculate Result" value="=">=</button>
+
+			</div>
+		  
+		</div>
+
 	</body>
 
 @endsection

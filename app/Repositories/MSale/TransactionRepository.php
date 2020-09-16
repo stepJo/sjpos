@@ -16,13 +16,13 @@ class TransactionRepository implements ITransactionRepository
     {
         if(!empty($request->start_date))
         {
-            $transactions = Transaction::with('detailTransactions', 'detailTransactions.product')
+            $transactions = Transaction::with('customer', 'detailTransactions', 'detailTransactions.product')
                 ->whereBetween('t_date', [$request->start_date, $request->end_date])
                 ->get(); 
         }
         else 
         {
-            $transactions = Transaction::with('detailTransactions', 'detailTransactions.product')
+            $transactions = Transaction::with('customer', 'detailTransactions', 'detailTransactions.product')
                 ->orderByDesc('t_date')
                 ->get();
         }
@@ -72,6 +72,8 @@ class TransactionRepository implements ITransactionRepository
                 $tax = Utilities::rupiahFormat($transactions->t_tax);
 
                 $disc = Utilities::rupiahFormat($transactions->t_disc);
+
+                $customer = Utilities::emptyFormat($transactions->customer['c_name']);
 
                 $date = date('d F Y H:i:s', strtotime($transactions->t_date));
 
@@ -155,7 +157,9 @@ class TransactionRepository implements ITransactionRepository
 
                                     </table>
 
-                                    <p class="ml-2 mt-4">Tanggal Transaksi : <span class="badge badge-info ml-1">'.$date.'</span></p>
+                                    <p class="text-secondary ml-2 mt-2">Pelanggan : '.$customer.'</p>
+
+                                    <p class="ml-2">Tanggal Transaksi : <span class="badge badge-info ml-1">'.$date.'</span></p>
 
                                     <p class="ml-2">Kode Transaksi : <span class="font-weight-bold ml-1">'.$transactions->t_code.'</span></p>
 
@@ -238,6 +242,7 @@ class TransactionRepository implements ITransactionRepository
     public function store($request)
     {
         return Transaction::create([
+            'c_id'    => $request->c_id,
             't_code'  => Keygen::alphanum(6)->generate().date('hmsdmY'),
             't_type'  => $request->t_type,
             't_total' => $request->t_total,

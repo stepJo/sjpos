@@ -13,7 +13,7 @@
 
     <li class="nav-item">
 
-      <button class="btn-calculator btn btn-sm btn-light">Kalkulator</button>
+      <button class="btn-calculator btn btn-sm btn-light"><i class="fas fa-calculator mr-1"></i> Kalkulator</button>
 
     </li>
 

@@ -167,6 +167,42 @@
 
         </li>
 
+        <li class="nav-item has-treeview">
+
+          <a href="#" class="nav-link">
+
+            <i class="nav-icon far fa-grin"></i>
+
+            <p>
+
+              Master Pelanggan
+
+              <i class="right fas fa-angle-left"></i>
+
+            </p>
+
+          </a>
+
+          <ul class="nav nav-treeview">
+
+            @if(Roles::canView('Pelanggan', $views))
+
+              <li class="nav-item">
+
+                <a href="{{ url('customer') }}" class="nav-link">
+
+                  <p>Pelanggan</p>
+
+                </a>
+
+              </li>
+
+            @endif
+
+          </ul>
+
+        </li>
+
         @if(Roles::canView('Riwayat Transaksi', $views) || Roles::canView('Diskon Produk', $views))
 
           <li class="nav-item has-treeview">

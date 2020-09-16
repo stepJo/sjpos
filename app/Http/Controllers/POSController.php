@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use App\Http\Requests\MCustomer\CreateCustomerRequest;
 use App\Policies\POSPolicy;
+use App\Repositories\MCustomer\ICustomerRepository;
 use App\Repositories\MSale\ITransactionRepository;
 use App\Repositories\MSale\IDetailTransactionRepository;
 use App\Services\MUserService;
+use App\Services\MCustomerService;
 use App\Services\MProductService;
+use App\Models\MCustomer\Customer;
 use App\Models\MProduct\Category;
 use App\Models\MProduct\Unit;
 use App\Models\MSale\Transaction;
@@ -18,23 +22,29 @@ use Roles;
 class POSController extends Controller
 {   
     private $posPolicy;
+    private $customerRepository;
     private $transactionRepository;
     private $detailTransactionRepository;
     private $userService;
+    private $customerService;
     private $productService;
 
     public function __construct(
         POSPolicy $posPolicy,
+        ICustomerRepository $customerRepository,
         ITransactionRepository $transactionRepository, 
         IDetailTransactionRepository $detailTransactionRepository, 
         MUserService $userService,
+        MCustomerService $customerService,
         MProductService $productService
     )
     {
         $this->posPolicy = $posPolicy;
+        $this->customerRepository = $customerRepository;
         $this->transactionRepository = $transactionRepository;
         $this->detailTransactionRepository = $detailTransactionRepository;
         $this->userService = $userService;
+        $this->customerService = $customerService;
         $this->productService = $productService;
     }
 
@@ -48,6 +58,8 @@ class POSController extends Controller
         }
         else
         {
+            $customers = $this->customerService->allCustomers();
+
             $disables = $this->productService->disableProducts(Auth::user()->b_id);
 
             $categories = $this->productService->categoriesProducts($disables);
@@ -59,7 +71,7 @@ class POSController extends Controller
 
             $views = $this->userService->menusRole();
 
-            return view('pos', compact('categories', 'units', 'products', 'not_actives', 'views'));
+            return view('pos', compact('customers', 'categories', 'units', 'products', 'not_actives', 'views'));
         }
     }
 
@@ -99,12 +111,26 @@ class POSController extends Controller
         return response()->json($unit);
     }
 
+    public function storeCustomer(CreateCustomerRequest $request)
+    {
+        $customer = $this->customerRepository->store($request);
+
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Berhasil tambah pelanggan',
+            'customer' => $customer
+        ]);
+    }
+
     public function storeTransaction(Request $request)
     {   
         $transaction = $this->transactionRepository->store($request);
 
         $this->detailTransactionRepository->store($request, $transaction);
 
-        return 'Transaksi berhasil';  
+        return response()->json([
+            'status' => 'Success',
+            'message' => 'Transaksi berhasil disimpan',
+        ]);  
     }
 }

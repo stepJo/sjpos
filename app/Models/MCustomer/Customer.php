@@ -3,6 +3,7 @@
 namespace App\Models\MCustomer;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\MSale\Transaction;
 
 class Customer extends Model
 {
@@ -17,4 +18,9 @@ class Customer extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class, 't_id');
+    }
 }

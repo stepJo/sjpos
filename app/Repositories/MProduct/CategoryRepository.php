@@ -1,7 +1,7 @@
 <?php 
 
 namespace App\Repositories\MProduct;
-use App\Repositories\Mproduct\ICategoryRepository;
+use App\Repositories\MProduct\ICategoryRepository;
 use App\Models\MProduct\Category;
 
 class CategoryRepository implements ICategoryRepository

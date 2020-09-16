@@ -275,7 +275,7 @@ class BranchRepository implements IBranchRepository
 
                                                     <div class="form-group">
 
-                                                        <label for="b_desc">Deskripsi</label>
+                                                        <label class="modal-label">Deskripsi</label>
 
                                                         <br/>
 
@@ -341,7 +341,7 @@ class BranchRepository implements IBranchRepository
 
                                                     <div class="form-group">
 
-                                                        <label for="b_address">Alamat</label>
+                                                        <label class="modal-label">Alamat</label>
 
                                                         <br/>
 

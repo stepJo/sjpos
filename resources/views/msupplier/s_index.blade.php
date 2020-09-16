@@ -201,7 +201,7 @@
 
 																	<div class="form-group">
 
-																		<label for="s_address">Alamat</label>
+																		<label class="modal-label">Alamat</label>
 
 																		<br/>
 
@@ -527,7 +527,7 @@
 
 																					<div class="form-group">
 
-																						<label for="s_address">Alamat</label>
+																						<label class="modal-label">Alamat</label>
 
 																						<br/>
 

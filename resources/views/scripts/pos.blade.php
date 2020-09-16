@@ -141,7 +141,7 @@
 
         $.ajax({
             type: 'GET',
-            url: '{{ url("pos/search/category") }}',
+            url: '{{ route("pos-search.category") }}',
             data: { cat_id: cat_id },
             success: function(data) {
                 renderProductGrid(data);
@@ -159,7 +159,7 @@
 
         $.ajax({
             type: 'GET',
-            url: '{{ url("pos/search/unit") }}',
+            url: '{{ route("pos-search.unit") }}',
             data: { unit_id: unit_id },
             success: function(data) {
                 renderProductGrid(data); 
@@ -175,7 +175,7 @@
     $('.show-all-product').on('click', function() {
         $.ajax({
             type: 'GET',
-            url: '{{ url("pos/search/all") }}',
+            url: '{{ route("pos-search.all") }}',
             success: function(data) {
                 let html = '';
 
@@ -978,9 +978,10 @@
 
         $.ajax({
             type: 'POST',
-            url: '{{ url('pos/transaction/store') }}',
+            url: '{{ route("pos-transaction.store") }}',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             data: {
-                _token: "{{ csrf_token() }}", 
+                c_id: $('#customer-list option').filter(':selected').val(),
                 t_type: t_type,
                 t_total: parseInt($('#t_total').val().toString().split('.').join("")),
                 t_tax: parseInt(final_tax),
@@ -990,11 +991,7 @@
             success: function(data) {
                 $('#payModal').modal('hide');
 
-                toastr.success(data);
-                
-                setTimeout(function() {
-                    location.reload(true);
-                }, 500);
+                successResponse(data);
             },
             error: function() {
                 console.log('error');
@@ -1003,7 +1000,7 @@
     });
 
     //SEARCH
-    let path = "{{ url('pos/search/product') }}";
+    let path = '{{ route("pos-search.product") }}';
 
     function returnProduct(item) {
         if(item.p_status == 1) return `${item.p_name} - ${item.p_code}`;
@@ -1046,6 +1043,31 @@
 
             $('.searchInput').val('');
         }
+    });
+
+    //CUSTOMER
+    $('#add-customer-form').on('submit', function(e) {
+        e.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: '{{ route("pos-customer.store") }}',
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            data: $(this).serialize(),
+            success: function(data) {
+                if(data.status == 'Success') {
+                    $('#addModal').modal('hide');
+
+                    $('#customer-list').find('option').after(`<option value="${data.customer.c_id}">${data.customer.c_name}</option>`);
+
+                    toastr.success(`${data.message}`);
+                }
+            },
+            error: function(data) {
+                validateData(data.responseJSON.errors.c_name, '.add-c-name-error', '.add-c-name-modal-error');
+                validateData(data.responseJSON.errors.c_email, '.add-c-email-error', '.add-c-email-modal-error');
+            }
+        });
     });
 
 </script>

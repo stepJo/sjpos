@@ -35,6 +35,7 @@ Route::group(['middleware' => 'auth' ], function() {
 		Route::get('search/product', 'POSController@searchProduct')->name('pos-search.product');
 		Route::get('search/category', 'POSController@searchCategory')->name('pos-search.category');
 		Route::get('search/unit', 'POSController@searchUnit')->name('pos-search.unit');
+		Route::post('customer/store', 'POSController@storeCustomer')->name('pos-customer.store');
 		Route::post('transaction/store', 'POSController@storeTransaction')->name('pos-transaction.store');
 	});
 
@@ -78,6 +79,16 @@ Route::group(['middleware' => 'auth' ], function() {
 	//DISCOUNT {RESOURCE}
 	Route::resource('discount', 'MSale\DiscountController');
 	
+	//-----MCUSTOMER-----//
+	//CUSTOMER
+	Route::group(["prefix" => "customer"], function() {
+		Route::get('csv', 'MCustomer\CustomerController@exportCSV')->name('customer-csv');
+		Route::get('excel', 'MCustomer\CustomerController@exportExcel')->name('customer-excel');
+		Route::get('pdf', 'MCustomer\CustomerController@exportPDF')->name('customer-pdf');
+	});
+	//CUSTOMER {RESOURCE}
+	Route::resource('customer', 'MCustomer\CustomerController');
+
 	//-----MPRODUCT-----//
 	//CATEGORY{RESOURCE}
 	Route::resource('category', 'MProduct\CategoryController');

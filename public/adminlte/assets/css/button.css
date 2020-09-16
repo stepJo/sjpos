@@ -40,14 +40,17 @@
     color: #fff;
 }
 
+.button-green:hover {
+    background: #10ac44;
+}
+
 .button-red {
     background: #F32C52;
     color: #fff;
 }
 
-.button-detail {
-    background: #34bdeb;
-    color: #fff;
+.button-red:hover {
+    background: #d42243;
 }
 
 .button-yellow {
@@ -55,23 +58,8 @@
     color: #fff;
 }
 
-.btn-category {
-    background: #3bd192;
-    font-size: 16px;
-}
-
-.btn-category:hover {
-    background: #2f994b;
-}
-
-.btn-unit {
-    font-size: 16px;
-    background: #037bfc;
-    color: #fff; 
-}
-
-.btn-unit:hover {
-    background: #0e66c4;
+.button-yellow:hover {
+    background: #e9a230;
 }
 
 .button-grey {
@@ -153,4 +141,32 @@
     color: #fff;
     box-shadow: 0 0 5px rgba(104, 85, 224, 0.2);
     background: #17a2b8;
+}
+
+.button-detail {
+    background: #34bdeb;
+    color: #fff;
+}
+
+.button-detail:hover {
+    background: #29a8d3;
+}
+
+.btn-category {
+    background: #3bd192;
+    font-size: 16px;
+}
+
+.btn-category:hover {
+    background: #2f994b;
+}
+
+.btn-unit {
+    font-size: 16px;
+    background: #037bfc;
+    color: #fff; 
+}
+
+.btn-unit:hover {
+    background: #0e66c4;
 }

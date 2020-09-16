@@ -85,6 +85,11 @@ body::-webkit-scrollbar-thumb {
 	transition: color 0.15s ease-in-out,background-color 0.15s ease-in-out,border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out !important;
 }
 
+/*BUTTON */
+button {
+    outline: none !important;
+}
+
 /*DATATABLE */
 table td {
     vertical-align: middle !important;
@@ -111,6 +116,7 @@ table.dataTable tfoot th {
 
 #branchTable_filter input,
 #branchProductTable_filter input,
+#customerTable_filter input,
 #masterTable_filter input, 
 #productTable_filter input, 
 #barcodeTable_filter input, 
@@ -148,7 +154,7 @@ span.flatpickr-weekday {
 
 /*IMAGE */
 .thumbnail {
-    width: 100px;
+    width: 70px;
     object-fit: center;
     background-position: center;
     border-radius: 7px;

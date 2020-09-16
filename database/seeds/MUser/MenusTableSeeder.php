@@ -24,6 +24,10 @@ class MenusTableSeeder extends Seeder
         ]);
             
         DB::table('menus')->insert([
+            'menu_name' => 'Pelanggan'
+        ]);
+        
+        DB::table('menus')->insert([
             'menu_name' => 'Riwayat Transaksi'
         ]);
 
