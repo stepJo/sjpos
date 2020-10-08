@@ -1,1 +1,3 @@
-Point Of Sales Application base on laravel 7
+## Point Of Sales Application 
+
+Laravel 7, Jquery, Bootstrap, etc...
